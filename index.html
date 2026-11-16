@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#142331">
+<meta name="description" content="Freeride MTB — downhill bike game">
+<link rel="manifest" href="manifest.json">
+<title>Freeride MTB</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101c27;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none}
+#app{position:fixed;inset:0;overflow:hidden;background:#87c6e9}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+button{border:2px solid #ffffffa8;border-radius:15px;background:linear-gradient(145deg,#2d4356,#101b27);color:white;font-weight:800;font-size:clamp(17px,3vw,24px);min-width:58px;min-height:58px;padding:8px 14px;box-shadow:0 4px 10px #0005;touch-action:none;user-select:none;-webkit-user-select:none}
+button:active,.pressed{background:#e77c35}
+#top{position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;display:flex;gap:7px}
+.pad{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:8px}
+#steer{left:10px}#drive{right:10px}
+#boost{position:absolute;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom));border-color:#f2bd4b;min-width:105px}
+#hud{position:absolute;left:10px;top:max(10px,env(safe-area-inset-top));background:#10202ddd;border:1px solid #ffffff55;border-radius:12px;padding:8px 11px;font-size:14px;font-weight:750;line-height:1.45;pointer-events:none}
+#help{position:absolute;top:18%;left:50%;transform:translateX(-50%);font-size:clamp(13px,2.5vw,19px);font-weight:800;text-align:center;white-space:nowrap;text-shadow:0 2px 5px #234;pointer-events:none}
+#overlay{display:none;position:absolute;inset:0;background:#07111dcc;align-items:center;justify-content:center;text-align:center;padding:24px}
+#panel{background:#1b2d3d;border:1px solid #ffffff55;border-radius:18px;padding:22px;max-width:340px;width:100%;box-shadow:0 12px 40px #0007}
+#panel h1{margin:0 0 8px;font-size:26px}#panel p{color:#d4e0e9;margin:8px 0 18px}
+#panel button{min-width:130px}
+@media(orientation:portrait){#help{top:24%;white-space:normal;width:90%}}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="game"></canvas>
+<div id="hud">FREERIDE MTB<br><span id="stats">0 м · 0 очок</span><br><span id="energy">BOOST ▰▰▰▰▰</span></div>
+<div id="help">↑ педалі · ↓ гальмо · ← / → баланс · BOOST</div>
+<div id="top"><button id="pause" aria-label="Пауза">Ⅱ</button><button id="fullscreen" aria-label="Повний екран">⛶</button><button id="restart" aria-label="Перезапуск">↻</button></div>
+<div id="steer" class="pad"><button data-control="left">←</button><button data-control="right">→</button></div>
+<button id="boost" data-control="boost">BOOST</button>
+<div id="drive" class="pad"><button data-control="brake">↓</button><button data-control="pedal">↑</button></div>
+<div id="overlay"><div id="panel"><h1 id="overlayTitle">ПАУЗА</h1><p id="overlayText">Натисни продовжити</p><button id="continue">ПРОДОВЖИТИ</button></div></div>
+</div>
+<script>
+(()=>{
+"use strict";
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const $=id=>document.getElementById(id);
+const keys={left:false,right:false,pedal:false,brake:false,boost:false};
+let W=innerWidth,H=innerHeight,D=1,last=0,world=0,score=0,best=0,paused=false,crashed=false,air=0;
+const bike={y:0,vy:0,speed:185,angle:0,boost:100};
+function ground(x){return H*.70+Math.sin(x*.002)*H*.052+Math.sin(x*.006)*H*.022+Math.sin(x*.0007)*H*.05+Math.sin(x*.013)*H*.007}
+function slope(x){return (ground(x+4)-ground(x-4))/8}
+function fit(){D=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;canvas.width=Math.round(W*D);canvas.height=Math.round(H*D);ctx.setTransform(D,0,0,D,0,0);if(!world)bike.y=ground(world)-45}
+function reset(){world=0;score=0;paused=false;crashed=false;air=0;bike.y=ground(0)-45;bike.vy=0;bike.speed=185;bike.angle=Math.atan(slope(0));bike.boost=100;hideOverlay();$('pause').textContent='Ⅱ'}
+function showOverlay(title,msg,button){$('overlayTitle').textContent=title;$('overlayText').textContent=msg;$('continue').textContent=button;$('overlay').style.display='flex'}
+function hideOverlay(){$('overlay').style.display='none'}
+function togglePause(){if(crashed){reset();return}paused=!paused;$('pause').textContent=paused?'▶':'Ⅱ';if(paused)showOverlay('ПАУЗА','Гра призупинена','ПРОДОВЖИТИ');else hideOverlay()}
+$('pause').addEventListener('click',togglePause);$('continue').addEventListener('click',()=>{if(crashed)reset();else{paused=false;$('pause').textContent='Ⅱ';hideOverlay()}});$('restart').addEventListener('click',reset);
+$('fullscreen').addEventListener('click',async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();}else await document.exitFullscreen()}catch(e){showOverlay('ПОВНИЙ ЕКРАН','Браузер не дозволив повний екран. Спробуй меню Chrome → Додати на головний екран.','ЗРОЗУМІЛО')}});
+document.querySelectorAll('[data-control]').forEach(b=>{const k=b.dataset.control;const down=e=>{e.preventDefault();keys[k]=true;b.classList.add('pressed');try{b.setPointerCapture(e.pointerId)}catch(_){}};const up=()=>{keys[k]=false;b.classList.remove('pressed')};b.addEventListener('pointerdown',down);['pointerup','pointercancel','lostpointercapture','pointerleave'].forEach(t=>b.addEventListener(t,up))});
+const map={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'pedal',ArrowDown:'brake',Space:'boost'};
+addEventListener('keydown',e=>{if(map[e.code]){e.preventDefault();keys[map[e.code]]=true}if(e.code==='KeyR')reset();if(e.code==='Escape'&&document.fullscreenElement)document.exitFullscreen()});
+addEventListener('keyup',e=>{if(map[e.code])keys[map[e.code]]=false});
+addEventListener('blur',()=>Object.keys(keys).forEach(k=>keys[k]=false));
+function update(dt){
+ if(paused||crashed)return;
+ const wasGrounded=bike.y>=ground(world)-47;
+ bike.speed+=keys.pedal?250*dt:-12*dt;if(keys.brake)bike.speed-=420*dt;
+ if(keys.boost&&bike.boost>0){bike.speed+=440*dt;bike.boost=Math.max(0,bike.boost-36*dt)}else bike.boost=Math.min(100,bike.boost+11*dt);
+ bike.speed=Math.max(55,Math.min(720,bike.speed));
+ const old=slope(world);world+=bike.speed*dt;
+ const floor=ground(world)-47;
+ if(wasGrounded&&bike.y>=floor-4){bike.y=floor;bike.vy=0;air=0;bike.angle+=(Math.atan(slope(world))-bike.angle)*Math.min(1,dt*7);if(old-slope(world)>.28){bike.vy=-185;air=.02}}
+ else{bike.vy+=850*dt;bike.y+=bike.vy*dt;air+=dt;bike.angle+=(keys.right?2.5:0)*dt-(keys.left?2.5:0)*dt}
+ if(bike.y>=floor){bike.y=floor;bike.vy=0;if(air>.18&&Math.abs(bike.angle-Math.atan(slope(world)))>1.18){crashed=true;best=Math.max(best,score);showOverlay('ВТРАТА БАЛАНСУ','Ти впав! Натисни, щоб спробувати ще раз.','ЩЕ РАЗ')}else if(air>.35)score+=50;air=0}
+ score=Math.max(score,Math.floor(world/16));
+}
+function segment(x1,y1,x2,y2,color,width){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+function wheel(x,y){ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.strokeStyle='#18232d';ctx.lineWidth=6;ctx.stroke();ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);ctx.strokeStyle='#dce6eb';ctx.lineWidth=1.5;ctx.stroke()}
+function rider(x,y){ctx.save();ctx.translate(x,y);ctx.rotate(bike.angle);wheel(-32,0);wheel(34,0);segment(-32,0,-4,-25,'#ef503d',5);segment(-4,-25,34,0,'#ef503d',5);segment(-32,0,34,0,'#ef503d',4);segment(-4,-25,8,-48,'#263e56',7);segment(8,-48,25,-34,'#263e56',6);segment(8,-48,-8,-30,'#18709b',8);segment(-8,-30,-23,-5,'#263e56',6);segment(-8,-30,15,-5,'#263e56',6);ctx.fillStyle='#f0c394';ctx.beginPath();ctx.arc(9,-60,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#142b42';ctx.beginPath();ctx.arc(9,-67,9,Math.PI,Math.PI*2);ctx.fill();ctx.restore()}
+function render(){
+ ctx.setTransform(D,0,0,D,0,0);ctx.clearRect(0,0,W,H);
+ const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#4c9ed7');sky.addColorStop(.62,'#d5edf7');sky.addColorStop(1,'#e6efd8');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ for(let layer=0;layer<3;layer++){ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W+5;x+=5){let wx=world+(x-W*.32)*(.28+layer*.16);ctx.lineTo(x,H*(.49+layer*.085)+Math.sin(wx*(.0018+layer*.0005))*H*.08+Math.sin(wx*.004)*H*.02)}ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=['#b0cbd0','#789d87','#527d55'][layer];ctx.fill()}
+ ctx.beginPath();for(let x=0;x<=W+4;x+=4){let y=ground(world+x-W*.32);if(!x)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.lineTo(W,H+10);ctx.lineTo(0,H+10);ctx.closePath();ctx.fillStyle='#795438';ctx.fill();
+ ctx.beginPath();for(let x=0;x<=W+4;x+=4){let y=ground(world+x-W*.32);if(!x)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.strokeStyle='#65a64d';ctx.lineWidth=8;ctx.stroke();
+ rider(W*.32,bike.y+45);
+ $('stats').textContent=Math.floor(world/10)+' м · '+score+' очок';let n=Math.round(bike.boost/20);$('energy').textContent='BOOST '+'▰'.repeat(n)+'▱'.repeat(5-n);
+}
+function frame(t){let dt=Math.min(.035,(t-last)/1000||0);last=t;update(dt);render();requestAnimationFrame(frame)}
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));fit();reset();last=performance.now();requestAnimationFrame(frame);
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "Freeride MTB",
+  "short_name": "Freeride MTB",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#142331",
+  "theme_color": "#142331",
+  "icons": []
+}
