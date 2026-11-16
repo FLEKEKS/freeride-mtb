@@ -1,10 +1,10 @@
 {
-  "name": "Freeride MTB — Alpine Rush",
+  "name": "Freeride MTB — Dirt Arena",
   "short_name": "Freeride MTB",
   "start_url": "./",
   "display": "standalone",
   "orientation": "landscape",
-  "background_color": "#101c29",
-  "theme_color": "#101c29",
-  "description": "Mountain downhill riding game"
+  "background_color": "#101923",
+  "theme_color": "#101923",
+  "description": "Freeride MTB dirt arena racing"
 }

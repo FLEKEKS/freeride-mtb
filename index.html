@@ -3,116 +3,98 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#101c29">
-<meta name="description" content="Freeride MTB — mountain downhill riding game">
+<meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — Alpine Rush</title>
+<title>Freeride MTB — Dirt Arena</title>
 <style>
-:root{--gold:#ffc45b;--glass:rgba(10,22,34,.78);--line:rgba(255,255,255,.2);--muted:#b9c9d5}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101c29;color:#fff;font-family:Inter,system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
-#app{position:fixed;inset:0;background:#172c3d}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(115deg,rgba(5,15,25,.72),rgba(5,15,25,.2) 55%,rgba(5,15,25,.58))}
-.hidden{display:none!important}
-.panel{width:min(480px,94vw);padding:clamp(22px,4vw,36px);border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(20,42,59,.94),rgba(8,20,32,.94));box-shadow:0 24px 90px #0009;backdrop-filter:blur(14px)}
-.brand{font-size:11px;letter-spacing:4px;color:var(--gold);font-weight:950}
-h1{font-size:clamp(38px,8vw,66px);line-height:.9;letter-spacing:-2px;margin:12px 0 12px;text-shadow:0 6px 28px #0008}
-h1 span{color:var(--gold)}.sub{color:#d0dce5;font-size:14px;line-height:1.55;margin:0 0 24px}
-.actions{display:grid;gap:10px}.btn{min-height:54px;border:1px solid #ffffff38;border-radius:15px;padding:13px 18px;color:#fff;font:850 15px system-ui;letter-spacing:.5px;background:linear-gradient(145deg,#344e63,#1a2c3d);box-shadow:0 7px 18px #0004;cursor:pointer}
-.btn.primary{background:linear-gradient(145deg,#ffd477,#e88b35);color:#172333;border-color:#ffe1a1}.btn:active{transform:scale(.985)}
-.smallnote{margin-top:17px;color:#aebfca;font-size:11px;line-height:1.5}
-#gameHud{position:absolute;inset:0;pointer-events:none}.hudbox{position:absolute;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));padding:10px 14px;border:1px solid var(--line);border-radius:16px;background:var(--glass);backdrop-filter:blur(9px);min-width:174px;text-shadow:0 2px 5px #000}
-.kicker{font-size:10px;letter-spacing:2px;color:#bed0dc;font-weight:900}.numbers{font-size:clamp(18px,3vw,25px);font-weight:950;margin:3px 0}.speed{font-size:13px;font-weight:800;color:#dbe8ef}
-.bar{height:6px;background:#ffffff30;border-radius:8px;margin-top:8px;overflow:hidden}.fill{height:100%;width:100%;background:linear-gradient(90deg,#ff9d36,#ffe28a);border-radius:8px}
-.topbuttons{position:absolute;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}
-.iconbtn{width:48px;height:48px;border-radius:14px;background:var(--glass);border:1px solid var(--line);color:white;font-size:21px;font-weight:900}
-#controls{position:absolute;inset:0;pointer-events:none}.cluster{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));display:flex;gap:9px;pointer-events:auto}
-.control{width:clamp(57px,9vw,78px);height:clamp(57px,9vw,78px);border:1px solid #ffffff75;border-radius:20px;background:rgba(13,31,47,.78);color:white;font-size:27px;font-weight:900;backdrop-filter:blur(8px);touch-action:none}
-#leftControls{left:max(12px,env(safe-area-inset-left))}#rightControls{right:max(12px,env(safe-area-inset-right))}
-#boost{position:absolute;left:50%;transform:translateX(-50%);bottom:max(15px,env(safe-area-inset-bottom));width:clamp(130px,19vw,180px);height:clamp(58px,9vw,76px);border:2px solid var(--gold);border-radius:19px;background:linear-gradient(145deg,#64451e,#172a39);color:white;font-size:20px;font-weight:950;pointer-events:auto}
-#toast{position:absolute;top:22%;left:50%;transform:translate(-50%,-8px);padding:10px 18px;border-radius:30px;background:#0d2032eF;border:1px solid #ffffff55;font-weight:950;opacity:0;transition:.2s;white-space:nowrap}#toast.show{opacity:1;transform:translate(-50%,0)}
-#loading{background:linear-gradient(180deg,rgba(5,14,23,.55),rgba(5,14,23,.94));flex-direction:column;text-align:center;gap:14px}
-.loaderTitle{font-size:clamp(28px,6vw,48px);font-weight:1000;letter-spacing:-1px;text-shadow:0 4px 20px #000}
-.loaderSub{font-size:12px;letter-spacing:3px;color:#d7e4ec;font-weight:900}
-.loadTrack{width:min(330px,75vw);height:7px;background:#ffffff35;border-radius:20px;overflow:hidden}.loadFill{height:100%;width:0;background:linear-gradient(90deg,#ff9d36,#ffe18a);border-radius:20px;animation:load 1.7s ease-out forwards}
-@keyframes load{to{width:100%}}.spinner{width:32px;height:32px;border:3px solid #ffffff40;border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-.settingrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #ffffff20;font-size:14px;font-weight:750}.settingrow:last-child{border:0}.choice{display:flex;gap:5px}.choice button{border:1px solid #ffffff35;border-radius:9px;padding:8px 10px;background:#ffffff12;color:#dbe6ec;font-size:11px;font-weight:900}.choice button.active{background:var(--gold);color:#172333;border-color:var(--gold)}
-#hint{position:absolute;top:14%;left:50%;transform:translateX(-50%);font-size:12px;font-weight:900;text-shadow:0 2px 6px #000;white-space:nowrap;color:#fff}
-@media(orientation:portrait){#hint{top:18%;font-size:10px;white-space:normal;width:92%;text-align:center}#boost{bottom:calc(max(14px,env(safe-area-inset-bottom)) + 2px)}}
+:root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
+#app{position:fixed;inset:0}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(115deg,#07111bc9,#07111b35 60%,#07111b9c)}
+.hidden{display:none!important}.panel{width:min(460px,94vw);padding:clamp(20px,4vw,34px);border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#1c3448f2,#0b1928f5);box-shadow:0 22px 80px #0009;backdrop-filter:blur(13px)}
+.brand{font-size:10px;letter-spacing:4px;color:var(--gold);font-weight:950}h1{font-size:clamp(39px,8vw,64px);line-height:.9;letter-spacing:-2px;margin:12px 0;text-shadow:0 5px 22px #0009}h1 span{color:var(--gold)}
+.sub{font-size:13px;line-height:1.55;color:#d0dce5;margin:0 0 22px}.actions{display:grid;gap:9px}.btn{min-height:52px;border:1px solid var(--line);border-radius:14px;padding:12px 17px;background:linear-gradient(145deg,#354f64,#172b3d);color:white;font:850 14px system-ui;cursor:pointer}.btn.primary{background:linear-gradient(145deg,#ffd477,#e88b35);color:#1b2731;border-color:#ffe3a8}.btn:active{transform:scale(.985)}
+.note{font-size:10px;line-height:1.5;color:#adbfcb;margin-top:15px}
+#hud{position:absolute;inset:0;pointer-events:none}.stats{position:absolute;top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));padding:9px 13px;background:var(--glass);border:1px solid var(--line);border-radius:15px;min-width:165px;text-shadow:0 2px 5px #000}.tag{font-size:9px;letter-spacing:2px;color:#b8cbd8;font-weight:950}.big{font-size:22px;font-weight:950}.small{font-size:12px;font-weight:800;color:#d7e2e9}.bar{height:5px;background:#ffffff30;border-radius:8px;margin-top:7px;overflow:hidden}.fill{height:100%;width:100%;background:linear-gradient(90deg,#f58b31,#ffe18b)}
+.top{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}.icon{width:45px;height:45px;border:1px solid var(--line);border-radius:13px;background:var(--glass);color:white;font-size:21px;font-weight:900}
+#hint{position:absolute;top:13%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:950;text-shadow:0 2px 5px #000}
+.controls{position:absolute;inset:0;pointer-events:none}.cluster{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:8px;pointer-events:auto}.left{left:max(12px,env(safe-area-inset-left))}.right{right:max(12px,env(safe-area-inset-right))}
+.control{width:clamp(56px,8vw,74px);height:clamp(56px,8vw,74px);border:1px solid #ffffff70;border-radius:18px;background:#10263bd9;color:white;font-size:25px;font-weight:950;touch-action:none}
+#boost{position:absolute;left:50%;transform:translateX(-50%);bottom:max(13px,env(safe-area-inset-bottom));width:clamp(126px,18vw,170px);height:clamp(56px,8vw,74px);border:2px solid var(--gold);border-radius:18px;background:linear-gradient(145deg,#6a4b20,#172b3d);color:white;font-size:19px;font-weight:950;pointer-events:auto}
+#toast{position:absolute;top:23%;left:50%;transform:translate(-50%,-8px);padding:9px 16px;border:1px solid #ffffff55;border-radius:30px;background:#0b1b2bea;font-weight:950;opacity:0;transition:.2s;white-space:nowrap}#toast.show{opacity:1;transform:translate(-50%,0)}
+#loading{flex-direction:column;gap:13px;text-align:center;background:linear-gradient(#07111b66,#07111bf2)}.loader{width:30px;height:30px;border:3px solid #ffffff35;border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loadbar{width:min(310px,75vw);height:6px;background:#ffffff30;border-radius:8px;overflow:hidden}.loadbar i{display:block;height:100%;background:var(--gold);animation:load 1.7s ease forwards}@keyframes load{to{width:100%}}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #ffffff20;font-size:13px;font-weight:800}.opts{display:flex;gap:4px}.opts button{background:#ffffff12;border:1px solid #ffffff30;color:#fff;border-radius:8px;padding:7px 8px;font-size:10px;font-weight:900}.opts button.active{background:var(--gold);color:#172333}
+@media(orientation:portrait){#hint{white-space:normal;width:92%;text-align:center;top:16%;font-size:10px}}
 </style></head>
-<body><main id="app">
-<canvas id="scene"></canvas>
-<section id="menu" class="screen"><div class="panel">
-<div class="brand">FREERIDE MTB / PRESENTS</div><h1>ALPINE<br><span>RUSH.</span></h1>
-<p class="sub">Відчуй швидкість гірської траси. Розганяйся, контролюй велосипед у повітрі та приземляйся чисто.</p>
-<div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="openSettings">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="openGraphics">▧　ГРАФІКА</button></div>
-<div class="smallnote">Керування: стрілки або WASD · На телефоні — екранні кнопки<br>Рекорд: <b id="menuBest">0</b> очок</div>
-</div></section>
-<section id="settings" class="screen hidden"><div class="panel"><div class="brand">PREFERENCES</div><h1 style="font-size:38px">НАЛАШТУВАННЯ</h1>
-<div class="settingrow"><span>Звук ефектів</span><div class="choice"><button data-setting="sound" data-value="on">УВІМК</button><button data-setting="sound" data-value="off">ВИМК</button></div></div>
-<div class="settingrow"><span>Вібрація</span><div class="choice"><button data-setting="vibration" data-value="on">УВІМК</button><button data-setting="vibration" data-value="off">ВИМК</button></div></div>
-<div class="settingrow"><span>Підказки</span><div class="choice"><button data-setting="hints" data-value="on">УВІМК</button><button data-setting="hints" data-value="off">ВИМК</button></div></div>
-<div class="actions" style="margin-top:20px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
-<section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL QUALITY</div><h1 style="font-size:38px">ГРАФІКА</h1>
-<p class="sub">Обери режим під потужність свого телефона.</p>
-<div class="settingrow"><span>Якість зображення</span><div class="choice"><button data-setting="quality" data-value="low">LOW</button><button data-setting="quality" data-value="medium">MED</button><button data-setting="quality" data-value="high">HIGH</button></div></div>
-<div class="settingrow"><span>Тремтіння камери</span><div class="choice"><button data-setting="shake" data-value="on">УВІМК</button><button data-setting="shake" data-value="off">ВИМК</button></div></div>
-<div class="actions" style="margin-top:20px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
-<section id="loading" class="screen hidden"><div class="spinner"></div><div class="loaderTitle">PREPARING THE TRAIL</div><div class="loaderSub">ALPINE RIDGE · STAGE 01</div><div class="loadTrack"><div class="loadFill"></div></div><div class="smallnote">Готуємо трасу та налаштовуємо підвіску...</div></section>
-<div id="gameHud" class="hidden"><div class="hudbox"><div class="kicker">FREERIDE MTB · DOWNHILL</div><div class="numbers" id="stats">0 м · 0 очок</div><div class="speed" id="speed">0 км/год · РІВЕНЬ 1</div><div class="bar"><div class="fill" id="energy"></div></div></div>
-<div class="topbuttons"><button class="iconbtn" id="pause">Ⅱ</button><button class="iconbtn" id="home">⌂</button></div>
-<div id="hint">↑ ПЕДАЛІ　·　↓ ГАЛЬМО　·　← / → БАЛАНС　·　BOOST</div>
-<div id="controls"><div class="cluster" id="leftControls"><button class="control" data-key="left">←</button><button class="control" data-key="right">→</button></div><button id="boost" data-key="boost">BOOST</button><div class="cluster" id="rightControls"><button class="control" data-key="brake">↓</button><button class="control" data-key="pedal">↑</button></div></div><div id="toast"></div></div>
+<body><main id="app"><canvas id="world"></canvas>
+<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1>DIRT<br><span>ARENA.</span></h1><p class="sub">Твоя MTB. Підготовлена dirt-траса. Великі столи, ролери, віражі та чисті приземлення. Покажи контроль на кожному прольоті.</p><div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note">↑ педалі · ↓ гальмо · ← / → баланс у повітрі · BOOST<br>Рекорд: <b id="best">0</b> очок</div></div></section>
+<section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px">НАЛАШТУВАННЯ</h1><div class="row"><span>Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span>Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span>Підказки</span><div class="opts"><button data-set="hints" data-val="on">ON</button><button data-set="hints" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
+<section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px">ГРАФІКА</h1><div class="row"><span>Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span>Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
+<section id="loading" class="screen hidden"><div class="loader"></div><div style="font-size:clamp(25px,6vw,42px);font-weight:1000">BUILDING THE TRACK</div><div class="brand">DIRT ARENA · MTB STAGE 01</div><div class="loadbar"><i></i></div><div class="note">Готуємо трампліни, покриття та підвіску...</div></section>
+<div id="hud" class="hidden"><div class="stats"><div class="tag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar"><div class="fill" id="energy"></div></div></div><div class="top"><button class="icon" id="pause">Ⅱ</button><button class="icon" id="home">⌂</button></div><div id="hint">↑ ПЕДАЛІ　·　↓ ГАЛЬМО　·　← / → БАЛАНС　·　BOOST</div><div class="controls"><div class="cluster left"><button class="control" data-key="left">←</button><button class="control" data-key="right">→</button></div><button id="boost" data-key="boost">BOOST</button><div class="cluster right"><button class="control" data-key="brake">↓</button><button class="control" data-key="pedal">↑</button></div></div><div id="toast"></div></div>
 </main>
 <script>
 (()=>{'use strict';
-const $=id=>document.getElementById(id),canvas=$('scene'),ctx=canvas.getContext('2d');let W=innerWidth,H=innerHeight,D=1,last=0,mode='menu',cam=0,meters=0,score=0,level=1,shake=0,particles=[],toastTimer=0,audio=null;
-const keys={left:false,right:false,pedal:false,brake:false,boost:false};
-let cfg={sound:'on',vibration:'off',hints:'on',quality:'high',shake:'on'};
+const $=id=>document.getElementById(id),c=$('world'),g=c.getContext('2d');let W=innerWidth,H=innerHeight,D=1,last=0,cam=0,mode='menu',meters=0,score=0,shake=0,air=0,particles=[],toastTimer;
+const key={left:false,right:false,pedal:false,brake:false,boost:false};let cfg={sound:'on',vibration:'off',hints:'on',quality:'high',shake:'on'};
 try{cfg={...cfg,...JSON.parse(localStorage.getItem('freerideSettings')||'{}')}}catch(e){}
 const best=()=>{try{return +(localStorage.getItem('freerideBest')||0)}catch(e){return 0}};
-let bike={x:0,y:0,vx:0,vy:0,angle:0,spin:0,grounded:true,energy:100,compression:0};
-function resize(){W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,cfg.quality==='low'?1:cfg.quality==='medium'?1.5:2);canvas.width=W*D;canvas.height=H*D;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(D,0,0,D,0,0)}
-function terrain(x){let y=H*.70+Math.sin(x*.0011)*H*.045+Math.sin(x*.0031)*H*.018;let section=((x%2100)+2100)%2100;const ramps=[{p:350,w:210,h:105},{p:790,w:190,h:72},{p:1260,w:245,h:145},{p:1770,w:185,h:85}];for(const r of ramps){let d=(section-r.p)/r.w;if(Math.abs(d)<1)y-=r.h*Math.pow(1-Math.abs(d),1.5)}return y}
-function slope(x){return Math.atan((terrain(x+4)-terrain(x-4))/8)}
-function reset(){cam=0;meters=0;score=0;level=1;particles=[];shake=0;bike={x:W*.31,y:terrain(cam+W*.31)-42,vx:175,vy:0,angle:slope(W*.31),spin:0,grounded:true,energy:100,compression:0};Object.keys(keys).forEach(k=>keys[k]=false);$('stats').textContent='0 м · 0 очок';$('speed').textContent='0 км/год · РІВЕНЬ 1';$('energy').style.width='100%'}
-function show(id){['menu','settings','graphics','loading'].forEach(x=>$(x).classList.toggle('hidden',x!==id));$('gameHud').classList.toggle('hidden',id!=='game')}
-function saveCfg(){try{localStorage.setItem('freerideSettings',JSON.stringify(cfg))}catch(e){};document.querySelectorAll('[data-setting]').forEach(b=>b.classList.toggle('active',cfg[b.dataset.setting]===b.dataset.value));$('hint').style.display=cfg.hints==='on'?'block':'none';resize()}
-function sound(freq=260,dur=.07){if(cfg.sound!=='on')return;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();let o=audio.createOscillator(),g=audio.createGain();o.frequency.value=freq;g.gain.setValueAtTime(.035,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+dur);o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+dur)}catch(e){}}
-function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),1300)}
-function startLoading(){mode='loading';show('loading');setTimeout(()=>{reset();mode='game';show('game');last=performance.now()},1850)}
-$('play').onclick=startLoading;$('openSettings').onclick=()=>show('settings');$('openGraphics').onclick=()=>show('graphics');$('settingsBack').onclick=()=>show('menu');$('graphicsBack').onclick=()=>show('menu');
-document.querySelectorAll('[data-setting]').forEach(b=>b.onclick=()=>{cfg[b.dataset.setting]=b.dataset.value;saveCfg()});
-$('pause').onclick=()=>{if(mode!=='game')return;mode='paused';toast('ПАУЗА · НАТИСНИ ⌂ ДЛЯ ВИХОДУ');$('pause').textContent='▶'};
-$('home').onclick=()=>{mode='menu';show('menu');$('menuBest').textContent=best();$('pause').textContent='Ⅱ';reset()};
-document.querySelectorAll('[data-key]').forEach(b=>{let k=b.dataset.key;const down=e=>{e.preventDefault();keys[k]=true;b.setPointerCapture?.(e.pointerId);b.style.filter='brightness(1.5)'},up=e=>{keys[k]=false;b.style.filter=''};b.addEventListener('pointerdown',down);['pointerup','pointercancel','lostpointercapture'].forEach(t=>b.addEventListener(t,up))});
-const km={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'pedal',KeyW:'pedal',ArrowDown:'brake',KeyS:'brake',Space:'boost'};
-addEventListener('keydown',e=>{if(km[e.code]){keys[km[e.code]]=true;e.preventDefault()}if(e.code==='Escape'&&mode==='game')$('pause').click()});
-addEventListener('keyup',e=>{if(km[e.code])keys[km[e.code]]=false});addEventListener('blur',()=>Object.keys(keys).forEach(k=>keys[k]=false));
-function puff(x,y,n=4){for(let i=0;i<n;i++)particles.push({x,y,vx:-30-Math.random()*110,vy:-15-Math.random()*75,life:.35+Math.random()*.5,r:2+Math.random()*4})}
-function crash(){mode='crash';try{if(score>best())localStorage.setItem('freerideBest',String(Math.floor(score)))}catch(e){};toast('ВТРАТА КОНТРОЛЮ · НАТИСНИ ⌂ І СПРОБУЙ ЩЕ');sound(90,.22)}
-function update(dt){if(mode!=='game')return;let x=cam+W*.31,g=terrain(x),grounded=bike.grounded;
-let a=keys.pedal?300:-10;if(keys.brake)a-=570;if(keys.boost&&bike.energy>0){a+=470;bike.energy=Math.max(0,bike.energy-31*dt)}else bike.energy=Math.min(100,bike.energy+8*dt);
-bike.vx=Math.max(65,Math.min(690,bike.vx+a*dt));cam+=bike.vx*dt;meters=cam/10;x=cam+W*.31;g=terrain(x);let gs=slope(x);
-if(grounded){bike.y=g-42;bike.vy=0;bike.angle+=(gs-bike.angle)*Math.min(1,dt*8);bike.spin*=.3;let lip=slope(x)-slope(x-18);if(lip>.10&&bike.vx>145){bike.grounded=false;bike.vy=-Math.min(400,95+lip*520+bike.vx*.12);bike.spin=0;sound(430,.08);toast('ТРАМПЛІН!')}}else{
-airTime+=dt;let balance=(keys.right?1:0)-(keys.left?1:0);bike.spin+=balance*3.1*dt;bike.spin*=Math.pow(.985,dt*60);bike.angle+=bike.spin*dt;bike.vy+=820*dt;bike.y+=bike.vy*dt;
-if(bike.y>=g-42&&bike.vy>0){let diff=Math.atan2(Math.sin(bike.angle-gs),Math.cos(bike.angle-gs));if(Math.abs(diff)>1.18||Math.abs(bike.spin)>3.4){crash();return}
-let trick=Math.floor(Math.abs(diff)/(Math.PI/5));let bonus=Math.floor(35+Math.min(airTime,2)*70+trick*100);bike.y=g-42;bike.vy=0;bike.grounded=true;bike.angle=gs;bike.spin=0;score+=bonus;shake=3;if(cfg.vibration==='on'&&navigator.vibrate)navigator.vibrate(18);puff(W*.31,g,12);toast('ЧИСТЕ ПРИЗЕМЛЕННЯ  +'+bonus);sound(580,.1);airTime=0}}
-if(grounded&&Math.random()<.18)puff(W*.31-28,bike.y+38,1);
-for(const p of particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=140*dt;p.life-=dt}particles=particles.filter(p=>p.life>0);
-score+=bike.vx*dt*.025;level=1+Math.floor(meters/700);$('stats').textContent=Math.floor(meters)+' м · '+Math.floor(score)+' очок';$('speed').textContent=Math.round(bike.vx*.18)+' км/год · РІВЕНЬ '+level;$('energy').style.width=bike.energy+'%';shake=Math.max(0,shake-dt*9)}
-let airTime=0;
-function polygon(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill()}
-function drawBackground(){let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#357ca5');sky.addColorStop(.55,'#9cc8d0');sky.addColorStop(1,'#d9c49d');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
-let sunX=W*.79-(cam*.012%W),sunY=H*.17;let gr=ctx.createRadialGradient(sunX,sunY,2,sunX,sunY,100);gr.addColorStop(0,'#fff8d9aa');gr.addColorStop(1,'#fff8d900');ctx.fillStyle=gr;ctx.fillRect(sunX-100,sunY-100,200,200);ctx.fillStyle='#fff0c5';ctx.beginPath();ctx.arc(sunX,sunY,27,0,7);ctx.fill();
-for(let layer=0;layer<4;layer++){let pts=[];for(let x=-10;x<=W+10;x+=8){let z=x+cam*(.07+layer*.08);pts.push([x,H*(.36+layer*.085)+Math.sin(z*.0013+layer)*H*.045+Math.sin(z*.003+layer)*H*.018])}polygon([...pts,[W+10,H],[-10,H]],['#b5c8c4','#8aa89c','#668a73','#496c55'][layer])}}
-function drawTrees(){let step=cfg.quality==='low'?170:112;for(let i=-2;i<W/step+3;i++){let wx=Math.floor((cam*.62+i*step)/step)*step,x=wx-cam*.62,y=terrain(wx+cam*.38)-10,h=55+Math.abs(Math.sin(wx*2.1))*65;ctx.fillStyle='#574633';ctx.fillRect(x-4,y-h*.22,8,h*.55);for(let j=0;j<3;j++){let yy=y-h+j*h*.24,w=h*(.27+j*.08);polygon([[x,yy-h*.18],[x-w,yy+h*.36],[x+w,yy+h*.36]],['#1e4b3c','#286247','#347653'][j])}}}
-function drawTerrain(){let pts=[];for(let x=-8;x<=W+8;x+=3)pts.push([x,terrain(cam+x)]);ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.lineTo(W,H+5);ctx.lineTo(-8,H+5);ctx.closePath();let dirt=ctx.createLinearGradient(0,H*.55,0,H);dirt.addColorStop(0,'#a96e45');dirt.addColorStop(.4,'#704a34');dirt.addColorStop(1,'#382b25');ctx.fillStyle=dirt;ctx.fill();ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.strokeStyle='#3a7048';ctx.lineWidth=13;ctx.stroke();ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.strokeStyle='#9bc85b';ctx.lineWidth=4;ctx.stroke();if(cfg.quality!=='low'){for(let i=0;i<34;i++){let x=((i*113-cam*.9)%(W+100)+W+100)%(W+100)-40,y=terrain(cam+x)-9;ctx.fillStyle=i%2?'#c69b70':'#564638';ctx.beginPath();ctx.ellipse(x,y,2+i%3,1.5,0,0,7);ctx.fill()}}}
-function line(x,y,a,b,col,w){ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(a,b);ctx.stroke()}
-function wheel(x,y,r){ctx.fillStyle='#111a23';ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();ctx.strokeStyle='#d9e7ed';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(x,y,r-3,0,7);ctx.stroke();for(let i=0;i<12;i++){let a=i*Math.PI/6;line(x+Math.cos(a)*4,y+Math.sin(a)*4,x+Math.cos(a)*(r-4),y+Math.sin(a)*(r-4),'#9fb3bf',.8)}ctx.fillStyle='#edf4f7';ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.fill()}
-function drawBike(){let x=W*.31,y=bike.y+38;ctx.save();ctx.translate(x,y);ctx.rotate(bike.angle);wheel(-38,0,19);wheel(40,0,19);line(-38,0,-15,-29,'#ef4d3e',6);line(-15,-29,-2,-2,'#ef4d3e',6);line(-2,-2,-38,0,'#ef4d3e',5);line(-2,-2,22,-31,'#ef4d3e',6);line(22,-31,40,0,'#e9edf0',5);line(22,-31,40,0,'#f6b342',2.5);line(-18,-8,-8,-27,'#e6edf0',3);line(-8,-27,2,-11,'#f4b23d',4);
-line(-15,-29,-4,-53,'#263e53',8);line(-4,-53,13,-31,'#263e53',7);line(13,-31,23,-31,'#172a3a',5);line(-4,-53,-20,-28,'#263e53',7);line(-20,-28,-28,-3,'#172b38',6);line(-4,-53,8,-75,'#087ba4',12);line(8,-75,29,-55,'#087ba4',9);line(29,-55,43,-43,'#263e53',6);line(8,-75,-3,-57,'#087ba4',8);ctx.fillStyle='#efbd91';ctx.beginPath();ctx.arc(7,-87,10,0,7);ctx.fill();ctx.fillStyle='#172c40';ctx.beginPath();ctx.arc(7,-90,11,Math.PI,Math.PI*2);ctx.fill();ctx.fillStyle='#f5ae35';ctx.fillRect(7,-90,12,3);ctx.restore()}
-function render(){ctx.setTransform(D,0,0,D,0,0);ctx.clearRect(0,0,W,H);ctx.save();if(shake&&cfg.shake==='on')ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);drawBackground();drawTrees();drawTerrain();particles.forEach(p=>{ctx.globalAlpha=Math.max(0,Math.min(1,p.life*2));ctx.fillStyle='#d9b38b';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()});ctx.globalAlpha=1;if(mode!=='menu'&&mode!=='loading'&&mode!=='paused')drawBike();ctx.restore()}
-function loop(t){let dt=Math.min(.032,(t-last)/1000||0);last=t;if(mode==='game')update(dt);else if(mode==='menu'){cam+=dt*13}render();requestAnimationFrame(loop)}
-$('menuBest').textContent=best();saveCfg();resize();reset();last=performance.now();requestAnimationFrame(loop);addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,150));if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+let bike={x:0,y:0,vx:160,vy:0,a:0,av:0,compressionF:0,compressionR:0,ground:false,energy:100};
+function resize(){W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,cfg.quality==='low'?1:cfg.quality==='medium'?1.5:2);c.width=W*D;c.height=H*D;c.style.width=W+'px';c.style.height=H+'px';g.setTransform(D,0,0,D,0,0)}
+function smooth(a,b,t){t=Math.max(0,Math.min(1,(t-a)/(b-a)));return t*t*(3-2*t)}
+function bump(x,start,width,height){let t=(x-start)/width;if(t<0||t>1)return 0;let rise=smooth(0,.34,t),fall=1-smooth(.66,1,t);return height*Math.min(rise,fall)}
+function terrain(x){let s=((x%3000)+3000)%3000,y=H*.70+Math.sin(x*.00055)*H*.018;
+y-=bump(s,230,260,105);y-=bump(s,650,180,46);y-=bump(s,1000,340,138);y-=bump(s,1540,230,76);y-=bump(s,1970,330,120);y-=bump(s,2470,190,55);
+y+=bump(s,480,110,17)*.45;return y}
+function slope(x){return Math.atan((terrain(x+3)-terrain(x-3))/6)}
+function wheelWorld(side){let lx=side*37,co=Math.cos(bike.a),si=Math.sin(bike.a);return{x:bike.x+lx*co,y:bike.y+lx*si+24*co}}
+function reset(){cam=0;meters=score=air=shake=0;particles=[];bike={x:W*.31,y:terrain(W*.31)-65,vx:160,vy:0,a:0,av:0,compressionF:0,compressionR:0,ground:false,energy:100};Object.keys(key).forEach(k=>key[k]=false);$('stats').textContent='0 м · 0 очок'}
+function screens(id){['menu','settings','graphics','loading'].forEach(x=>$(x).classList.toggle('hidden',x!==id));$('hud').classList.toggle('hidden',id!=='game')}
+function save(){try{localStorage.setItem('freerideSettings',JSON.stringify(cfg))}catch(e){}document.querySelectorAll('[data-set]').forEach(b=>b.classList.toggle('active',cfg[b.dataset.set]===b.dataset.val));$('hint').style.display=cfg.hints==='on'?'block':'none';resize()}
+function sound(f=260,d=.06){if(cfg.sound!=='on')return;try{let a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),v=a.createGain();o.frequency.value=f;v.gain.setValueAtTime(.025,a.currentTime);v.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(v);v.connect(a.destination);o.start();o.stop(a.currentTime+d);o.onended=()=>a.close()}catch(e){}}
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),1250)}
+$('play').onclick=()=>{mode='loading';screens('loading');setTimeout(()=>{reset();mode='game';screens('game');last=performance.now()},1750)};
+$('settingsOpen').onclick=()=>screens('settings');$('graphicsOpen').onclick=()=>screens('graphics');$('settingsBack').onclick=()=>screens('menu');$('graphicsBack').onclick=()=>screens('menu');
+document.querySelectorAll('[data-set]').forEach(b=>b.onclick=()=>{cfg[b.dataset.set]=b.dataset.val;save()});
+$('pause').onclick=()=>{if(mode==='game'){mode='paused';$('pause').textContent='▶';toast('ПАУЗА')}else if(mode==='paused'){mode='game';$('pause').textContent='Ⅱ';last=performance.now()}};
+$('home').onclick=()=>{mode='menu';screens('menu');$('best').textContent=best();$('pause').textContent='Ⅱ'};
+document.querySelectorAll('[data-key]').forEach(b=>{let k=b.dataset.key;b.addEventListener('pointerdown',e=>{e.preventDefault();key[k]=true;b.setPointerCapture?.(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(t=>b.addEventListener(t,()=>key[k]=false))});
+const map={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'pedal',KeyW:'pedal',ArrowDown:'brake',KeyS:'brake',Space:'boost'};
+addEventListener('keydown',e=>{if(map[e.code]){key[map[e.code]]=true;e.preventDefault()}if(e.code==='Escape'&&mode==='game')$('pause').click()});addEventListener('keyup',e=>{if(map[e.code])key[map[e.code]]=false});addEventListener('blur',()=>Object.keys(key).forEach(k=>key[k]=false));
+function dust(x,y,n=3){for(let i=0;i<n;i++)particles.push({x,y,vx:-25-Math.random()*100,vy:-10-Math.random()*65,t:.35+Math.random()*.3,r:2+Math.random()*3})}
+function crash(){mode='crash';try{if(score>best())localStorage.setItem('freerideBest',String(Math.floor(score)))}catch(e){}toast('ВТРАТА КОНТРОЛЮ · ⌂ ДЛЯ ПОВТОРУ');sound(80,.2)}
+function physics(dt){
+let accel=(key.pedal?260:0)-(key.brake?490:0)+(key.boost&&bike.energy>0?420:0);bike.vx=Math.max(55,Math.min(610,bike.vx+accel*dt));if(key.boost&&bike.energy>0)bike.energy=Math.max(0,bike.energy-29*dt);else bike.energy=Math.min(100,bike.energy+8*dt);
+cam+=bike.vx*dt;meters=cam/10;let f=wheelWorld(1),r=wheelWorld(-1),gf=terrain(cam+f.x-bike.x),gr=terrain(cam+r.x-bike.x);
+let df=f.y+12-gf,dr=r.y+12-gr;let sf=Math.max(0,df),sr=Math.max(0,dr);let forceF=sf*68+Math.max(0,bike.vy)*7,forceR=sr*68+Math.max(0,bike.vy)*7;
+let grounded=sf>0||sr>0;
+if(grounded){let lift=(forceF+forceR)*.5;bike.vy-=lift*dt;let torque=(forceR-forceF)*.0024;bike.av+=torque*dt;bike.av+=(slope(cam+W*.31)-bike.a)*dt*1.8}
+else{air+=dt;bike.vy+=760*dt;let bal=(key.right?1:0)-(key.left?1:0);bike.av+=bal*3.0*dt}
+bike.vy+=760*dt*(grounded?-0.55:1);bike.y+=bike.vy*dt;bike.av*=Math.pow(grounded?.78:.985,dt*60);bike.a+=bike.av*dt;
+let minY=Math.min(terrain(cam+W*.31-37),terrain(cam+W*.31+37))-47;
+if(bike.y>minY){let impact=bike.y-minY;if(bike.vy>170&&Math.abs(bike.a-slope(cam+W*.31))>.92){crash();return}bike.y=minY;bike.vy=Math.min(0,bike.vy)*-.12;bike.av*=.55;if(air>.22){let bonus=Math.floor(30+air*70+Math.abs(bike.av)*25);score+=bonus;toast('ЧИСТЕ ПРИЗЕМЛЕННЯ  +'+bonus);sound(500);if(cfg.vibration==='on')navigator.vibrate?.(18);air=0;shake=2.5}}
+score+=bike.vx*dt*.018;if(bike.vx<90)bike.vx=90;
+if(Math.random()<.22&&grounded)dust(W*.31-40,bike.y+30,1);
+particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=120*dt;p.t-=dt});particles=particles.filter(p=>p.t>0);shake=Math.max(0,shake-dt*7);
+$('stats').textContent=Math.floor(meters)+' м · '+Math.floor(score)+' очок';$('speed').textContent=Math.round(bike.vx*.18)+' км/год · DIRT SERIES';$('energy').style.width=bike.energy+'%';
+}
+function poly(a,col){g.beginPath();a.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();g.fillStyle=col;g.fill()}
+function background(){let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#36799a');sky.addColorStop(.58,'#a6c7ca');sky.addColorStop(1,'#d5c09a');g.fillStyle=sky;g.fillRect(0,0,W,H);let sun=g.createRadialGradient(W*.78,H*.16,2,W*.78,H*.16,100);sun.addColorStop(0,'#fff5d9aa');sun.addColorStop(1,'#fff5d900');g.fillStyle=sun;g.fillRect(W*.78-100,H*.16-100,200,200);
+for(let k=0;k<3;k++){let pts=[];for(let x=-5;x<=W+5;x+=9)pts.push([x,H*(.38+k*.085)+Math.sin((x+cam*.08)*.0015+k)*H*.04]);poly([...pts,[W,H],[-5,H]],['#9aada4','#718f7d','#536f60'][k])}}
+function stands(){let gap=cfg.quality==='low'?220:150;for(let x=-((cam*.32)%gap);x<W+gap;x+=gap){let y=H*.49+Math.sin((x+cam*.32)*.003)*8;g.fillStyle='#3a4650';g.fillRect(x,y,3,48);g.fillStyle='#d9d5c5';g.fillRect(x-18,y,39,5);g.fillStyle='#d94e36';g.fillRect(x-14,y+7,28,3)}}
+function track(){let pts=[];for(let x=-8;x<=W+8;x+=3)pts.push([x,terrain(cam+x)]);let dirt=g.createLinearGradient(0,H*.58,0,H);dirt.addColorStop(0,'#9b613c');dirt.addColorStop(.4,'#68442f');dirt.addColorStop(1,'#352a25');g.fillStyle=dirt;g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.lineTo(W,H);g.lineTo(0,H);g.fill();
+g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.strokeStyle='#6e432d';g.lineWidth=19;g.stroke();g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.strokeStyle='#b77a4d';g.lineWidth=3;g.stroke();
+if(cfg.quality!=='low'){for(let i=0;i<55;i++){let x=(i*79-cam*.8)%(W+80);if(x<0)x+=W+80;x-=40;let y=terrain(cam+x)+15+(i%4)*12;g.fillStyle=i%2?'#c08a5e':'#59402f';g.beginPath();g.ellipse(x,y,2+i%3,1.2,0,0,7);g.fill()}}
+for(let x=-((cam*.5)%240);x<W+240;x+=240){let y=terrain(cam+x)-4;g.fillStyle='#e7e4d7';g.fillRect(x,y-30,3,30);g.fillStyle='#e54d37';g.beginPath();g.moveTo(x,y-30);g.lineTo(x+19,y-24);g.lineTo(x,y-18);g.fill()}}
+function line(x,y,X,Y,col,w){g.strokeStyle=col;g.lineWidth=w;g.lineCap='round';g.beginPath();g.moveTo(x,y);g.lineTo(X,Y);g.stroke()}
+function bikeDraw(){let x=W*.31,y=bike.y;g.save();g.translate(x,y);g.rotate(bike.a);let rear=-38,front=38,wy=24;
+function wheel(wx){g.fillStyle='#101820';g.beginPath();g.arc(wx,wy,19,0,7);g.fill();g.strokeStyle='#d8e3e8';g.lineWidth=2.4;g.beginPath();g.arc(wx,wy,16,0,7);g.stroke();for(let i=0;i<12;i++){let a=i*Math.PI/6;line(wx+Math.cos(a)*3,wy+Math.sin(a)*3,wx+Math.cos(a)*15,wy+Math.sin(a)*15,'#aebdc4',.8)}g.fillStyle='#eef3f5';g.beginPath();g.arc(wx,wy,3,0,7);g.fill()}
+wheel(rear);wheel(front);
+line(rear,wy,-13,-8,'#ed5141',5);line(-13,-8,0,wy,'#ed5141',5);line(0,wy,rear,wy,'#ed5141',4);line(0,wy,22,-10,'#ed5141',5);line(22,-10,front,wy,'#e5edf1',4);line(22,-10,front,wy,'#f2b747',2);line(-13,-8,-4,-27,'#e4edf1',3);line(-4,-27,2,-8,'#f3b744',3);
+line(rear,wy,-22,2,'#c6d5db',3);line(front,wy,22,-10,'#c6d5db',3);
+line(-5,-27,-16,-48,'#263f54',7);line(-16,-48,-3,-67,'#167fa5',11);line(-3,-67,16,-46,'#167fa5',9);line(16,-46,31,-36,'#263f54',5);line(-16,-48,-27,-20,'#263f54',6);line(-27,-20,-31,wy-2,'#263f54',5);line(-3,-67,8,-82,'#efc09a',8);g.fillStyle='#eac09d';g.beginPath();g.arc(8,-89,9,0,7);g.fill();g.fillStyle='#172c40';g.beginPath();g.arc(8,-92,10,Math.PI,Math.PI*2);g.fill();g.fillStyle='#f4b747';g.fillRect(8,-92,10,2);g.restore()}
+function render(){g.setTransform(D,0,0,D,0,0);g.clearRect(0,0,W,H);g.save();if(shake&&cfg.shake==='on')g.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);background();stands();track();particles.forEach(p=>{g.globalAlpha=Math.max(0,p.t*2);g.fillStyle='#d2a077';g.beginPath();g.arc(p.x,p.y,p.r,0,7);g.fill()});g.globalAlpha=1;if(mode==='game'||mode==='paused'||mode==='crash')bikeDraw();g.restore()}
+function loop(t){let dt=Math.min(.03,(t-last)/1000||0);last=t;if(mode==='game')physics(dt);else if(mode==='menu')cam+=dt*10;render();requestAnimationFrame(loop)}
+$('best').textContent=best();save();resize();reset();last=performance.now();requestAnimationFrame(loop);addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,150));if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 })();
 </script></body></html>

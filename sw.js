@@ -1,11 +1,11 @@
-const CACHE = "freeride-mtb-alpine-rush-v4";
+const CACHE = "freeride-mtb-dirt-arena-v5";
 const ASSETS = ["./", "./index.html", "./manifest.json"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
   self.skipWaiting();
 });
 self.addEventListener("activate", event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
   self.clients.claim();
 });
 self.addEventListener("fetch", event => {
@@ -16,5 +16,5 @@ self.addEventListener("fetch", event => {
       caches.open(CACHE).then(cache => cache.put(event.request, copy));
     }
     return response;
-  }).catch(() => caches.match(event.request).then(cached => cached || caches.match("./index.html"))));
+  }).catch(() => caches.match(event.request).then(hit => hit || caches.match("./index.html"))));
 });
