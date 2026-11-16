@@ -1,1 +1,10 @@
-{"name":"Freeride MTB — Alpine Downhill","short_name":"Freeride MTB","start_url":"./","scope":"./","display":"fullscreen","orientation":"landscape","background_color":"#122337","theme_color":"#122337","description":"Mountain bike downhill game"}
+{
+  "name": "Freeride MTB — Alpine Rush",
+  "short_name": "Freeride MTB",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#101c29",
+  "theme_color": "#101c29",
+  "description": "Mountain downhill riding game"
+}
