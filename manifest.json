@@ -1,10 +1,10 @@
 {
-  "name": "Freeride MTB — Dirt Arena v7",
-  "short_name": "Freeride MTB v7",
+  "name": "Freeride MTB — Dirt Arena v8",
+  "short_name": "Freeride MTB",
   "start_url": "./",
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#101923",
   "theme_color": "#101923",
-  "description": "Freeride MTB dirt arena racing — suspension and trail update"
+  "description": "Freeride MTB dirt arena racing"
 }

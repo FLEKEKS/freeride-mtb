@@ -1,4 +1,4 @@
-const CACHE = "freeride-mtb-dirt-arena-v7";
+const CACHE = "freeride-mtb-dirt-arena-v8";
 const ASSETS = ["./", "./index.html", "./manifest.json"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
