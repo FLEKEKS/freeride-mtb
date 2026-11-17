@@ -331,42 +331,84 @@ return{hip,sh,head,hand,pf,pb,phi,knee:ik(hip[0],hip[1],pf[0],pf[1],20,20,-1),kn
 function startRag(){const c=Math.cos(B.a),sn=Math.sin(B.a),p=riderPose();
 const P=[p.head,p.sh,p.hip,p.hand,p.knee,p.pf].map(([bx,by])=>{const x=bx-LEAN*B.lean,y=by+AY,rx=x*c-y*sn,ry=x*sn+y*c,vx=B.vx-B.w*ry,vy=B.vy+B.w*rx;return{x:B.x+rx,y:B.y+ry,px:B.x+rx-vx/60,py:B.y+ry-vy/60}});
 B.rg={p:P,k:[[0,1],[1,2],[1,3],[2,4],[4,5]].map(([a,b])=>[a,b,Math.hypot(P[a].x-P[b].x,P[a].y-P[b].y)])}}
-function drawWheel(x,y,sp){ctx.save();ctx.translate(x,y);ctx.rotate(sp);
-ctx.strokeStyle="#151515";ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,R-.5,0,7);ctx.stroke();
-ctx.strokeStyle="#3a3a3a";ctx.lineWidth=3;ctx.setLineDash([4,3]);ctx.beginPath();ctx.arc(0,0,R+1,0,7);ctx.stroke();ctx.setLineDash([]);
-ctx.strokeStyle="#cfd5dc";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,R-4.5,0,7);ctx.stroke();
-ctx.lineWidth=.9;ctx.strokeStyle="#9aa3ad";ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/8;ctx.moveTo(Math.cos(a)*(R-5),Math.sin(a)*(R-5));ctx.lineTo(-Math.cos(a)*(R-5),-Math.sin(a)*(R-5))}ctx.stroke();
-ctx.strokeStyle="#b8bec6";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,7,0,7);ctx.stroke();ctx.fillStyle="#e9a23b";ctx.beginPath();ctx.arc(0,0,3,0,7);ctx.fill();ctx.restore()}
+function drawWheel(x,y,sp){
+ctx.save();ctx.translate(x,y);ctx.rotate(sp);
+// Wide downhill tyre and double rim
+ctx.strokeStyle="#101316";ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,0,R-.5,0,Math.PI*2);ctx.stroke();
+ctx.strokeStyle="#454b50";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,R-4,0,Math.PI*2);ctx.stroke();
+ctx.strokeStyle="#c8d0d6";ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(0,0,R-5.5,0,Math.PI*2);ctx.stroke();
+// 24 crossed spokes, visible on both halves of the wheel
+ctx.strokeStyle="#aeb8c1";ctx.lineWidth=.75;ctx.beginPath();
+for(let i=0;i<12;i++){const a=i*Math.PI/6,b=a+Math.PI/12;ctx.moveTo(Math.cos(a)*5,Math.sin(a)*5);ctx.lineTo(Math.cos(b)*(R-6),Math.sin(b)*(R-6));ctx.moveTo(-Math.cos(a)*5,-Math.sin(a)*5);ctx.lineTo(-Math.cos(b)*(R-6),-Math.sin(b)*(R-6));}
+ctx.stroke();
+// Disc rotor and hub
+ctx.strokeStyle="#aab2ba";ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(-5,0,8,0,Math.PI*2);ctx.stroke();
+ctx.strokeStyle="#737d86";ctx.lineWidth=.8;for(let i=0;i<8;i++){const a=i*Math.PI/4;ctx.beginPath();ctx.moveTo(-5+Math.cos(a)*5,-Math.sin(a)*5);ctx.lineTo(-5+Math.cos(a)*7.2,-Math.sin(a)*7.2);ctx.stroke();}
+ctx.fillStyle="#252c32";ctx.beginPath();ctx.arc(0,0,4.3,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#e6edf2";ctx.lineWidth=1;ctx.stroke();
+ctx.fillStyle="#d89b42";ctx.beginPath();ctx.arc(0,0,1.8,0,Math.PI*2);ctx.fill();
+ctx.restore()}
+
 function tube(p,col,w,hi){ln(p,"#161616",w+3);ln(p,col,w);ln(p,hi,Math.max(1,w*.3))}
 function shoe(p){ctx.fillStyle="#f2f2f2";ctx.beginPath();ctx.roundRect(p[0]-5,p[1]-2,13,6,2);ctx.fill();ctx.fillStyle="#111";ctx.fillRect(p[0]-5,p[1]+3,13,2)}
 function drawBike(){
 const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]),P=riderPose();
 ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);
-const bb=[0,18],ht=[28,-9],FR="#d62828",HI="#ff8a80";
+const rear=[-L,sr],front=[L,sf],bb=[0,18],seat=[-13,-13],headTop=[28,-10],headBot=[27,1];
+const frame="#d62e32",frameHi="#ff9290",dark="#202a32",metal="#9daab4",gold="#e2a94d";
+const t=(p,col,w,hi)=>{ln(p,"#11171c",w+3.2);ln(p,col,w);if(hi)ln(p,hi,Math.max(1,w*.25));};
+const pivot=(x,y,r=3)=>{ctx.fillStyle="#202930";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d8e0e5";ctx.lineWidth=1;ctx.stroke();ctx.fillStyle="#e6a83e";ctx.beginPath();ctx.arc(x,y,1.05,0,Math.PI*2);ctx.fill();};
+const damper=(a,b)=>{
+ const dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,nx=-uy,ny=ux;
+ // damper body, polished shaft and a visible coil spring
+ t([a[0],a[1],b[0],b[1]],"#20272d",5.2,"#687782");
+ const p1=[a[0]+ux*3,a[1]+uy*3],p2=[a[0]+ux*(d*.48),a[1]+uy*(d*.48)];
+ t([p1[0],p1[1],p2[0],p2[1]],"#d6dce0",2.2,"#ffffff");
+ ctx.strokeStyle=gold;ctx.lineWidth=1.65;ctx.beginPath();
+ const coils=7;for(let i=0;i<=coils*2;i++){const f=.12+.72*i/(coils*2),off=(i%2?2.6:-2.6);const x=a[0]+ux*d*f+nx*off,y=a[1]+uy*d*f+ny*off;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
+ pivot(a[0],a[1],2.5);pivot(b[0],b[1],2.5);
+};
+// Rear wheel and rider's far-side crank/foot, behind the frame
 if(!B.rg){ln2([P.hip[0],P.hip[1],P.knee2[0],P.knee2[1],P.pb[0],P.pb[1]],"#10162a",7);shoe(P.pb)}
-drawWheel(-L,sr,B.sp[0]);drawWheel(L,sf,B.sp[1]);
-// Rear swingarm: separate lower arm and upper stay, pivoting at the rocker.
-const rearAxle=[-L,sr], bbPivot=[-5,5], crank=[0,18], rocker=[-20,-8];
-// Rear triangle sits behind the main frame and moves visually with suspension travel.
-tube([rearAxle[0],rearAxle[1],bbPivot[0],bbPivot[1]],"#8e989f",4,"#dce2e5");
-tube([rearAxle[0],rearAxle[1],crank[0],crank[1]],"#66737b",3,"#b8c2c8");
-tube([bbPivot[0],bbPivot[1],rocker[0],rocker[1]],"#46545d",3,"#aab5bc");
-tube([rocker[0],rocker[1],rearAxle[0],rearAxle[1]],"#59666e",2.5,"#c4cbd0");
-for(const p of [bbPivot,rocker]){ctx.fillStyle="#202a30";ctx.beginPath();ctx.arc(p[0],p[1],3,0,7);ctx.fill();ctx.strokeStyle="#d7dfe3";ctx.lineWidth=1;ctx.stroke()}
-ctx.strokeStyle="#666";ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(bb[0],bb[1],7,0,7);ctx.moveTo(bb[0],bb[1]-7);ctx.lineTo(-L,sr-3);ctx.moveTo(bb[0],bb[1]+7);ctx.lineTo(-L,sr+3);ctx.stroke();
-tube([-6,-5,-24,sr-8],"#252d33",7,"#89969e");
-tube([-7,-6,-23,sr-9],"#d8a34b",2.2,"#ffe0a3");
-ctx.strokeStyle="#7a3b00";ctx.lineWidth=1;ctx.beginPath();for(let k=1;k<6;k++){const f=k/6;ctx.moveTo(-6+(-18)*f-3,-5+(sr+-3)*f);ctx.lineTo(-6+(-18)*f+3,-5+(sr+-3)*f+1)}ctx.stroke();
-tube([-12,-7,-L,sr],FR,3,HI);tube([bb[0],bb[1],-L,sr],FR,5,HI);
-ctx.fillStyle="#242c31";ctx.beginPath();ctx.arc(-L,sr,3.2,0,7);ctx.fill();ctx.strokeStyle="#e1e7ea";ctx.lineWidth=1;ctx.stroke();
-ctx.beginPath();ctx.arc(-5,5,3.1,0,7);ctx.fill();ctx.stroke();
-tube([bb[0],bb[1],-12,-7,ht[0],ht[1]-1],FR,7,HI);tube([bb[0],bb[1],ht[0],ht[1]+3],FR,9,HI);
-tube([29,-12,L,sf],"#d5dae1",6,"#ffffff");ln([34,-3,L,sf],"#3d3d3d",5);
-ln2([26,-12,34,-12],"#222",6);ln2([30,-12,32,-20,38,-20],"#222",4);
-ctx.fillStyle="#fff";ctx.beginPath();ctx.roundRect(30,-33,13,10,2);ctx.fill();ctx.fillStyle="#d62828";ctx.font="bold 9px sans-serif";ctx.textAlign="center";ctx.fillText("7",36.5,-25);
-ln2([-20,-11,-5,-11],"#111",5);ln([-12,-11,-12,-7],"#aaa",3);
-ln2([bb[0],bb[1],P.pf[0],P.pf[1]],"#555",3.5);ln2([bb[0],bb[1],P.pb[0],P.pb[1]],"#555",3.5);
-ctx.fillStyle="#111";ctx.fillRect(P.pf[0]-5,P.pf[1]-1,10,3);ctx.fillRect(P.pb[0]-5,P.pb[1]-1,10,3);
+drawWheel(rear[0],rear[1],B.sp[0]);drawWheel(front[0],front[1],B.sp[1]);
+// Rear swingarm: the axle follows the existing wheel-travel value (no physics changes)
+const mainPivot=[-7,7],rocker=[-19,-5+(sr-S)*.30],shockTop=[3,-6],shockLow=[rocker[0]+2,rocker[1]+4];
+t([rear[0],rear[1],mainPivot[0],mainPivot[1]],"#596873",4.5,"#c1cbd2");
+t([rear[0],rear[1],bb[0]-2,bb[1]+2],"#687781",3.3,"#d4dce1");
+t([rear[0],rear[1],rocker[0],rocker[1]],"#46545e",2.8,"#aebbc3");
+t([rocker[0],rocker[1],mainPivot[0],mainPivot[1]],"#3b4851",3.2,"#aeb8bf");
+// Main front triangle: strong downhill tubes and reinforced joints
+t([seat[0],seat[1],headTop[0],headTop[1]],frame,6.2,frameHi);
+t([headBot[0],headBot[1],bb[0],bb[1]],frame,8.2,frameHi);
+t([seat[0],seat[1],bb[0],bb[1]],frame,6.4,frameHi);
+t([seat[0]-1,seat[1]+1,-18,-4],"#aeb8bf",3.2,"#edf1f4");
+t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,7,"#84919a");
+// Small frame gussets, pivot plates and drivetrain
+ctx.fillStyle="#9d252b";ctx.beginPath();ctx.moveTo(19,-7);ctx.lineTo(25,-7);ctx.lineTo(20,0);ctx.closePath();ctx.fill();
+ctx.strokeStyle="#f4a09a";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(-5,12);ctx.lineTo(1,18);ctx.lineTo(5,14);ctx.stroke();
+ctx.strokeStyle="#aab3bb";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(bb[0],bb[1],7,0,Math.PI*2);ctx.stroke();
+ctx.strokeStyle="#59636b";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bb[0]-7,bb[1]);ctx.lineTo(rear[0]+5,rear[1]);ctx.stroke();
+// Rear shock/linkage is drawn above the swingarm and moves with rear-wheel compression
+t([mainPivot[0],mainPivot[1],rocker[0],rocker[1]],"#2e3941",4.2,"#8997a1");
+damper(shockTop,shockLow);
+// Front dual-crown fork: dark lowers, bright stanchions and axle bridge
+t([headBot[0],headBot[1],front[0]-4,sf-2],"#303a43",7,"#77858f");
+t([headBot[0]+4,headBot[1],front[0]+2,sf+2],"#303a43",6,"#77858f");
+t([headBot[0]+1,headBot[1]+2,front[0]-3,sf-2],"#d6dce0",2.2,"#ffffff");
+t([headBot[0]+5,headBot[1]+2,front[0]+3,sf+2],"#d6dce0",2,"#ffffff");
+ln2([front[0]-5,sf,front[0]+5,sf],"#303840",3.5);
+// Brake calipers, rotor mount and rear axle hardware
+ln2([front[0]-7,sf-5,front[0]-3,sf-1],"#252d34",3);ln2([rear[0]+3,sr-5,rear[0]+7,sr-1],"#252d34",3);
+pivot(mainPivot[0],mainPivot[1],3.5);pivot(rocker[0],rocker[1],3);pivot(rear[0],rear[1],3.2);pivot(bb[0],bb[1],3.5);
+// Seat, dropper post, bars and stem
+t([-13,-12,-17,-22],"#333c43",4,"#b3bdc5");
+t([-23,-22,-8,-22],"#171d22",4,"#717b83");
+t([headTop[0]-1,-11,34,-15],"#262e35",3.5,"#aeb8c0");
+ln2([31,-15,39,-15],"#151a1e",4);ln2([34,-15,35,-20,40,-20],"#242b31",3);
+// Small red race plate
+ctx.fillStyle="#f0f2f4";ctx.beginPath();ctx.roundRect(31,-34,13,10,2);ctx.fill();ctx.fillStyle=frame;ctx.font="bold 9px sans-serif";ctx.textAlign="center";ctx.fillText("7",37.5,-26);
+// Chain, crank and pedal details
+ln2([bb[0],bb[1],P.pf[0],P.pf[1]],"#555f68",2.5);ln2([bb[0],bb[1],P.pb[0],P.pb[1]],"#555f68",2.5);
+ctx.fillStyle="#171d22";ctx.fillRect(P.pf[0]-5,P.pf[1]-1,10,3);ctx.fillRect(P.pb[0]-5,P.pb[1]-1,10,3);
 if(!B.rg){
  ln2([P.hip[0],P.hip[1],P.knee[0],P.knee[1]],"#1a2238",9);ln2([P.knee[0],P.knee[1],P.pf[0],P.pf[1]],"#1a2238",7);
  ctx.fillStyle="#aeb6c0";ctx.beginPath();ctx.arc(P.knee[0]+1,P.knee[1],4.8,0,7);ctx.fill();ctx.strokeStyle="#161616";ctx.lineWidth=1;ctx.stroke();shoe(P.pf);
@@ -379,8 +421,11 @@ if(!B.rg){
  ctx.fillStyle="#d97a00";ctx.beginPath();ctx.roundRect(-2,-10,13,3,1);ctx.fill();
  ctx.fillStyle="#fff";ctx.fillRect(-7,-6,3,5);
  ctx.fillStyle="#1b1b1b";ctx.beginPath();ctx.roundRect(1,-3,10,6,2);ctx.fill();ctx.fillStyle="#8fd3ff";ctx.fillRect(3,-2,7,3.5);ctx.fillStyle="#ffffff88";ctx.fillRect(4,-2,2,2);
- ctx.restore()}
-ctx.restore()}
+ ctx.restore();
+}
+ctx.restore();
+}
+
 function pine(x,y,h,c){ctx.fillStyle="#4a3426";ctx.fillRect(x-h*.04,y-h*.2,h*.08,h*.2);
 for(let i=0;i<4;i++){const w=h*(.36-i*.07),yy=y-h*.12-i*h*.2;ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x-w,yy);ctx.lineTo(x,yy-h*.34);ctx.lineTo(x+w,yy);ctx.fill();
 ctx.fillStyle="#00000024";ctx.beginPath();ctx.moveTo(x,yy-h*.34);ctx.lineTo(x+w,yy);ctx.lineTo(x+w*.1,yy);ctx.fill()}}
