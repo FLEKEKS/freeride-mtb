@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — Dirt Arena V15</title>
+<title>Freeride MTB — Dirt Arena V16</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
@@ -66,26 +66,39 @@ segs.push({x1:a.x,y1:a.y,x2:x,y2:y,nx:dy/l,ny:-dx/l,l2:l*l,start:gen.first});gen
 function ramp(len,s0,s1){const n=Math.ceil(len/12),st=len/n;
 for(let i=0;i<n;i++){const s=s0+(s1-s0)*(i+.5)/n;gen.x+=st;gen.y+=st*s;addPt(gen.x,gen.y)}gen.s=s1}
 function genMore(){
-// Flowing downhill stages: wide slopes, deep compressions and separated jump lips.
+// V16: плавний даунхіл, два великі tabletop-трампліни та один контрольований дроп.
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
-ramp(90,gen.s,0);
 let x0=gen.x,y0=gen.y;
-const addProfile=(len,fn)=>{const n=Math.ceil(len/7);for(let i=1;i<=n;i++){const x=len*i/n;addPt(x0+x,y0-fn(x/len));}x0+=len;gen.x=x0;gen.y=y0;gen.s=0};
+const addProfile=(len,fn)=>{const n=Math.ceil(len/7);for(let i=1;i<=n;i++){const x=len*i/n;addPt(x0+x,y0+fn(x/len));}x0+=len;gen.x=x0;gen.y=y0;gen.s=0};
 const profile=(keys,t)=>{let i=0;while(i<keys.length-2&&t>keys[i+1][0])i++;const a=keys[i],b=keys[i+1],u=smooth((t-a[0])/(b[0]-a[0]));return a[1]+(b[1]-a[1])*u};
-// Long open descent into a broad valley: enough room to build speed.
-const drop=62+rnd()*34,run=510+rnd()*190;
-addProfile(run,t=>profile([[0,0],[.18,-drop*.12],[.43,-drop],[.66,-drop*.92],[.84,-drop*.48],[1,0]],t));
-// Calm transition before the main takeoff.
-addProfile(150+rnd()*90,t=>-5*Math.sin(Math.PI*t));
-// Steep rounded takeoff, short crest and connected landing.
-const jump=360+rnd()*90,height=42+rnd()*24;
-addProfile(jump,t=>profile([[0,0],[.22,-8],[.48,-height*.55],[.68,height],[.78,height*.92],[1,0]],t));
-// Long landing zone and a shallow bowl.
-addProfile(340+rnd()*120,t=>profile([[0,0],[.28,-12],[.58,-24],[.82,-12],[1,0]],t));
-// Only a couple of broad rollers, separated by flatter riding space.
-const count=1+(rnd()*2|0);
-for(let j=0;j<count;j++){const len=220+rnd()*120,amp=7+rnd()*7;addProfile(len,t=>amp*Math.pow(Math.sin(Math.PI*t),2));addProfile(90+rnd()*70,t=>-4*Math.sin(Math.PI*t));}
-ramp(100,0,0);
+// Спокійний спуск і довгий розгін без різких переломів.
+addProfile(520+rnd()*100,t=>profile([[0,0],[.25,8],[.55,28],[.8,40],[1,42]],t));
+addProfile(180,t=>profile([[0,0],[.5,-5],[1,0]],t));
+// Великий tabletop: пологий заїзд, округла вершина і довга зона приземлення.
+const h1=58+rnd()*10;
+addProfile(540,t=>profile([[0,0],[.18,-5],[.42,-h1*.72],[.58,-h1],[.72,-h1*.96],[.88,-h1*.35],[1,0]],t));
+addProfile(420,t=>profile([[0,0],[.3,8],[.65,13],[1,0]],t));
+// Два довгі ролери, без коротких крутих горбів.
+for(let j=0;j<2;j++){
+ const h=15+rnd()*5;
+ addProfile(300+rnd()*50,t=>-h*Math.pow(Math.sin(Math.PI*t),2));
+ addProfile(130,t=>profile([[0,0],[.5,4],[1,0]],t));
+}
+// Другий трамплін — нижчий, але теж достатньо довгий для польоту й трюку.
+const h2=48+rnd()*8;
+addProfile(500,t=>profile([[0,0],[.2,-4],[.43,-h2*.7],[.59,-h2],[.74,-h2*.92],[.9,-h2*.3],[1,0]],t));
+addProfile(400,t=>profile([[0,0],[.25,7],[.6,11],[1,0]],t));
+// Плавний підхід до дропу; край — коротка горизонтальна полиця.
+addProfile(300,t=>profile([[0,0],[.35,8],[.7,12],[1,12]],t));
+addProfile(100,t=>0);
+// Відкритий дроп: від краю до нижньої широкої рівної площадки.
+const gap=190+rnd()*30,fall=105+rnd()*18;
+gen.x+=gap;gen.y+=fall;gen.last={x:gen.x,y:gen.y};gen.first=true;gen.s=0;x0=gen.x;y0=gen.y;
+addProfile(300,t=>0);
+// Виїзд із площадки з плавним поверненням до наступної секції.
+addProfile(360,t=>profile([[0,0],[.3,5],[.65,16],[1,22]],t));
+addProfile(180,t=>profile([[0,0],[.5,-4],[1,0]],t));
+ramp(90,0,0);
 }
 function reset(){
 newSeed();segs=[];gen={x:-500,y:300,last:{x:-500,y:300},first:true,s:0};
@@ -511,7 +524,7 @@ $("home").onclick=$("toMenu").onclick=()=>{mode="menu";reset();screens("menu");$
 $("best").textContent=getBest();saveCfg();reset();last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
-  const reg=await navigator.serviceWorker.register("./sw.js?v=15",{updateViaCache:"none"});
+  const reg=await navigator.serviceWorker.register("./sw.js?v=16",{updateViaCache:"none"});
   await reg.update();
   if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
  }catch(e){console.warn("Service worker update failed",e)}});
