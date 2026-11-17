@@ -16,39 +16,47 @@
 .sub{font-size:13px;line-height:1.55;color:#d0dce5;margin:0 0 22px}.actions{display:grid;gap:9px}.btn{min-height:52px;border:1px solid var(--line);border-radius:14px;padding:12px 17px;background:linear-gradient(145deg,#354f64,#172b3d);color:white;font:850 14px system-ui;cursor:pointer}.btn.primary{background:linear-gradient(145deg,#ffd477,#e88b35);color:#1b2731;border-color:#ffe3a8}.btn:active{transform:scale(.985)}
 .note{font-size:10px;line-height:1.5;color:#adbfcb;margin-top:15px}
 #hud{position:absolute;inset:0;pointer-events:none}.stats{position:absolute;top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));padding:9px 13px;background:var(--glass);border:1px solid var(--line);border-radius:15px;min-width:165px;text-shadow:0 2px 5px #000}.tag{font-size:9px;letter-spacing:2px;color:#b8cbd8;font-weight:950}.big{font-size:22px;font-weight:950}.small{font-size:12px;font-weight:800;color:#d7e2e9}.bar{height:5px;background:#ffffff30;border-radius:8px;margin-top:7px;overflow:hidden}.fill{height:100%;width:100%;background:linear-gradient(90deg,#f58b31,#ffe18b)}
-.top{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}.icon{width:45px;height:45px;border:1px solid var(--line);border-radius:13px;background:var(--glass);color:white;font-size:21px;font-weight:900}
+.top{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}.icon{width:48px;height:48px;border:1px solid var(--line);border-radius:13px;background:var(--glass);color:white;font-size:21px;font-weight:900}
 #hint{position:absolute;top:13%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:950;text-shadow:0 2px 5px #000}
 .controls{position:absolute;inset:0;pointer-events:none}.cluster{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:8px;pointer-events:auto}.left{left:max(12px,env(safe-area-inset-left))}.right{right:max(12px,env(safe-area-inset-right))}
-.control{width:clamp(56px,8vw,74px);height:clamp(56px,8vw,74px);border:1px solid #ffffff70;border-radius:18px;background:#10263bd9;color:white;font-size:25px;font-weight:950;touch-action:none}
-#boost{position:absolute;left:50%;transform:translateX(-50%);bottom:max(13px,env(safe-area-inset-bottom));width:clamp(126px,18vw,170px);height:clamp(56px,8vw,74px);border:2px solid var(--gold);border-radius:18px;background:linear-gradient(145deg,#6a4b20,#172b3d);color:white;font-size:19px;font-weight:950;pointer-events:auto}
+.control{width:clamp(58px,8vw,78px);height:clamp(58px,8vw,78px);border:1px solid #ffffff70;border-radius:18px;background:#10263bd9;color:white;font-size:25px;font-weight:950;touch-action:none}
+
 #toast{position:absolute;top:23%;left:50%;transform:translate(-50%,-8px);padding:9px 16px;border:1px solid #ffffff55;border-radius:30px;background:#0b1b2bea;font-weight:950;opacity:0;transition:.2s;white-space:nowrap}#toast.show{opacity:1;transform:translate(-50%,0)}
 #loading{flex-direction:column;gap:13px;text-align:center;background:linear-gradient(#07111b66,#07111bf2)}.loader{width:30px;height:30px;border:3px solid #ffffff35;border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loadbar{width:min(310px,75vw);height:6px;background:#ffffff30;border-radius:8px;overflow:hidden}.loadbar i{display:block;height:100%;background:var(--gold);animation:load 1.7s ease forwards}@keyframes load{to{width:100%}}
 .row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #ffffff20;font-size:13px;font-weight:800}.opts{display:flex;gap:4px}.opts button{background:#ffffff12;border:1px solid #ffffff30;color:#fff;border-radius:8px;padding:7px 8px;font-size:10px;font-weight:900}.opts button.active{background:var(--gold);color:#172333}
 @media(orientation:portrait){#hint{white-space:normal;width:92%;text-align:center;top:16%;font-size:10px}}
 </style></head>
 <body><main id="app"><canvas id="world"></canvas>
-<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1>DIRT<br><span>ARENA.</span></h1><p class="sub">Твоя MTB. Підготовлена dirt-траса. Великі столи, ролери, віражі та чисті приземлення. Покажи контроль на кожному прольоті.</p><div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note">↑ педалі · ↓ гальмо · ← / → баланс у повітрі · BOOST<br>Рекорд: <b id="best">0</b> очок</div></div></section>
+<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1>DIRT<br><span>ARENA.</span></h1><p class="sub">Твоя MTB. Підготовлена dirt-траса. Великі столи, ролери, віражі та чисті приземлення. Покажи контроль на кожному прольоті.</p><div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note">↑ педалі · ↓ гальмо · ← / → баланс у повітрі<br>Рекорд: <b id="best">0</b> очок</div></div></section>
 <section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px">НАЛАШТУВАННЯ</h1><div class="row"><span>Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span>Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span>Підказки</span><div class="opts"><button data-set="hints" data-val="on">ON</button><button data-set="hints" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
 <section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px">ГРАФІКА</h1><div class="row"><span>Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span>Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
 <section id="loading" class="screen hidden"><div class="loader"></div><div style="font-size:clamp(25px,6vw,42px);font-weight:1000">BUILDING THE TRACK</div><div class="brand">DIRT ARENA · MTB STAGE 01</div><div class="loadbar"><i></i></div><div class="note">Готуємо трампліни, покриття та підвіску...</div></section>
-<div id="hud" class="hidden"><div class="stats"><div class="tag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar"><div class="fill" id="energy"></div></div></div><div class="top"><button class="icon" id="pause">Ⅱ</button><button class="icon" id="home">⌂</button></div><div id="hint">↑ ПЕДАЛІ　·　↓ ГАЛЬМО　·　← / → БАЛАНС　·　BOOST</div><div class="controls"><div class="cluster left"><button class="control" data-key="left">←</button><button class="control" data-key="right">→</button></div><button id="boost" data-key="boost">BOOST</button><div class="cluster right"><button class="control" data-key="brake">↓</button><button class="control" data-key="pedal">↑</button></div></div><div id="toast"></div></div>
+<div id="hud" class="hidden"><div class="stats"><div class="tag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar"><div class="fill" id="energy"></div></div></div><div class="top"><button class="icon" id="pause">Ⅱ</button><button class="icon" id="fullscreen" aria-label="Повний екран">⛶</button><button class="icon" id="home">⌂</button></div><div id="hint">↑ ПЕДАЛІ　·　↓ ГАЛЬМО　·　← / → КЕРУВАННЯ НАКЛОНОМ У ПОЛЬОТІ</div><div class="controls"><div class="cluster left"><button class="control" data-key="left">←</button><button class="control" data-key="right">→</button></div><div class="cluster right"><button class="control" data-key="brake">↓</button><button class="control" data-key="pedal">↑</button></div></div><div id="toast"></div></div>
 </main>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),c=$('world'),g=c.getContext('2d');let W=innerWidth,H=innerHeight,D=1,last=0,cam=0,mode='menu',meters=0,score=0,shake=0,air=0,particles=[],toastTimer;
-const key={left:false,right:false,pedal:false,brake:false,boost:false};let cfg={sound:'on',vibration:'off',hints:'on',quality:'high',shake:'on'};
+const key={left:false,right:false,pedal:false,brake:false};let cfg={sound:'on',vibration:'off',hints:'on',quality:'high',shake:'on'};
 try{cfg={...cfg,...JSON.parse(localStorage.getItem('freerideSettings')||'{}')}}catch(e){}
 const best=()=>{try{return +(localStorage.getItem('freerideBest')||0)}catch(e){return 0}};
 let bike={x:0,y:0,vx:160,vy:0,a:0,av:0,compressionF:0,compressionR:0,ground:false,energy:100};
 function resize(){W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,cfg.quality==='low'?1:cfg.quality==='medium'?1.5:2);c.width=W*D;c.height=H*D;c.style.width=W+'px';c.style.height=H+'px';g.setTransform(D,0,0,D,0,0)}
 function smooth(a,b,t){t=Math.max(0,Math.min(1,(t-a)/(b-a)));return t*t*(3-2*t)}
 function bump(x,start,width,height){let t=(x-start)/width;if(t<0||t>1)return 0;let rise=smooth(0,.34,t),fall=1-smooth(.66,1,t);return height*Math.min(rise,fall)}
-function terrain(x){let s=((x%3000)+3000)%3000,y=H*.70+Math.sin(x*.00055)*H*.018;
-y-=bump(s,230,260,105);y-=bump(s,650,180,46);y-=bump(s,1000,340,138);y-=bump(s,1540,230,76);y-=bump(s,1970,330,120);y-=bump(s,2470,190,55);
-y+=bump(s,480,110,17)*.45;return y}
+function terrain(x){
+ let s=((x%3600)+3600)%3600,base=H*.70+Math.sin(x*.00034)*H*.014;
+ base-=bump(s,210,270,Math.min(105,H*.16));
+ base-=bump(s,610,180,Math.min(44,H*.075));
+ base-=bump(s,980,370,Math.min(142,H*.22));
+ base-=bump(s,1510,250,Math.min(78,H*.13));
+ base-=bump(s,1960,360,Math.min(126,H*.20));
+ base-=bump(s,2520,210,Math.min(57,H*.10));
+ base+=bump(s,470,130,Math.min(20,H*.035))*.5;
+ return base;
+}
 function slope(x){return Math.atan((terrain(x+3)-terrain(x-3))/6)}
 function wheelWorld(side){let lx=side*37,co=Math.cos(bike.a),si=Math.sin(bike.a);return{x:bike.x+lx*co,y:bike.y+lx*si+24*co}}
-function reset(){cam=0;meters=score=air=shake=0;particles=[];bike={x:W*.31,y:terrain(W*.31)-65,vx:160,vy:0,a:0,av:0,compressionF:0,compressionR:0,ground:false,energy:100};Object.keys(key).forEach(k=>key[k]=false);$('stats').textContent='0 м · 0 очок'}
+function reset(){cam=0;meters=score=air=shake=0;particles=[];bike={x:W*.31,y:terrain(W*.31)-92,vx:160,vy:0,a:0,av:0,compressionF:0,compressionR:0,ground:false,energy:100};Object.keys(key).forEach(k=>key[k]=false);$('stats').textContent='0 м · 0 очок'}
 function screens(id){['menu','settings','graphics','loading'].forEach(x=>$(x).classList.toggle('hidden',x!==id));$('hud').classList.toggle('hidden',id!=='game')}
 function save(){try{localStorage.setItem('freerideSettings',JSON.stringify(cfg))}catch(e){}document.querySelectorAll('[data-set]').forEach(b=>b.classList.toggle('active',cfg[b.dataset.set]===b.dataset.val));$('hint').style.display=cfg.hints==='on'?'block':'none';resize()}
 function sound(f=260,d=.06){if(cfg.sound!=='on')return;try{let a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),v=a.createGain();o.frequency.value=f;v.gain.setValueAtTime(.025,a.currentTime);v.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(v);v.connect(a.destination);o.start();o.stop(a.currentTime+d);o.onended=()=>a.close()}catch(e){}}
@@ -56,43 +64,155 @@ function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clea
 $('play').onclick=()=>{mode='loading';screens('loading');setTimeout(()=>{reset();mode='game';screens('game');last=performance.now()},1750)};
 $('settingsOpen').onclick=()=>screens('settings');$('graphicsOpen').onclick=()=>screens('graphics');$('settingsBack').onclick=()=>screens('menu');$('graphicsBack').onclick=()=>screens('menu');
 document.querySelectorAll('[data-set]').forEach(b=>b.onclick=()=>{cfg[b.dataset.set]=b.dataset.val;save()});
+$('fullscreen').onclick=async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();}else{await document.exitFullscreen();}}catch(e){toast('ПОВНИЙ ЕКРАН НЕДОСТУПНИЙ У ЦЬОМУ БРАУЗЕРІ')}};
+document.addEventListener('fullscreenchange',()=>{$('fullscreen').textContent=document.fullscreenElement?'⛶':'⛶';});
 $('pause').onclick=()=>{if(mode==='game'){mode='paused';$('pause').textContent='▶';toast('ПАУЗА')}else if(mode==='paused'){mode='game';$('pause').textContent='Ⅱ';last=performance.now()}};
 $('home').onclick=()=>{mode='menu';screens('menu');$('best').textContent=best();$('pause').textContent='Ⅱ'};
 document.querySelectorAll('[data-key]').forEach(b=>{let k=b.dataset.key;b.addEventListener('pointerdown',e=>{e.preventDefault();key[k]=true;b.setPointerCapture?.(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(t=>b.addEventListener(t,()=>key[k]=false))});
-const map={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'pedal',KeyW:'pedal',ArrowDown:'brake',KeyS:'brake',Space:'boost'};
+const map={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'pedal',KeyW:'pedal',ArrowDown:'brake',KeyS:'brake'};
 addEventListener('keydown',e=>{if(map[e.code]){key[map[e.code]]=true;e.preventDefault()}if(e.code==='Escape'&&mode==='game')$('pause').click()});addEventListener('keyup',e=>{if(map[e.code])key[map[e.code]]=false});addEventListener('blur',()=>Object.keys(key).forEach(k=>key[k]=false));
 function dust(x,y,n=3){for(let i=0;i<n;i++)particles.push({x,y,vx:-25-Math.random()*100,vy:-10-Math.random()*65,t:.35+Math.random()*.3,r:2+Math.random()*3})}
 function crash(){mode='crash';try{if(score>best())localStorage.setItem('freerideBest',String(Math.floor(score)))}catch(e){}toast('ВТРАТА КОНТРОЛЮ · ⌂ ДЛЯ ПОВТОРУ');sound(80,.2)}
 function physics(dt){
-let accel=(key.pedal?260:0)-(key.brake?490:0)+(key.boost&&bike.energy>0?420:0);bike.vx=Math.max(55,Math.min(610,bike.vx+accel*dt));if(key.boost&&bike.energy>0)bike.energy=Math.max(0,bike.energy-29*dt);else bike.energy=Math.min(100,bike.energy+8*dt);
-cam+=bike.vx*dt;meters=cam/10;let f=wheelWorld(1),r=wheelWorld(-1),gf=terrain(cam+f.x-bike.x),gr=terrain(cam+r.x-bike.x);
-let df=f.y+12-gf,dr=r.y+12-gr;let sf=Math.max(0,df),sr=Math.max(0,dr);let forceF=sf*68+Math.max(0,bike.vy)*7,forceR=sr*68+Math.max(0,bike.vy)*7;
-let grounded=sf>0||sr>0;
-if(grounded){let lift=(forceF+forceR)*.5;bike.vy-=lift*dt;let torque=(forceR-forceF)*.0024;bike.av+=torque*dt;bike.av+=(slope(cam+W*.31)-bike.a)*dt*1.8}
-else{air+=dt;bike.vy+=760*dt;let bal=(key.right?1:0)-(key.left?1:0);bike.av+=bal*3.0*dt}
-bike.vy+=760*dt*(grounded?-0.55:1);bike.y+=bike.vy*dt;bike.av*=Math.pow(grounded?.78:.985,dt*60);bike.a+=bike.av*dt;
-let minY=Math.min(terrain(cam+W*.31-37),terrain(cam+W*.31+37))-47;
-if(bike.y>minY){let impact=bike.y-minY;if(bike.vy>170&&Math.abs(bike.a-slope(cam+W*.31))>.92){crash();return}bike.y=minY;bike.vy=Math.min(0,bike.vy)*-.12;bike.av*=.55;if(air>.22){let bonus=Math.floor(30+air*70+Math.abs(bike.av)*25);score+=bonus;toast('ЧИСТЕ ПРИЗЕМЛЕННЯ  +'+bonus);sound(500);if(cfg.vibration==='on')navigator.vibrate?.(18);air=0;shake=2.5}}
-score+=bike.vx*dt*.018;if(bike.vx<90)bike.vx=90;
-if(Math.random()<.22&&grounded)dust(W*.31-40,bike.y+30,1);
-particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=120*dt;p.t-=dt});particles=particles.filter(p=>p.t>0);shake=Math.max(0,shake-dt*7);
-$('stats').textContent=Math.floor(meters)+' м · '+Math.floor(score)+' очок';$('speed').textContent=Math.round(bike.vx*.18)+' км/год · DIRT SERIES';$('energy').style.width=bike.energy+'%';
+ const oldAir=air,screenX=W*.31;let worldX=cam+screenX;
+ const accel=(key.pedal?245:0)-(key.brake?390:0)-Math.max(0,bike.vx-470)*1.3;
+ bike.vx=Math.max(70,Math.min(560,bike.vx+accel*dt));
+ cam+=bike.vx*dt;meters=cam/10;worldX=cam+screenX;
+ const rearX=worldX-82,frontX=worldX+82;
+ const gyR=terrain(rearX),gyF=terrain(frontX);
+ const targetY=(gyR+gyF)*.5-92;
+ const trackAngle=Math.atan2(gyF-gyR,78);
+ const wasGround=bike.ground;
+ const rearGap=gyR-(bike.y+92),frontGap=gyF-(bike.y+92);
+ const contact=(rearGap<9||frontGap<9) && bike.vy>=-110 && Math.abs(bike.y-targetY)<76;
+ bike.ground=contact;
+ if(contact){
+   const err=targetY-bike.y;
+   const spring=err*34-bike.vy*8.6;
+   bike.vy+=spring*dt;
+   bike.vy=Math.max(-360,Math.min(360,bike.vy));
+   const angleErr=Math.atan2(Math.sin(trackAngle-bike.a),Math.cos(trackAngle-bike.a));
+   bike.av+=angleErr*7.0*dt;
+   bike.av*=Math.pow(.72,dt*60);
+   bike.compressionR=Math.max(0,Math.min(13,(gyR-(bike.y+92))*.14));
+   bike.compressionF=Math.max(0,Math.min(13,(gyF-(bike.y+92))*.14));
+   if(!wasGround && oldAir>.18){
+     const landing=Math.abs(bike.vy)+Math.abs(bike.av)*55;
+     if(landing>600 && Math.abs(angleErr)>1.0){crash();return}
+     const bonus=Math.floor(25+oldAir*55+Math.abs(bike.av)*18);
+     score+=bonus;toast('МʼЯКЕ ПРИЗЕМЛЕННЯ  +'+bonus);sound(430,.08);
+     if(cfg.vibration==='on')navigator.vibrate?.(16);
+     shake=Math.min(3,landing*.003);air=0;
+   }
+   if(Math.abs(err)<2)bike.y=targetY;
+   else bike.y+=bike.vy*dt;
+ }else{
+   air+=dt;
+   bike.vy+=760*dt;
+   const input=(key.right?1:0)-(key.left?1:0);
+   bike.av+=input*(2.7+Math.min(1.2,Math.abs(bike.vx)/500))*dt;
+   // In-air pitch has momentum and gentle aerodynamic damping, not an instant snap.
+   bike.av*=Math.pow(.994,dt*60);
+   bike.compressionF*=.82;bike.compressionR*=.82;
+   bike.y+=bike.vy*dt;
+ }
+ bike.a+=bike.av*dt;
+ // Keep the bike from tunnelling through steep terrain on a fast landing.
+ const lowest=Math.min(gyR,gyF)-92;
+ if(!contact && bike.y>lowest && bike.vy>0){
+   bike.y=lowest;bike.vy=Math.min(0,bike.vy)*-.18;
+   if(oldAir>.16){air=0;shake=2}
+ }
+ score+=bike.vx*dt*.018;
+ if(Math.random()<.16&&bike.ground)dust(screenX-42,bike.y+38,1);
+ particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=150*dt;p.t-=dt});
+ particles=particles.filter(p=>p.t>0);shake=Math.max(0,shake-dt*6);
+ $('stats').textContent=Math.floor(meters)+' м · '+Math.floor(score)+' очок';
+ $('speed').textContent=Math.round(bike.vx*.18)+' км/год · DIRT SERIES';
+ $('energy').style.width='100%';
 }
 function poly(a,col){g.beginPath();a.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();g.fillStyle=col;g.fill()}
-function background(){let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#36799a');sky.addColorStop(.58,'#a6c7ca');sky.addColorStop(1,'#d5c09a');g.fillStyle=sky;g.fillRect(0,0,W,H);let sun=g.createRadialGradient(W*.78,H*.16,2,W*.78,H*.16,100);sun.addColorStop(0,'#fff5d9aa');sun.addColorStop(1,'#fff5d900');g.fillStyle=sun;g.fillRect(W*.78-100,H*.16-100,200,200);
-for(let k=0;k<3;k++){let pts=[];for(let x=-5;x<=W+5;x+=9)pts.push([x,H*(.38+k*.085)+Math.sin((x+cam*.08)*.0015+k)*H*.04]);poly([...pts,[W,H],[-5,H]],['#9aada4','#718f7d','#536f60'][k])}}
+function background(){
+ let sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#5a9bd0');sky.addColorStop(.52,'#b9d8e8');sky.addColorStop(1,'#f2d8ad');g.fillStyle=sky;g.fillRect(0,0,W,H);
+ let sun=g.createRadialGradient(W*.78,H*.14,2,W*.78,H*.14,Math.max(90,W*.13));sun.addColorStop(0,'#fff9dfcc');sun.addColorStop(1,'#fff5d900');g.fillStyle=sun;g.fillRect(W*.55,0,W*.45,H*.42);
+ for(let k=0;k<3;k++){let pts=[];for(let x=-8;x<=W+8;x+=7)pts.push([x,H*(.36+k*.075)+Math.sin((x+cam*(.035+k*.025))*.003+k*2)*H*(.035+k*.012)]);poly([...pts,[W,H],[-8,H]],['#8ca9a3','#668c75','#496f5a'][k])}
+ // Trees are placed in world space with fixed seeds: no per-frame random positions or vertical jumping.
+ for(let layer=0;layer<2;layer++){
+  let par=layer===0?.16:.29,spacing=layer===0?118:176,offset=(cam*par)%spacing;
+  for(let i=-2;i<Math.ceil(W/spacing)+3;i++){
+   let wx=i*spacing-offset,seed=Math.abs((i*9301+layer*4927)%997)/997;
+   let base=H*(layer===0?.53:.60)+seed*H*.055,ht=H*(.10+seed*.10)*(layer===0?1:.78),cx=wx+seed*48;
+   g.fillStyle=layer===0?'#294f45':'#365b42';g.beginPath();g.moveTo(cx,base-ht);g.lineTo(cx-ht*.32,base-ht*.43);g.lineTo(cx-ht*.16,base-ht*.45);g.lineTo(cx-ht*.42,base-ht*.12);g.lineTo(cx+ht*.40,base-ht*.12);g.lineTo(cx+ht*.14,base-ht*.46);g.lineTo(cx+ht*.30,base-ht*.43);g.closePath();g.fill();
+   g.fillStyle='#594936';g.fillRect(cx-2,base-ht*.13,4,ht*.15);
+  }
+ }
+}
 function stands(){let gap=cfg.quality==='low'?220:150;for(let x=-((cam*.32)%gap);x<W+gap;x+=gap){let y=H*.49+Math.sin((x+cam*.32)*.003)*8;g.fillStyle='#3a4650';g.fillRect(x,y,3,48);g.fillStyle='#d9d5c5';g.fillRect(x-18,y,39,5);g.fillStyle='#d94e36';g.fillRect(x-14,y+7,28,3)}}
-function track(){let pts=[];for(let x=-8;x<=W+8;x+=3)pts.push([x,terrain(cam+x)]);let dirt=g.createLinearGradient(0,H*.58,0,H);dirt.addColorStop(0,'#9b613c');dirt.addColorStop(.4,'#68442f');dirt.addColorStop(1,'#352a25');g.fillStyle=dirt;g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.lineTo(W,H);g.lineTo(0,H);g.fill();
-g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.strokeStyle='#6e432d';g.lineWidth=19;g.stroke();g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.strokeStyle='#b77a4d';g.lineWidth=3;g.stroke();
-if(cfg.quality!=='low'){for(let i=0;i<55;i++){let x=(i*79-cam*.8)%(W+80);if(x<0)x+=W+80;x-=40;let y=terrain(cam+x)+15+(i%4)*12;g.fillStyle=i%2?'#c08a5e':'#59402f';g.beginPath();g.ellipse(x,y,2+i%3,1.2,0,0,7);g.fill()}}
-for(let x=-((cam*.5)%240);x<W+240;x+=240){let y=terrain(cam+x)-4;g.fillStyle='#e7e4d7';g.fillRect(x,y-30,3,30);g.fillStyle='#e54d37';g.beginPath();g.moveTo(x,y-30);g.lineTo(x+19,y-24);g.lineTo(x,y-18);g.fill()}}
+function track(){
+ let pts=[];for(let x=-8;x<=W+8;x+=3)pts.push([x,terrain(cam+x)]);
+ let dirt=g.createLinearGradient(0,H*.56,0,H);dirt.addColorStop(0,'#b47a4c');dirt.addColorStop(.22,'#805337');dirt.addColorStop(.68,'#51372a');dirt.addColorStop(1,'#292a27');
+ g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.lineTo(W,H);g.lineTo(0,H);g.closePath();g.fillStyle=dirt;g.fill();
+ g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.strokeStyle='#d6a16d';g.lineWidth=7;g.stroke();
+ g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]+5):g.moveTo(p[0],p[1]+5));g.strokeStyle='#70452f';g.lineWidth=3;g.stroke();
+ // Parallel tire ruts follow the exact ground contour.
+ for(let r=0;r<2;r++){g.beginPath();for(let x=-4;x<=W+4;x+=5){let y=terrain(cam+x)+13+r*9+(Math.sin((cam+x)*.018+r)*1.3);x===-4?g.moveTo(x,y):g.lineTo(x,y)}g.strokeStyle=r?'#4a3328aa':'#e0b17a88';g.lineWidth=2.2;g.stroke()}
+ if(cfg.quality!=='low'){
+  for(let i=0;i<95;i++){let wx=Math.floor((cam*.82+i*67)/67)*67+i*13;let x=((wx-cam*.82)%(W+90)+W+90)%(W+90)-45;let y=terrain(cam+x)+18+(i%5)*13;let rr=1.2+(i%4)*.7;g.fillStyle=['#d0b18a','#8f806c','#4b4035','#b68b60'][i%4];g.beginPath();g.ellipse(x,y,rr*1.5,rr,.25,0,Math.PI*2);g.fill()}
+ }
+ for(let x=-((cam*.5)%260);x<W+260;x+=260){let y=terrain(cam+x)-5;g.fillStyle='#ddd8c8';g.fillRect(x,y-34,4,34);g.fillStyle='#e54d37';g.beginPath();g.moveTo(x,y-34);g.lineTo(x+20,y-27);g.lineTo(x,y-20);g.fill()}
+}
 function line(x,y,X,Y,col,w){g.strokeStyle=col;g.lineWidth=w;g.lineCap='round';g.beginPath();g.moveTo(x,y);g.lineTo(X,Y);g.stroke()}
-function bikeDraw(){let x=W*.31,y=bike.y;g.save();g.translate(x,y);g.rotate(bike.a);let rear=-38,front=38,wy=24;
-function wheel(wx){g.fillStyle='#101820';g.beginPath();g.arc(wx,wy,19,0,7);g.fill();g.strokeStyle='#d8e3e8';g.lineWidth=2.4;g.beginPath();g.arc(wx,wy,16,0,7);g.stroke();for(let i=0;i<12;i++){let a=i*Math.PI/6;line(wx+Math.cos(a)*3,wy+Math.sin(a)*3,wx+Math.cos(a)*15,wy+Math.sin(a)*15,'#aebdc4',.8)}g.fillStyle='#eef3f5';g.beginPath();g.arc(wx,wy,3,0,7);g.fill()}
-wheel(rear);wheel(front);
-line(rear,wy,-13,-8,'#ed5141',5);line(-13,-8,0,wy,'#ed5141',5);line(0,wy,rear,wy,'#ed5141',4);line(0,wy,22,-10,'#ed5141',5);line(22,-10,front,wy,'#e5edf1',4);line(22,-10,front,wy,'#f2b747',2);line(-13,-8,-4,-27,'#e4edf1',3);line(-4,-27,2,-8,'#f3b744',3);
-line(rear,wy,-22,2,'#c6d5db',3);line(front,wy,22,-10,'#c6d5db',3);
-line(-5,-27,-16,-48,'#263f54',7);line(-16,-48,-3,-67,'#167fa5',11);line(-3,-67,16,-46,'#167fa5',9);line(16,-46,31,-36,'#263f54',5);line(-16,-48,-27,-20,'#263f54',6);line(-27,-20,-31,wy-2,'#263f54',5);line(-3,-67,8,-82,'#efc09a',8);g.fillStyle='#eac09d';g.beginPath();g.arc(8,-89,9,0,7);g.fill();g.fillStyle='#172c40';g.beginPath();g.arc(8,-92,10,Math.PI,Math.PI*2);g.fill();g.fillStyle='#f4b747';g.fillRect(8,-92,10,2);g.restore()}
+function bikeDraw(){
+ const x=W*.31,y=bike.y;g.save();g.translate(x,y);g.rotate(bike.a);g.scale(2.05,2.05);
+ const rear=-39,front=39,wy=24;
+ function line(x1,y1,x2,y2,col,w){g.strokeStyle=col;g.lineWidth=w;g.lineCap='round';g.lineJoin='round';g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke()}
+ function wheel(wx,spin){
+  g.fillStyle='#10151b';g.beginPath();g.arc(wx,wy,21,0,Math.PI*2);g.fill();
+  g.strokeStyle='#303943';g.lineWidth=3;g.beginPath();g.arc(wx,wy,18.5,0,Math.PI*2);g.stroke();
+  g.strokeStyle='#d6dce0';g.lineWidth=1.15;g.beginPath();g.arc(wx,wy,16.8,0,Math.PI*2);g.stroke();
+  for(let i=0;i<24;i++){let a=i*Math.PI/12+spin;line(wx+Math.cos(a)*2,wy+Math.sin(a)*2,wx+Math.cos(a)*16,wy+Math.sin(a)*16,i%3?'#aab6bf':'#e0e5e8',.75)}
+  g.fillStyle='#e7edf0';g.beginPath();g.arc(wx,wy,3.5,0,Math.PI*2);g.fill();
+  g.fillStyle='#59636c';g.beginPath();g.arc(wx,wy,1.4,0,Math.PI*2);g.fill();
+  // tire tread blocks
+  for(let i=0;i<28;i++){let a=i*Math.PI/14;g.save();g.translate(wx+Math.cos(a)*20,wy+Math.sin(a)*20);g.rotate(a);g.fillStyle='#30363a';g.fillRect(-1.5,-1,3,2);g.restore()}
+ }
+ const spin=cam*.035;wheel(rear,spin);wheel(front,spin);
+ // Rear cassette, chain and disc
+ g.strokeStyle='#b9c2c8';g.lineWidth=2;g.beginPath();g.arc(rear,wy,9,0,Math.PI*2);g.stroke();
+ g.strokeStyle='#c5cbd0';g.lineWidth=1;g.beginPath();g.arc(rear,wy,6,0,Math.PI*2);g.stroke();
+ line(rear,wy,-8,5,'#c2c8cd',1.6);line(-8,5,7,wy,'#c2c8cd',1.6);
+ // Frame: metallic dark graphite with orange-red accents
+ line(rear,wy,-12,-7,'#202d39',7);line(-12,-7,4,wy,'#273744',7);line(4,wy,rear,wy,'#202d39',5);
+ line(4,wy,24,-12,'#273744',7);line(24,-12,front,wy,'#273744',6);line(24,-12,front,wy,'#f0a13c',2.5);
+ line(rear,wy,-12,-7,'#ed5b35',2.2);line(-12,-7,4,wy,'#ed5b35',2);
+ // Fork with visible suspension stanchions
+ line(24,-12,front,wy,'#303c49',8);line(24,-12,front,wy,'#c9d3d9',2.5);
+ line(20,-21,27,-7,'#e4a13d',5);line(20,-21,27,-7,'#f5cf77',1.5);
+ // Handlebar and stem
+ line(24,-12,13,-34,'#aab5bd',5);line(13,-34,4,-39,'#27323b',4);line(-2,-40,15,-40,'#20252b',5);
+ line(-2,-40,-7,-38,'#e4a13d',3);line(15,-40,19,-37,'#e4a13d',3);
+ // Seat, crank, pedals
+ line(-12,-7,-20,-25,'#303b46',5);line(-28,-25,-12,-25,'#171d22',5);
+ g.fillStyle='#d0d8dc';g.beginPath();g.arc(4,wy,5,0,Math.PI*2);g.fill();line(4,wy,10,wy+7,'#20272d',3);line(10,wy+7,16,wy+7,'#20272d',3);
+ // Rider legs bent around crank
+ line(-17,-27,-8,-8,'#151a20',12);line(-8,-8,4,4,'#1a2026',11);line(4,4,13,4,'#e6a33d',5);
+ line(-17,-27,-34,-12,'#171d23',10);line(-34,-12,-29,5,'#171d23',10);line(-29,5,-21,7,'#e9a13a',5);
+ // torso leaning forward
+ line(-19,-34,-4,-62,'#171e27',19);line(-19,-34,-4,-62,'#303b45',12);
+ // jersey stripe
+ line(-12,-42,-2,-59,'#f04a35',3);line(-7,-40,3,-57,'#e6a13d',2);
+ // arms to bars, gloves
+ line(-4,-59,16,-48,'#d9a27d',7);line(16,-48,10,-39,'#d9a27d',6);line(10,-39,5,-39,'#141b22',7);
+ line(-8,-56,-22,-44,'#d9a27d',7);line(-22,-44,-10,-34,'#d9a27d',6);line(-10,-34,-5,-38,'#141b22',7);
+ // Neck and helmet
+ line(-4,-63,0,-71,'#d69a78',7);
+ g.fillStyle='#d49b7e';g.beginPath();g.arc(1,-78,9,0,Math.PI*2);g.fill();
+ g.fillStyle='#e4312e';g.beginPath();g.moveTo(-10,-81);g.quadraticCurveTo(-11,-99,5,-101);g.quadraticCurveTo(20,-101,22,-89);g.lineTo(13,-85);g.lineTo(6,-73);g.lineTo(-5,-74);g.closePath();g.fill();
+ g.fillStyle='#171e28';g.beginPath();g.moveTo(-10,-83);g.quadraticCurveTo(2,-108,24,-92);g.lineTo(33,-89);g.lineTo(16,-86);g.lineTo(8,-79);g.closePath();g.fill();
+ g.fillStyle='#ffbd4a';g.fillRect(13,-91,11,3);line(8,-75,16,-69,'#171d23',3);
+ // subtle shadow
+ g.restore();
+}
 function render(){g.setTransform(D,0,0,D,0,0);g.clearRect(0,0,W,H);g.save();if(shake&&cfg.shake==='on')g.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);background();stands();track();particles.forEach(p=>{g.globalAlpha=Math.max(0,p.t*2);g.fillStyle='#d2a077';g.beginPath();g.arc(p.x,p.y,p.r,0,7);g.fill()});g.globalAlpha=1;if(mode==='game'||mode==='paused'||mode==='crash')bikeDraw();g.restore()}
 function loop(t){let dt=Math.min(.03,(t-last)/1000||0);last=t;if(mode==='game')physics(dt);else if(mode==='menu')cam+=dt*10;render();requestAnimationFrame(loop)}
 $('best').textContent=best();save();resize();reset();last=performance.now();requestAnimationFrame(loop);addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,150));if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
