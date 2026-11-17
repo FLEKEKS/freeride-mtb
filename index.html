@@ -8,7 +8,7 @@
 <title>Freeride MTB — Dirt Arena</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
+*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
 #app{position:fixed;inset:0}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(115deg,#07111bc9,#07111b35 60%,#07111b9c)}
 .hidden{display:none!important}.panel{width:min(460px,94vw);padding:clamp(20px,4vw,34px);border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#1c3448f2,#0b1928f5);box-shadow:0 22px 80px #0009;backdrop-filter:blur(13px)}
@@ -19,29 +19,28 @@
 .top{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}.icon{width:45px;height:45px;border:1px solid var(--line);border-radius:13px;background:var(--glass);color:white;font-size:21px;font-weight:900}
 #hint{position:absolute;top:13%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:950;text-shadow:0 2px 5px #000}
 .controls{position:absolute;inset:0;pointer-events:none}.cluster{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:8px;pointer-events:auto}.left{left:max(12px,env(safe-area-inset-left))}.right{right:max(12px,env(safe-area-inset-right))}
-.control{width:clamp(56px,8vw,74px);height:clamp(56px,8vw,74px);border:1px solid #ffffff70;border-radius:18px;background:#10263bd9;color:white;font-size:25px;font-weight:950;touch-action:none}
-#boost{position:absolute;left:50%;transform:translateX(-50%);bottom:max(13px,env(safe-area-inset-bottom));width:clamp(126px,18vw,170px);height:clamp(56px,8vw,74px);border:2px solid var(--gold);border-radius:18px;background:linear-gradient(145deg,#6a4b20,#172b3d);color:white;font-size:19px;font-weight:950;pointer-events:auto}
+.control{width:clamp(58px,8vw,76px);height:clamp(58px,8vw,76px);border:1px solid #ffffff70;border-radius:18px;background:linear-gradient(145deg,#1d3c55ed,#0b1c2ddd);color:white;font-size:30px;font-weight:900;touch-action:none;display:grid;place-items:center;padding:0;outline:none;-webkit-tap-highlight-color:transparent}.control:active{background:#37627e;transform:scale(.96)}button{-webkit-user-select:none;user-select:none}
 #toast{position:absolute;top:23%;left:50%;transform:translate(-50%,-8px);padding:9px 16px;border:1px solid #ffffff55;border-radius:30px;background:#0b1b2bea;font-weight:950;opacity:0;transition:.2s;white-space:nowrap}#toast.show{opacity:1;transform:translate(-50%,0)}
 #loading{flex-direction:column;gap:13px;text-align:center;background:linear-gradient(#07111b66,#07111bf2)}.loader{width:30px;height:30px;border:3px solid #ffffff35;border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loadbar{width:min(310px,75vw);height:6px;background:#ffffff30;border-radius:8px;overflow:hidden}.loadbar i{display:block;height:100%;background:var(--gold);animation:load 1.7s ease forwards}@keyframes load{to{width:100%}}
 .row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #ffffff20;font-size:13px;font-weight:800}.opts{display:flex;gap:4px}.opts button{background:#ffffff12;border:1px solid #ffffff30;color:#fff;border-radius:8px;padding:7px 8px;font-size:10px;font-weight:900}.opts button.active{background:var(--gold);color:#172333}
 @media(orientation:portrait){#app{inset:auto;top:0;left:100%;width:100vh;height:100vw;transform-origin:0 0;transform:rotate(90deg)}}
 </style></head>
 <body><main id="app"><canvas id="world"></canvas>
-<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1>DIRT<br><span>ARENA.</span></h1><p class="sub">Твоя MTB. Підготовлена dirt-траса. Великі столи, ролери, віражі та чисті приземлення. Покажи контроль на кожному прольоті.</p><div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note">↑ педалі · ↓ гальмо · ← / → баланс у повітрі · BOOST<br>Рекорд: <b id="best">0</b> очок</div></div></section>
-<section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px">НАЛАШТУВАННЯ</h1><div class="row"><span>Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span>Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span>Підказки</span><div class="opts"><button data-set="hints" data-val="on">ON</button><button data-set="hints" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
-<section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px">ГРАФІКА</h1><div class="row"><span>Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span>Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
+<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1 id="menuTitle">DIRT<br><span>ARENA.</span></h1><p class="sub" id="menuSub">Твоя MTB. Dirt-траса з ролерами, трамплінами та з’єднаними приземленнями.</p><div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note" id="menuNote">↑ педалі · ↓ гальмо · ← / → баланс у повітрі<br>Рекорд: <b id="best">0</b> очок</div></div></section>
+<section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px" id="settingsTitle">НАЛАШТУВАННЯ</h1><div class="row"><span id="soundLabel">Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span id="vibrationLabel">Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span id="hintsLabel">Підказки</span><div class="opts"><button data-set="hints" data-val="on">ON</button><button data-set="hints" data-val="off">OFF</button></div></div><div class="row"><span id="languageLabel">Мова</span><div class="opts"><button data-set="lang" data-val="uk">UA</button><button data-set="lang" data-val="en">EN</button><button data-set="lang" data-val="ru">RU</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
+<section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px" id="graphicsTitle">ГРАФІКА</h1><div class="row"><span id="qualityLabel">Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span id="shakeLabel">Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
 <section id="loading" class="screen hidden"><div class="loader"></div><div style="font-size:clamp(25px,6vw,42px);font-weight:1000">BUILDING THE TRACK</div><div class="brand">DIRT ARENA · MTB STAGE 01</div><div class="loadbar"><i></i></div><div class="note">Готуємо трампліни, покриття та підвіску...</div></section>
 <section id="over" class="screen hidden"><div class="panel"><div class="brand">ЗАЇЗД ЗАВЕРШЕНО</div><h1 style="font-size:38px" id="ovT">ВПАВ!</h1><p class="sub" id="ovS"></p><div class="actions"><button class="btn primary" id="again">↻　НОВА ТРАСА</button><button class="btn" id="toMenu">⌂　МЕНЮ</button></div></div></section>
-<div id="hud" class="hidden"><div class="stats"><div class="tag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar"><div class="fill" id="energy"></div></div></div><div class="top"><button class="icon" id="fs">⛶</button><button class="icon" id="pause">Ⅱ</button><button class="icon" id="home">⌂</button></div><div id="hint">↑ ПЕДАЛІ · ↓ ГАЛЬМО · ← НАЗАД / → ВПЕРЕД · ПРОБІЛ = BOOST · R = НОВА ТРАСА</div><div class="controls"><div class="cluster left"><button class="control" data-key="left">←</button><button class="control" data-key="right">→</button></div><button id="boost" data-key="boost">BOOST</button><div class="cluster right"><button class="control" data-key="brake">↓</button><button class="control" data-key="pedal">↑</button></div></div><div id="toast"></div></div>
+<div id="hud" class="hidden"><div class="stats"><div class="tag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div></div><div class="top"><button class="icon" id="fs">⛶</button><button class="icon" id="pause">Ⅱ</button><button class="icon" id="home">⌂</button></div><div id="hint">↑ ПЕДАЛІ · ↓ ГАЛЬМО · ← / → БАЛАНС · R = НОВА ТРАСА</div><div class="controls"><div class="cluster left"><button class="control" data-key="left" aria-label="Balance left">◀</button><button class="control" data-key="right" aria-label="Balance right">▶</button></div><div class="cluster right"><button class="control" data-key="brake" aria-label="Brake">▼</button><button class="control" data-key="pedal" aria-label="Pedal">▲</button></div></div><div id="toast"></div></div>
 </main>
 <script>
 const THEMES=[
 {a:"#2f6fd0",b:"#8ec9ff",c:"#ffe8c2",m0:"#9bb4de",m1:"#6f8dbd",m2:"#47725f",f:"#1f3a2b",ft:"#173a28",g0:"#8a6446",g1:"#4b3626",g2:"#241912",r0:"#2f8a3e",r1:"#6fd45a",t0:"#2f7d4a",t1:"#256b3e"},
 {a:"#5b3a8c",b:"#f0845c",c:"#ffd9a0",m0:"#b86a7a",m1:"#8a4f68",m2:"#5e3b4f",f:"#3b2434",ft:"#2a1a28",g0:"#c4824a",g1:"#7d4a2b",g2:"#3a2216",r0:"#b5893a",r1:"#e2c36b",t0:"#8a6a3a",t1:"#6e5530"},
 {a:"#22507a",b:"#9cc7e6",c:"#e8f1f7",m0:"#c7d6e6",m1:"#9fb4cc",m2:"#5d7a8c",f:"#27424a",ft:"#1c3238",g0:"#7b6a5c",g1:"#4a3f38",g2:"#241f1c",r0:"#5f8f6a",r1:"#a3d9a0",t0:"#2d6a5a",t1:"#1f5648"}];
-let cfg={sound:"on",vibration:"off",hints:"on",quality:"high",shake:"on"},mode="menu",shake=0,TH=THEMES[0],trackId=0,toastT;
+let cfg={sound:"on",vibration:"off",hints:"on",quality:"high",shake:"on",lang:"uk"},mode="menu",shake=0,TH=THEMES[0],trackId=0,toastT;
 try{cfg={...cfg,...JSON.parse(localStorage.getItem("freerideSettings")||"{}")}}catch(e){}
-const keys={ArrowLeft:false,ArrowRight:false,ArrowUp:false,ArrowDown:false,Boost:false};
+const keys={ArrowLeft:false,ArrowRight:false,ArrowUp:false,ArrowDown:false};
 const T0=performance.now(),H0=(()=>{const d=new Date();return d.getHours()+d.getMinutes()/60})();
 const hourNow=()=>(H0+(performance.now()-T0)/1000*24/480)%24;
 const KF=[[0,"#050a1f","#0b1633","#1a2748","#55608f"],[5,"#1a2350","#3b3a6b","#c47a6a","#8a85a8"],[6.5,"#3d5a9c","#e69a6a","#ffd7a0","#ffd9b8"],[9,"#2f6fd0","#8ec9ff","#ffe8c2","#ffffff"],[13,"#2a68cc","#7fc0ff","#e5f3ff","#ffffff"],[17,"#3070c0","#9cc6e8","#ffe2b0","#fff3e0"],[19,"#4a4a8c","#f0845c","#ffc27a","#ffc7a0"],[20.5,"#1e2450","#5a3c6e","#c8604f","#9a8fb8"],[22,"#0a1230","#141f45","#25305a","#5a6798"],[24,"#050a1f","#0b1633","#1a2748","#55608f"]];
@@ -77,7 +76,7 @@ ramp(90,gen.s,0.015);
 const x0=gen.x,y0=gen.y;
 const kind=rnd();
 if(kind<.62){
- const rise=34+rnd()*15,up=82+rnd()*22,deck=82+rnd()*42,down=105+rnd()*28,total=up+deck+down;
+ const rise=24+rnd()*9,up=88+rnd()*18,deck=65+rnd()*25,down=100+rnd()*20,total=up+deck+down;
  const count=Math.ceil(total/9);
  for(let i=1;i<=count;i++){
   const x=total*i/count;let h;
@@ -97,9 +96,12 @@ if(kind<.62){
  gen.x=x0+len;gen.y=y0;gen.s=0;
 }
 // A long, low roller section makes the rhythm between jumps rideable.
-const len2=130+rnd()*70,amp2=5+rnd()*5,x1=gen.x,y1=gen.y,n2=Math.ceil(len2/10);
-for(let i=1;i<=n2;i++){const x=len2*i/n2;addPt(x1+x,y1-amp2*Math.pow(Math.sin(Math.PI*x/len2),2));}
-gen.x=x1+len2;gen.y=y1;gen.s=0;
+// Long rhythm section: many low, symmetrical rollers joined with smooth slopes.
+ let x1=gen.x,y1=gen.y;const count=8+(rnd()*4|0);
+ for(let j=0;j<count;j++){const len=82+rnd()*22,amp=6+rnd()*4,n=Math.ceil(len/7);
+  for(let i=1;i<=n;i++){const x=len*i/n;addPt(x1+x,y1-amp*Math.pow(Math.sin(Math.PI*x/len),2));}
+  x1+=len;gen.x=x1;gen.y=y1;gen.s=0;
+ }
 }
 function reset(){
 newSeed();segs=[];gen={x:-500,y:300,last:{x:-500,y:300},first:true,s:0};
@@ -129,8 +131,7 @@ B.dir+=(tgt-B.dir)*Math.min(1,dt*(B.airT>0?25:6));B.lean+=(tgt-B.lean)*Math.min(
 B.thr+=((!dead&&keys.ArrowUp?1:0)-B.thr)*Math.min(1,dt*6);
 B.brk+=((!dead&&keys.ArrowDown?1:0)-B.brk)*Math.min(1,dt*10);
 let ax=0,ay=G,al=0;const gr=[false,false],cs=[null,null];
-const boost=!dead&&keys.Boost&&B.en>0;
-if(boost)B.en=Math.max(0,B.en-30*dt);else B.en=Math.min(100,B.en+9*dt);
+B.en=100;
 for(let i=0;i<2;i++){
  const axl=lx[i]-LEAN*B.lean,rx=axl*c-AY*sn,ry=axl*sn+AY*c;
  const h=wheelContact(B.x+rx-sn*S,B.y+ry+c*S,R);
@@ -148,7 +149,7 @@ for(let i=0;i<2;i++){
   const px=wx-h.nx*R,py=wy-h.ny*R,fx=F*h.nx+Ft*t[0],fy=F*h.ny+Ft*t[1];
   ax+=fx;ay+=fy;al+=(px*fy-py*fx)/I;h.t=t;cs[i]=h;
  }else B.c[i]=0;
- let fd=0;if(i===0&&!dead){fd=380*B.thr*Math.max(0,1-B.u[0]/800);if(boost&&B.u[0]<780)fd+=560}
+ let fd=0;if(i===0&&!dead){fd=650*B.thr*Math.max(.16,1-B.u[0]/950);if(B.stuck>.35)fd+=260}
  B.u[i]+=(fd-Ft)/MW*dt;
  if(h&&B.u[i]>vt0+50)B.u[i]=vt0+50;
  if(!h&&B.brk<.02)B.u[i]+=((B.vx*c+B.vy*sn)-B.u[i])*Math.min(1,dt*2.5);
@@ -179,7 +180,7 @@ if(!B.dead){
  const hp=riderPose().head,hlx=hp[0]-LEAN*B.lean,hly=hp[1]+AY,hx=B.x+hlx*c-hly*sn,hy=B.y+hlx*sn+hly*c;
  if(segDist(hx,hy)<8||segDist(B.x,B.y)<14)crash("Приземлення на голову");
  else if(maxY>-1e8&&B.y>maxY+300)crash("Впав у прірву");
- if(sp<15&&B.x>60&&B.thr>.5)B.stuck+=dt;else B.stuck=0;if(B.stuck>3)crash("Застряг")}
+ if(sp<22&&B.x>60&&B.thr>.5)B.stuck=Math.min(1.5,B.stuck+dt);else B.stuck=0}
 }
 function drawWheel(x,y){ctx.save();ctx.translate(x,y);ctx.rotate(B.spin);
 ctx.lineWidth=4;ctx.strokeStyle="#111";ctx.beginPath();ctx.arc(0,0,R,0,7);ctx.stroke();
@@ -339,7 +340,7 @@ if(cfg.quality==="high"){const v=ctx.createRadialGradient(W/2,H/2,H*.4,W/2,H/2,H
 function ik(ax,ay,bx,by,l1,l2,s){const dx=bx-ax,dy=by-ay,D=Math.hypot(dx,dy)||1,d=Math.min(D,l1+l2-.5),a=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(0,l1*l1-a*a)),ux=dx/D,uy=dy/D;return[ax+ux*a-uy*h*s,ay+uy*a+ux*h*s]}
 function riderPose(){
 const l=B.lean,sq=(B.c[0]+B.c[1])*.18,cr=B.cr||0;
-const hip=[-21+(l<0?15*l:9*l),-25+sq+(l<0?-3*l:-4*l)];
+const hip=[-27+(l<0?12*l:7*l),-19+sq+(l<0?-2*l:-3*l)];
 const phi=.5+l*.55,sh=[hip[0]+26*Math.sin(phi),hip[1]-26*Math.cos(phi)];
 const head=[sh[0]+14*Math.sin(phi+.2),sh[1]-14*Math.cos(phi+.2)];
 const hand=[33,-17],pf=[Math.cos(cr)*9,18+Math.sin(cr)*9],pb=[-pf[0],36-pf[1]];
@@ -368,7 +369,7 @@ function tube(p,col,w,hi){ln(p,"#161616",w+3);ln(p,col,w);ln(p,hi,Math.max(1,w*.
 function shoe(p){ctx.fillStyle="#f2f2f2";ctx.beginPath();ctx.roundRect(p[0]-5,p[1]-2,13,6,2);ctx.fill();ctx.fillStyle="#111";ctx.fillRect(p[0]-5,p[1]+3,13,2)}
 function drawBike(){
 const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]),P=riderPose();
-ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);
+ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);ctx.scale(1.1,1.1);
 const rear=[-L,sr],front=[L,sf],bb=[0,18],seat=[-13,-13],headTop=[28,-10],headBot=[27,1];
 const frame="#43b7c9",frameHi="#a5f1f2",dark="#26343d",metal="#aebbc4",gold="#e2a94d";
 const t=(p,col,w,hi)=>{ln(p,"#11171c",w+1.8);ln(p,col,w);if(hi)ln(p,hi,Math.max(.8,w*.22));};
@@ -393,9 +394,9 @@ t([rear[0],rear[1],bb[0]-2,bb[1]+2],"#687781",3.3,"#d4dce1");
 t([rear[0],rear[1],rocker[0],rocker[1]],"#46545e",2.8,"#aebbc3");
 t([rocker[0],rocker[1],mainPivot[0],mainPivot[1]],"#3b4851",3.2,"#aeb8bf");
 // Main front triangle: strong downhill tubes and reinforced joints
-t([seat[0],seat[1],headTop[0],headTop[1]],frame,4.1,frameHi);
-t([headBot[0],headBot[1],bb[0],bb[1]],frame,4.8,frameHi);
-t([seat[0],seat[1],bb[0],bb[1]],frame,4.2,frameHi);
+t([seat[0],seat[1],headTop[0],headTop[1]],frame,3.2,frameHi);
+t([headBot[0],headBot[1],bb[0],bb[1]],frame,3.5,frameHi);
+t([seat[0],seat[1],bb[0],bb[1]],frame,3.3,frameHi);
 t([seat[0]-1,seat[1]+1,-18,-4],"#aeb8bf",3.2,"#edf1f4");
 t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,4.8,"#84919a");
 // Small frame gussets, pivot plates and drivetrain
@@ -474,9 +475,15 @@ function evt(k){
  if(k==="trick"){beep(660,.14);vib(20);shake=4}
  else if(k==="land"){beep(110,.09);vib(12);shake=Math.min(9,B.vy/110)}
  else if(k==="crash"){beep(70,.3);vib(70);shake=11;try{localStorage.setItem("freerideBest",String(Math.max(getBest(),score)))}catch(e){}}}
+const LANG={
+uk:{play:"▶　ГРАТИ",settings:"⚙　НАЛАШТУВАННЯ",graphics:"▧　ГРАФІКА",menuSub:"Твоя MTB. Dirt-траса з плавними ролерами, трамплінами та з’єднаними приземленнями.",note:"↑ педалі · ↓ гальмо · ← / → баланс у повітрі",settingsTitle:"НАЛАШТУВАННЯ",graphicsTitle:"ГРАФІКА",sound:"Звук",vibration:"Вібрація",hints:"Підказки",language:"Мова",quality:"Якість",shake:"Тремтіння камери",done:"ГОТОВО",hint:"↑ ПЕДАЛІ · ↓ ГАЛЬМО · ← / → БАЛАНС · R = НОВА ТРАСА",again:"↻　НОВА ТРАСА",home:"⌂　МЕНЮ"},
+en:{play:"▶　PLAY",settings:"⚙　SETTINGS",graphics:"▧　GRAPHICS",menuSub:"Your MTB. A dirt track with smooth rollers, jumps and connected landings.",note:"↑ pedal · ↓ brake · ← / → air balance",settingsTitle:"SETTINGS",graphicsTitle:"GRAPHICS",sound:"Sound",vibration:"Vibration",hints:"Hints",language:"Language",quality:"Quality",shake:"Camera shake",done:"DONE",hint:"↑ PEDAL · ↓ BRAKE · ← / → AIR BALANCE · R = NEW TRACK",again:"↻　NEW RUN",home:"⌂　MENU"},
+ru:{play:"▶　ИГРАТЬ",settings:"⚙　НАСТРОЙКИ",graphics:"▧　ГРАФИКА",menuSub:"Твой MTB. Dirt-трасса с плавными роллерами, трамплинами и соединёнными приземлениями.",note:"↑ педали · ↓ тормоз · ← / → баланс в воздухе",settingsTitle:"НАСТРОЙКИ",graphicsTitle:"ГРАФИКА",sound:"Звук",vibration:"Вибрация",hints:"Подсказки",language:"Язык",quality:"Качество",shake:"Тряска камеры",done:"ГОТОВО",hint:"↑ ПЕДАЛИ · ↓ ТОРМОЗ · ← / → БАЛАНС · R = НОВАЯ ТРАССА",again:"↻　НОВЫЙ ЗАЕЗД",home:"⌂　МЕНЮ"}};
+function applyLanguage(){const t=LANG[cfg.lang]||LANG.uk;$('play').textContent=t.play;$('settingsOpen').textContent=t.settings;$('graphicsOpen').textContent=t.graphics;$('menuSub').textContent=t.menuSub;$('menuNote').innerHTML=t.note+"<br>Рекорд: <b id='best'>"+getBest()+"</b>";$('settingsTitle').textContent=t.settingsTitle;$('graphicsTitle').textContent=t.graphicsTitle;$('soundLabel').textContent=t.sound;$('vibrationLabel').textContent=t.vibration;$('hintsLabel').textContent=t.hints;$('languageLabel').textContent=t.language;$('qualityLabel').textContent=t.quality;$('shakeLabel').textContent=t.shake;$('settingsBack').textContent=t.done;$('graphicsBack').textContent=t.done;$('hint').textContent=t.hint;$('again').textContent=t.again;$('toMenu').textContent=t.home;document.documentElement.lang=cfg.lang==='uk'?'uk':cfg.lang==='ru'?'ru':'en';}
+
 function screens(id){["menu","settings","graphics","loading","over"].forEach(x=>$(x).classList.toggle("hidden",x!==id));$("hud").classList.toggle("hidden",id!=="game")}
 function saveCfg(){try{localStorage.setItem("freerideSettings",JSON.stringify(cfg))}catch(e){}
- document.querySelectorAll("[data-set]").forEach(b=>b.classList.toggle("active",cfg[b.dataset.set]===b.dataset.val));
+ document.querySelectorAll("[data-set]").forEach(b=>b.classList.toggle("active",cfg[b.dataset.set]===b.dataset.val));applyLanguage();
  $("hint").style.display=cfg.hints==="on"?"block":"none";resize()}
 function startRun(){reset();mode="game";screens("game");$("pause").textContent="Ⅱ";toast("ТРАСА №"+trackId);last=performance.now()}
 function newRun(){if(mode==="menu"||mode==="loading")return;startRun()}
@@ -489,17 +496,17 @@ function ui(dt){
  shake=Math.max(0,shake-dt*22);
  if(mode==="game"||mode==="crash"){const sp=Math.hypot(B.vx,B.vy);
   $("stats").textContent=Math.max(0,Math.floor(B.x/50))+" м · "+score+" очок";
-  {const hr=hourNow(),hh_=Math.floor(hr),mm=Math.floor((hr-hh_)*60);$("speed").textContent=Math.round(sp/12)+" км/год · "+String(hh_).padStart(2,"0")+":"+String(mm).padStart(2,"0")}$("energy").style.width=B.en+"%";
+  {const hr=hourNow(),hh_=Math.floor(hr),mm=Math.floor((hr-hh_)*60);$("speed").textContent=Math.round(sp/12)+" км/год · "+String(hh_).padStart(2,"0")+":"+String(mm).padStart(2,"0")}
   $("hint").style.opacity=B.x>700?0:1}
  if(mode==="game"&&B.dead)mode="crash";
  if(mode==="crash"&&B.deadT>1.2){mode="over";$("ovT").textContent=B.msg.toUpperCase();
   $("ovS").innerHTML="Дистанція: <b>"+Math.max(0,Math.floor(B.x/50))+" м</b> · Очки: <b>"+score+"</b><br>Рекорд: <b>"+Math.max(getBest(),score)+"</b><br>Наступна траса буде іншою.";screens("over")}}
-const codes={ArrowLeft:"ArrowLeft",KeyA:"ArrowLeft",ArrowRight:"ArrowRight",KeyD:"ArrowRight",ArrowUp:"ArrowUp",KeyW:"ArrowUp",ArrowDown:"ArrowDown",KeyS:"ArrowDown",Space:"Boost"};
+const codes={ArrowLeft:"ArrowLeft",KeyA:"ArrowLeft",ArrowRight:"ArrowRight",KeyD:"ArrowRight",ArrowUp:"ArrowUp",KeyW:"ArrowUp",ArrowDown:"ArrowDown",KeyS:"ArrowDown"};
 addEventListener("keydown",e=>{if(codes[e.code]){keys[codes[e.code]]=true;e.preventDefault()}
  if(e.code==="KeyR")newRun();if(e.code==="Escape"||e.code==="KeyP")togglePause();if(e.code==="KeyF")toggleFs()});
 addEventListener("keyup",e=>{if(codes[e.code])keys[codes[e.code]]=false});
 addEventListener("blur",()=>{for(const k in keys)keys[k]=false});
-const kmap={left:"ArrowLeft",right:"ArrowRight",pedal:"ArrowUp",brake:"ArrowDown",boost:"Boost"};
+const kmap={left:"ArrowLeft",right:"ArrowRight",pedal:"ArrowUp",brake:"ArrowDown"};
 document.querySelectorAll("[data-key]").forEach(b=>{const k=kmap[b.dataset.key];
  b.addEventListener("pointerdown",e=>{e.preventDefault();keys[k]=true;if(b.setPointerCapture)b.setPointerCapture(e.pointerId)});
  ["pointerup","pointercancel","lostpointercapture"].forEach(t=>b.addEventListener(t,()=>{keys[k]=false}))});
