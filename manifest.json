@@ -1,9 +1,9 @@
 {
-  "name": "Freeride MTB",
+  "name": "FROG SWAMP — Freeride MTB",
   "short_name": "Freeride MTB",
   "start_url": "./",
   "display": "fullscreen",
   "orientation": "landscape",
-  "background_color": "#101a26",
-  "theme_color": "#101a26"
+  "background_color": "#08090b",
+  "theme_color": "#08090b"
 }
