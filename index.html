@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — FROG SWAMP V40</title>
+<title>Freeride MTB — FROG SWAMP V41</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
@@ -95,12 +95,12 @@
 @media(max-width:650px){.menu-copy{width:60%}.menu-rider{left:35%;opacity:.75}.menu-copy h1{font-size:clamp(43px,10vw,72px)}.menu-brand b{font-size:16px}.frog-logo{width:48px;height:42px}.control{width:clamp(82px,18vw,116px);height:clamp(82px,18vw,116px)}.control.brake,.control.pedal{width:clamp(82px,18vw,116px);height:clamp(82px,18vw,116px)}.cluster{gap:8px!important}.radial-pause{width:min(88vw,72vh,450px)}}
 @media(max-height:430px){.menu-brand{top:8px}.menu-copy{margin-top:28px}.menu-copy h1{font-size:42px;margin:8px 0}.menu-copy .sub{margin-bottom:8px}.menu-copy .btn{min-height:36px}.control{width:78px;height:78px}.control.brake,.control.pedal{width:78px;height:78px}}
 
-</style></head>
+ .bike-picker{width:min(100%,340px);margin-top:10px}.bike-picker>span{display:block;font-size:9px;letter-spacing:2px;color:#aaa;font-weight:950;margin-bottom:5px}.bike-picker>div{display:flex;gap:5px}.bike-picker button{flex:1;min-width:0;padding:8px 4px;border:1px solid #ffffff55;background:#111318;color:#ddd;font-size:9px;font-weight:950;letter-spacing:.7px}.bike-picker button.active{background:#f2f2f2;color:#08090b;border-color:#fff}</style></head>
 <body><main id="app"><canvas id="world"></canvas>
 <section id="menu" class="screen studio-menu"><div class="menu-wrap">
  <div class="menu-brand"><div class="frog-logo"><svg viewBox="0 0 120 80" aria-hidden="true"><path d="M14 42Q10 10 36 10Q49 10 52 28Q60 22 68 28Q71 10 84 10Q110 10 106 42L98 62Q60 78 22 62Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="37" cy="29" r="5" fill="currentColor"/><circle cx="83" cy="29" r="5" fill="currentColor"/><path d="M31 49Q60 66 89 49" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div><div><b>FROG SWAMP</b><small>ENTERTAINMENT</small></div></div>
  <div class="menu-copy"><div class="menu-kicker">MOUNTAIN BIKE EXPERIENCE</div><h1 id="menuTitle">FREERIDE<br><span>MTB</span></h1><p class="sub" id="menuSub">Підкорюй трасу. Контролюй кожен стрибок.</p>
- <div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button><button class="btn" id="fullscreenMenu">⛶　ПОВНИЙ ЕКРАН</button></div><div class="note" id="menuNote">Рекорд: <b id="best">0</b> очок</div></div>
+ <div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button><button class="btn" id="fullscreenMenu">⛶　ПОВНИЙ ЕКРАН</button></div><div class="bike-picker"><span>ВЕЛОСИПЕД</span><div><button type="button" data-bike="0">ENDURO</button><button type="button" data-bike="1">DIRT</button><button type="button" data-bike="2" class="active">FREERIDE</button></div></div><div class="note" id="menuNote">Рекорд: <b id="best">0</b> очок</div></div>
  <div class="menu-rider" aria-hidden="true"><div class="menu-moon"></div><div class="menu-ridge"></div><svg class="menu-bike-silhouette" viewBox="0 0 560 420" aria-hidden="true"><g fill="none" stroke="#050608" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"><circle cx="145" cy="310" r="78"/><circle cx="420" cy="310" r="78"/><path d="M145 310L230 185L310 310L145 310L270 310L420 310L310 185L230 185"/><path d="M310 185L370 165L420 310"/><path d="M225 182L185 145L150 150"/><path d="M305 180L350 120L395 110"/><path d="M265 160L300 95L355 80"/></g><g fill="#050608" stroke="#050608" stroke-linecap="round" stroke-linejoin="round"><circle cx="348" cy="58" r="29"/><path d="M325 83Q286 105 282 150L310 190L360 168L384 115L370 88Z"/><path d="M310 112L260 166L228 185L210 171L246 139L280 96Z"/><path d="M355 112L402 150L420 192L402 201L370 170L335 146Z"/><path d="M313 178L270 232L235 292L211 286L231 215L274 166Z"/><path d="M345 174L372 230L410 278L391 296L345 258L310 205Z"/><path d="M325 40Q344 15 373 34L378 53L350 49L330 59Z"/></g></svg></div></div></section>
 <section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px" id="settingsTitle">НАЛАШТУВАННЯ</h1><div class="row"><span id="soundLabel">Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span id="vibrationLabel">Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span>Повний екран</span><div class="opts"><button type="button" id="fullscreenSetting">⛶ УВІМКНУТИ</button></div></div><div class="row"><span id="languageLabel">Мова</span><div class="opts"><button data-set="lang" data-val="uk">UA</button><button data-set="lang" data-val="en">EN</button><button data-set="lang" data-val="ru">RU</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
 <section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px" id="graphicsTitle">ГРАФІКА</h1><div class="row"><span id="qualityLabel">Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span id="shakeLabel">Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
@@ -170,23 +170,22 @@ const gentleRollers=()=>{
   flat(100+rnd()*140);
  }
 };
+const smooth5=t=>{t=Math.max(0,Math.min(1,t));return t*t*t*(t*(t*6-15)+10)};
 const bigTabletop=()=>{
- // Proper MTB tabletop: defined take-off lip, short flat deck and a long landing.
- const h=105+rnd()*24,up=225+rnd()*45,crest=105+rnd()*55,down=500+rnd()*110;
- const launch=t=>1-Math.pow(1-t,2.15),land=t=>t*t*(3-2*t);
- addProfile(up,t=>-h*launch(t));
+ // Broad tabletop: gradual approach, rounded lip, level deck, long landing.
+ const h=88+rnd()*14,up=350+rnd()*70,crest=115+rnd()*45,down=560+rnd()*100;
+ addProfile(up,t=>-h*smooth5(t));
  flat(crest);
- addProfile(down,t=>h*land(t));
- flat(280+rnd()*160);
+ addProfile(down,t=>h*smooth5(t));
+ flat(320+rnd()*180);
 };
 const kicker=()=>{
- // Shorter and steeper kicker with a clear lip; landing stays smooth and rideable.
- const h=88+rnd()*22,up=155+rnd()*35,crest=45+rnd()*35,down=410+rnd()*100;
- const launch=t=>1-Math.pow(1-t,2.05),land=t=>t*t*(3-2*t);
- addProfile(up,t=>-h*launch(t));
+ // Lower, longer dirt kicker with a soft transition instead of a wall.
+ const h=62+rnd()*12,up=285+rnd()*55,crest=65+rnd()*35,down=470+rnd()*90;
+ addProfile(up,t=>-h*smooth5(t));
  flat(crest);
- addProfile(down,t=>h*land(t));
- flat(240+rnd()*150);
+ addProfile(down,t=>h*smooth5(t));
+ flat(280+rnd()*160);
 };
 const flowingHills=()=>{
  const h=12+rnd()*10;
@@ -245,7 +244,7 @@ function norm(d){return((d+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI}
 function groundDist(){const x=B.x+B.vx*.15;for(const g of near)if(x>=g.x1&&x<=g.x2)return g.y1+(x-g.x1)/(g.x2-g.x1)*(g.y2-g.y1)-B.y;return 999}
 function groundAng(x){for(const g of near)if(x>=g.x1&&x<=g.x2)return Math.atan2(g.y2-g.y1,g.x2-g.x1);return null}
 function step(dt){
-const c=Math.cos(B.a),sn=Math.sin(B.a),lx=[-L,L],dead=B.dead;
+const c=Math.cos(B.a),sn=Math.sin(B.a),lx=[-L,L],ly=[0,21],dead=B.dead;
 const hopPressed=keys.hop&&!B.hopLatch;B.hopLatch=keys.hop;B.hopCooldown=Math.max(0,(B.hopCooldown||0)-dt);
 const tgt=dead?0:((keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0));
 B.dir+=(tgt-B.dir)*Math.min(1,dt*(B.airT>0?25:6));B.lean+=(tgt-B.lean)*Math.min(1,dt*3.2);
@@ -254,7 +253,7 @@ B.brk+=((!dead&&keys.ArrowDown?1:0)-B.brk)*Math.min(1,dt*10);
 let ax=0,ay=G,al=0;const gr=[false,false],cs=[null,null];
 if(!keys.ArrowUp||dead)B.en=Math.min(100,B.en+dt*22);
 for(let i=0;i<2;i++){
- const axl=lx[i]-LEAN*B.lean,rx=axl*c-AY*sn,ry=axl*sn+AY*c;
+ const axl=lx[i]-LEAN*B.lean,rx=axl*c-AY*sn,ry=axl*sn+AY*c+ly[i];
  const h=wheelContact(B.x+rx-sn*S,B.y+ry+c*S,R);
  let Ft=0,vt0=0;
  if(h){
@@ -452,7 +451,8 @@ ctx.strokeStyle="#e9a23b";ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,6,0,7);ctx
 function drawBike(){
 const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]);
 ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);
-drawWheel(-L,sr,B.sp[0]);drawWheel(L,sr+1.85,B.sp[1]);
+const frontY=sf+21;
+ drawWheel(-L,sr,B.sp[0]);drawWheel(L,frontY,B.sp[1]);
 const ca=B.spin*.6,cx=Math.cos(ca)*9,cy=Math.sin(ca)*9;
 if(!B.rg){const leg=(px,py,col)=>{const hx=-12,hy=-12,mx=(hx+px)/2+9,my=(hy+py)/2-2;ln2([hx,hy,mx,my,px,py],col,5)};leg(-cx,16-cy,"#1b2a49")}
 ln2([-10,-2,-24,sr-6],"#f4a261",4);
@@ -512,13 +512,21 @@ if(cfg.quality==="high"){const v=ctx.createRadialGradient(W/2,H/2,H*.4,W/2,H/2,H
 }
 function ik(ax,ay,bx,by,l1,l2,s){const dx=bx-ax,dy=by-ay,D=Math.hypot(dx,dy)||1,d=Math.min(D,l1+l2-.5),a=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(0,l1*l1-a*a)),ux=dx/D,uy=dy/D;return[ax+ux*a-uy*h*s,ay+uy*a+ux*h*s]}
 function riderPose(){
-const l=B.lean,sq=(B.c[0]+B.c[1])*.18,cr=B.cr||0,isFree=selectedBike===2;
-const hip=isFree?[-25+(l<0?8*l:5*l),-15+sq+(l<0?-1.5*l:-2*l)]:[-27+(l<0?12*l:7*l),-19+sq+(l<0?-2*l:-3*l)];
-const phi=(isFree?.90:.5)+l*(isFree?.24:.55),sh=[hip[0]+(isFree?23:26)*Math.sin(phi),hip[1]-(isFree?23:26)*Math.cos(phi)];
-const head=[sh[0]+(isFree?12:14)*Math.sin(phi+.2),sh[1]-(isFree?12:14)*Math.cos(phi+.2)];
-const hand=isFree?[31,-10]:[33,-17],pf=[Math.cos(cr)*9,18+Math.sin(cr)*9],pb=[-pf[0],36-pf[1]];
-const arm=isFree?22:17;
-return{hip,sh,head,hand,pf,pb,phi,knee:ik(hip[0],hip[1],pf[0],pf[1],26,26,-1),knee2:ik(hip[0],hip[1],pb[0],pb[1],26,26,-1),elbow:ik(sh[0],sh[1],hand[0],hand[1],arm,arm,1)}}
+ const l=B.lean,sq=(B.c[0]+B.c[1])*.18,cr=B.cr||0;
+ const speed=Math.min(1,Math.hypot(B.vx,B.vy)/190);
+ const wheelie=Math.max(0,Math.min(1,B.thr*Math.max(0,-l)*speed*1.35));
+ const isFree=selectedBike===2,isDirt=selectedBike===1;
+ const hip=isDirt?[-29-8*wheelie+(l<0?5*l:4*l),-20+sq-4*wheelie]:
+   isFree?[-31-10*wheelie+(l<0?6*l:4*l),-21+sq-5*wheelie]:
+   [-32-9*wheelie+(l<0?7*l:4*l),-22+sq-5*wheelie];
+ const phi=(isDirt?.48:isFree?.62:.58)+l*(isFree?.25:.42)-wheelie*.12;
+ const sh=[hip[0]+(isFree?23:25)*Math.sin(phi)-wheelie*5,hip[1]-(isFree?24:25)*Math.cos(phi)-wheelie*2];
+ const head=[sh[0]+13*Math.sin(phi+.2),sh[1]-13*Math.cos(phi+.2)];
+ // Grip coordinates match the handlebar in the supplied frame artwork.
+ const hand=isDirt?[42,-46]:[43,-49],pf=[Math.cos(cr)*9,18+Math.sin(cr)*9],pb=[-pf[0],36-pf[1]];
+ const arm=wheelie>0.12?24:22;
+ return{hip,sh,head,hand,pf,pb,phi,knee:ik(hip[0],hip[1],pf[0],pf[1],26,26,-1),knee2:ik(hip[0],hip[1],pb[0],pb[1],26,26,-1),elbow:ik(sh[0],sh[1],hand[0],hand[1],arm,arm,1)};
+}
 function startRag(){const c=Math.cos(B.a),sn=Math.sin(B.a),p=riderPose();
 const P=[p.head,p.sh,p.hip,p.hand,p.knee,p.pf].map(([bx,by])=>{const x=bx-LEAN*B.lean,y=by+AY,rx=x*c-y*sn,ry=x*sn+y*c,vx=B.vx-B.w*ry,vy=B.vy+B.w*rx;return{x:B.x+rx,y:B.y+ry,px:B.x+rx-vx/60,py:B.y+ry-vy/60}});
 B.rg={p:P,k:[[0,1],[1,2],[1,3],[2,4],[4,5]].map(([a,b])=>[a,b,Math.hypot(P[a].x-P[b].x,P[a].y-P[b].y)])}}
@@ -544,16 +552,32 @@ function shoe(p){ctx.fillStyle="#f2f2f2";ctx.beginPath();ctx.roundRect(p[0]-5,p[
 function drawBike(){
  const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]),P=riderPose();
  ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);
- drawWheel(-L,sr,B.sp[0]);drawWheel(L,sr+1.85,B.sp[1]);
+ const frontY=sf+21;
+ drawWheel(-L,sr,B.sp[0]);drawWheel(L,frontY,B.sp[1]);
  // The user's transparent turquoise freeride frame is the actual rendered bike body.
- if(frameSprite.complete&&frameSprite.naturalWidth>0){
+ if(selectedBike===2&&frameSprite.complete&&frameSprite.naturalWidth>0){
    const rearAxleX=195,rearAxleY=735,frontAxleX=1280;
    const scale=(2*L)/(frontAxleX-rearAxleX);
    ctx.drawImage(frameSprite,-L-rearAxleX*scale,sr-rearAxleY*scale,frameSprite.naturalWidth*scale,frameSprite.naturalHeight*scale);
+   // The fork follows the front suspension independently, keeping the hub connected.
+   ln2([34,-49,L,frontY],"#111820",8);
+   ln2([34,-49,L,frontY],"#b58a43",4.5);
  }else{
-   // Lightweight fallback while the PNG loads.
-   ln2([-L,sr,-8,8,32,-29,L,sf],"#22b9aa",6);
-   ln2([-8,8,0,18,29,-7,L,sf],"#22b9aa",6);
+   // Distinct lightweight frames for Enduro and Dirt models.
+   const frameCol=selectedBike===1?"#e0a34a":"#8bc6a1";
+   if(selectedBike===1){
+     // Compact dirt-jump hardtail with a short rear triangle.
+     ln2([-L,sr,-12,8,31,-25,L,frontY],"#142027",9);ln2([-L,sr,-12,8,31,-25,L,frontY],frameCol,5);
+     ln2([-12,8,4,17,31,-25],"#142027",8);ln2([-12,8,4,17,31,-25],frameCol,4);
+     ln2([31,-25,39,-48,L,frontY],"#252a30",7);ln2([39,-48,L,frontY],"#c99b48",4);
+     ln2([-20,-15,5,-15],"#171b20",4);
+   }else{
+     // Longer-travel Enduro silhouette.
+     ln2([-L,sr,-15,12,28,-31,L,frontY],"#142027",10);ln2([-L,sr,-15,12,28,-31,L,frontY],frameCol,6);
+     ln2([-15,12,5,20,28,-31],"#142027",9);ln2([-15,12,5,20,28,-31],frameCol,5);
+     ln2([28,-31,39,-49,L,frontY],"#252a30",8);ln2([39,-49,L,frontY],"#c99b48",5);
+     ln2([-23,-17,4,-17],"#171b20",5);
+   }
  }
  // Rider stays animated and independent from the static bike-frame artwork.
  if(!B.rg){
@@ -680,6 +704,11 @@ document.querySelectorAll("[data-key]").forEach(b=>{const k=kmap[b.dataset.key];
  ["pointerup","pointercancel","lostpointercapture"].forEach(t=>b.addEventListener(t,e=>{if(activePointer===null||e.pointerId===activePointer)release()}));
  b.addEventListener("pointerleave",e=>{if(activePointer===e.pointerId&&e.buttons===0)release()});
 });
+document.querySelectorAll("[data-bike]").forEach(b=>b.addEventListener("click",e=>{
+ e.preventDefault();selectedBike=Number(b.dataset.bike);
+ document.querySelectorAll("[data-bike]").forEach(x=>x.classList.toggle("active",x===b));
+ toast(["ENDURO","DIRT JUMP","FREERIDE"][selectedBike]+" SELECTED");
+}));
 document.querySelectorAll("[data-set]").forEach(b=>b.addEventListener("click",e=>{
  e.preventDefault();
  const key=b.dataset.set,val=b.dataset.val;
@@ -749,7 +778,7 @@ document.addEventListener("click",function(ev){
 $("best").textContent=getBest();saveCfg();reset();mode="splash";screens("splash");setTimeout(()=>{if(mode==="splash"){mode="menu";screens("menu")}},2400);last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
-  const reg=await navigator.serviceWorker.register("./sw.js?v=40",{updateViaCache:"none"});
+  const reg=await navigator.serviceWorker.register("./sw.js?v=41",{updateViaCache:"none"});
   await reg.update();
   if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
  }catch(e){console.warn("Service worker update failed",e)}});
