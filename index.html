@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — Dirt Arena V18</title>
+<title>Freeride MTB — Dirt Arena V19</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
@@ -80,77 +80,75 @@ segs.push({x1:a.x,y1:a.y,x2:x,y2:y,nx:dy/l,ny:-dx/l,l2:l*l,start:gen.first});gen
 function ramp(len,s0,s1){const n=Math.ceil(len/12),st=len/n;
 for(let i=0;i<n;i++){const s=s0+(s1-s0)*(i+.5)/n;gen.x+=st;gen.y+=st*s;addPt(gen.x,gen.y)}gen.s=s1}
 function genMore(){
-// V18: procedural track builder. Кожен seed створює іншу послідовність секцій,
-// довжини, висоти та форми трамплінів; сусідні профілі з'єднуються без зламів.
+// V19: нескінченна MTB-траса з довгими плавними секціями.
+// Поверхня завжди з'єднана: жодних випадкових прірв або незакритих розривів.
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
 let x0=gen.x,y0=gen.y;
 const addProfile=(len,fn)=>{
- const n=Math.ceil(len/7);
+ const n=Math.max(2,Math.ceil(len/6));
  for(let i=1;i<=n;i++){const x=len*i/n;addPt(x0+x,y0+fn(x/len));}
  const endY=y0+fn(1);x0+=len;y0=endY;gen.x=x0;gen.y=y0;gen.s=0;
 };
-const flat=(len)=>addProfile(len,t=>0);
-const rollers=()=>{
+const flat=len=>addProfile(len,t=>0);
+const gentleRollers=()=>{
  const count=2+Math.floor(rnd()*3);
  for(let j=0;j<count;j++){
-  const h=8+rnd()*13,w=230+rnd()*190;
+  const h=7+rnd()*8,w=300+rnd()*220;
   addProfile(w,t=>-h*Math.pow(Math.sin(Math.PI*t),2));
-  flat(75+rnd()*115);
+  flat(100+rnd()*140);
  }
 };
-const tabletop=()=>{
- const h=30+rnd()*27,up=300+rnd()*220,top=65+rnd()*125,down=380+rnd()*260;
- addProfile(up,t=>-h*smooth(t));flat(top);addProfile(down,t=>h*smooth(t));
- flat(100+rnd()*180);
+const bigTabletop=()=>{
+ const h=58+rnd()*30,up=520+rnd()*170,crest=100+rnd()*110,down=650+rnd()*230;
+ addProfile(up,t=>-h*smooth(t));
+ flat(crest);
+ addProfile(down,t=>h*smooth(t));
+ flat(220+rnd()*240);
 };
 const kicker=()=>{
- // Широкий трамплін з виразнішим, але не різким носком і довгою зоною приземлення.
- const h=25+rnd()*22,up=260+rnd()*180,down=420+rnd()*240;
- addProfile(up,t=>-h*(.78*smooth(t)+.22*t*t));
- addProfile(70+rnd()*65,t=>-h*.0);
+ const h=34+rnd()*22,up=350+rnd()*150,down=520+rnd()*190;
+ addProfile(up,t=>-h*smooth(t));
+ flat(55+rnd()*85);
  addProfile(down,t=>h*smooth(t));
- flat(130+rnd()*190);
+ flat(180+rnd()*220);
 };
-const stepJump=()=>{
- const h=22+rnd()*25;
- addProfile(260+rnd()*180,t=>-h*smooth(t));
- flat(45+rnd()*90);
- addProfile(300+rnd()*220,t=>h*smooth(t));
- flat(90+rnd()*150);
+const flowingHills=()=>{
+ const h=12+rnd()*10;
+ addProfile(420+rnd()*160,t=>-h*smooth(t));
+ addProfile(480+rnd()*180,t=>h*smooth(t));
+ flat(160+rnd()*180);
 };
-const whoops=()=>{
- const h=9+rnd()*7;
- addProfile(420+rnd()*220,t=>-h*smooth(t));
- addProfile(420+rnd()*220,t=>h*smooth(t));
+const rhythmSection=()=>{
+ const count=3+Math.floor(rnd()*3);
+ for(let j=0;j<count;j++){
+  const h=8+rnd()*7,w=260+rnd()*150;
+  addProfile(w,t=>-h*Math.pow(Math.sin(Math.PI*t),2));
+  flat(80+rnd()*100);
+ }
 };
-const flowingS=()=>{
- const h=12+rnd()*15;
- addProfile(300+rnd()*180,t=>-h*smooth(t));
- addProfile(300+rnd()*180,t=>h*smooth(t));
- addProfile(300+rnd()*180,t=>-h*.55*smooth(t));
- addProfile(300+rnd()*180,t=>h*.55*smooth(t));
-};
-// Спокійний в'їзд у новий процедурний відрізок.
-addProfile(360+rnd()*300,t=>18*smooth(t));
-flat(100+rnd()*160);
-// Кожна секція складається з перемішаних фігур, а не повторює один фіксований шаблон.
-const modules=[rollers,tabletop,kicker,stepJump,whoops,flowingS];
-const count=5+Math.floor(rnd()*3);
-for(let i=0;i<count;i++){
- const pick=Math.floor(rnd()*modules.length);
- modules[pick]();
- // Іноді додаємо короткий спокійний перехід, іноді одразу наступний елемент.
- if(rnd()<.72)flat(90+rnd()*220);
+flat(260+rnd()*240);
+if(rnd()<.72)gentleRollers();else flowingHills();
+flat(180+rnd()*220);
+const firstJump=rnd()<.62?bigTabletop:kicker;
+firstJump();
+if(rnd()<.55){rhythmSection();flat(180+rnd()*180);}
+else{gentleRollers();flat(220+rnd()*220);}
+if(rnd()<.68){
+ const second=rnd()<.58?bigTabletop:kicker;
+ second();
+}else{
+ flowingHills();
 }
-// Завершальна плавна зона дає місце для приземлення та наступної секції.
-flat(220+rnd()*260);
-const finishSign=rnd()<.5?-1:1,finishHeight=8+rnd()*12;
-addProfile(300+rnd()*260,t=>finishSign*finishHeight*smooth(t));
-flat(120+rnd()*180);
+flat(260+rnd()*300);
+if(rnd()<.7)gentleRollers();else rhythmSection();
+flat(360+rnd()*420);
+const drift=(rnd()-.5)*18;
+addProfile(520+rnd()*260,t=>drift*smooth(t));
+flat(180+rnd()*260);
 }
 function reset(){
 newSeed();segs=[];gen={x:-500,y:300,last:{x:-500,y:300},first:true,s:0};
-ramp(800,0,0);ramp(200,0,.15);
+ramp(800,0,0);ramp(200,0,0);
 B={x:0,y:228,vx:0,vy:0,a:0,w:0,c:[0,0],airT:0,rot:0,dir:0,thr:0,brk:0,rg:null,spin:0,spinW:0,dead:false,deadT:0,msg:"",en:100,stuck:0,u:[0,0],sp:[0,0],lean:0,cr:0,man:false};
 score=0;texts=[];parts.length=0;cam={x:0,y:228};
 while(gen.x<2600)genMore();
@@ -209,7 +207,22 @@ if(!dead){
   let k=0;if(!B.man)k=1;else if(!tgt&&groundDist()<110)k=.6;
   if(k>0){const ga=groundAng(B.x+B.vx*.3),ta=ga===null?Math.max(-.5,Math.min(.5,Math.atan2(B.vy,B.vx))):Math.max(-.9,Math.min(.9,ga));al+=k*(norm(ta-B.a)*14-B.w*8)}
   if(B.man&&!tgt)al-=B.w*.6}
- else{const rel=norm(B.a-Math.atan2(any.t[1],any.t[0]));al-=(rel-B.dir*.3)*75+B.w*12;if(Math.abs(rel)>.75)al-=Math.sign(rel)*(Math.abs(rel)-.75)*120}
+ else{
+  const rel=norm(B.a-Math.atan2(any.t[1],any.t[0]));
+  // Ground tricks: pedal + lean back lifts the front wheel (wheelie).
+  // Brake + lean forward loads the front wheel (stoppie).
+  const backLean=Math.max(0,-B.lean),frontLean=Math.max(0,B.lean);
+  const speedForTricks=Math.min(1,Math.hypot(B.vx,B.vy)/190);
+  const wheelie=B.thr*backLean*speedForTricks;
+  const stoppie=B.brk*frontLean*speedForTricks;
+  al+=-wheelie*105+stoppie*145;
+  // Natural self-correction remains active, but releases of pedal/brake
+  // remove the supporting torque so the bike gradually settles or tips.
+  al-=(rel-B.dir*.3)*75+B.w*12;
+  if(Math.abs(rel)>.75)al-=Math.sign(rel)*(Math.abs(rel)-.75)*120;
+  // Excessive pitch while still on the ground becomes a fall, not an endless balance.
+  if(Math.abs(rel)>1.12&&Math.hypot(B.vx,B.vy)>65)crash("Втрата рівноваги");
+ }
 }
 const sp=Math.hypot(B.vx,B.vy);ax-=B.vx*sp*.00055;ay-=B.vy*sp*.00055;
 B.vx+=ax*dt;B.vy+=ay*dt;B.w=Math.max(-12,Math.min(12,B.w+al*dt));
@@ -520,11 +533,11 @@ function evt(k){
  else if(k==="land"){beep(110,.09);vib(12);shake=Math.min(9,B.vy/110)}
  else if(k==="crash"){beep(70,.3);vib(70);shake=11;try{localStorage.setItem("freerideBest",String(Math.max(getBest(),score)))}catch(e){}}}
 const LANG={
-uk:{play:"▶　ГРАТИ",settings:"⚙　НАЛАШТУВАННЯ",graphics:"▧　ГРАФІКА",menuSub:"Твоя MTB. Dirt-траса з плавними ролерами, трамплінами та з’єднаними приземленнями.",note:"",settingsTitle:"НАЛАШТУВАННЯ",graphicsTitle:"ГРАФІКА",sound:"Звук",vibration:"Вібрація",language:"Мова",quality:"Якість",shake:"Тремтіння камери",done:"ГОТОВО",again:"↻　НОВА ТРАСА",home:"⌂　МЕНЮ"},
-en:{play:"▶　PLAY",settings:"⚙　SETTINGS",graphics:"▧　GRAPHICS",menuSub:"Your MTB. A dirt track with smooth rollers, jumps and connected landings.",note:"",settingsTitle:"SETTINGS",graphicsTitle:"GRAPHICS",sound:"Sound",vibration:"Vibration",language:"Language",quality:"Quality",shake:"Camera shake",done:"DONE",again:"↻　NEW RUN",home:"⌂　MENU"},
-ru:{play:"▶　ИГРАТЬ",settings:"⚙　НАСТРОЙКИ",graphics:"▧　ГРАФИКА",menuSub:"Твой MTB. Dirt-трасса с плавными роллерами, трамплинами и соединёнными приземлениями.",note:"",settingsTitle:"НАСТРОЙКИ",graphicsTitle:"ГРАФИКА",sound:"Звук",vibration:"Вибрация",language:"Язык",quality:"Качество",shake:"Тряска камеры",done:"ГОТОВО",again:"↻　НОВЫЙ ЗАЕЗД",home:"⌂　МЕНЮ"}};
+uk:{play:"▶　ГРАТИ",settings:"⚙　НАЛАШТУВАННЯ",graphics:"▧　ГРАФІКА",menuSub:"Твоя MTB. Нескінченна dirt-траса, великі трампліни, віллі та стоппі.",note:"",settingsTitle:"НАЛАШТУВАННЯ",graphicsTitle:"ГРАФІКА",sound:"Звук",vibration:"Вібрація",language:"Мова",quality:"Якість",shake:"Тремтіння камери",done:"ГОТОВО",again:"↻　НОВА ТРАСА",home:"⌂　МЕНЮ"},
+en:{play:"▶　PLAY",settings:"⚙　SETTINGS",graphics:"▧　GRAPHICS",menuSub:"Your MTB. An endless dirt trail with big jumps, wheelies and stoppies.",note:"",settingsTitle:"SETTINGS",graphicsTitle:"GRAPHICS",sound:"Sound",vibration:"Vibration",language:"Language",quality:"Quality",shake:"Camera shake",done:"DONE",again:"↻　NEW RUN",home:"⌂　MENU"},
+ru:{play:"▶　ИГРАТЬ",settings:"⚙　НАСТРОЙКИ",graphics:"▧　ГРАФИКА",menuSub:"Твой MTB. Бесконечная dirt-трасса, большие трамплины, вилли и стоппи.",note:"",settingsTitle:"НАСТРОЙКИ",graphicsTitle:"ГРАФИКА",sound:"Звук",vibration:"Вибрация",language:"Язык",quality:"Качество",shake:"Тряска камеры",done:"ГОТОВО",again:"↻　НОВЫЙ ЗАЕЗД",home:"⌂　МЕНЮ"}};
 const GAME_TEXT={uk:{points:"Очки",record:"Рекорд",distance:"Дистанція",unit:"м",kmh:"км/год",fallen:"ВПАВ!",stamina:"ВИТРИВАЛІСТЬ",track:"ТРАСА",over:"ЗАЇЗД ЗАВЕРШЕНО",pause:"ПАУЗА",loading:"БУДУЄМО ТРАСУ",loadingNote:"Готуємо трасу...",backflip:"БЕКФЛІП",frontflip:"ФРОНТФЛІП"},en:{points:"Score",record:"Best",distance:"Distance",unit:"m",kmh:"km/h",fallen:"CRASHED!",stamina:"STAMINA",track:"TRACK",over:"RUN FINISHED",pause:"PAUSED",loading:"BUILDING THE TRACK",loadingNote:"Preparing the trail...",backflip:"BACKFLIP",frontflip:"FRONTFLIP"},ru:{points:"Очки",record:"Рекорд",distance:"Дистанция",unit:"м",kmh:"км/ч",fallen:"ПАДЕНИЕ!",stamina:"ВЫНОСЛИВОСТЬ",track:"ТРАССА",over:"ЗАЕЗД ЗАВЕРШЁН",pause:"ПАУЗА",loading:"СТРОИМ ТРАССУ",loadingNote:"Готовим трассу...",backflip:"БЭКФЛИП",frontflip:"ФРОНТФЛИП"}};
-const CRASH_TEXT={uk:{"Невдале приземлення":"Невдале приземлення","Приземлення на голову":"Небезпечне приземлення","Впав у прірву":"Впав у прірву"},en:{"Невдале приземлення":"Bad landing","Приземлення на голову":"Hard landing","Впав у прірву":"Fell off the trail"},ru:{"Невдале приземлення":"Неудачное приземление","Приземлення на голову":"Жёсткое приземление","Впав у прірву":"Упал с трассы"}};
+const CRASH_TEXT={uk:{"Невдале приземлення":"Невдале приземлення","Приземлення на голову":"Небезпечне приземлення","Впав у прірву":"Впав у прірву","Втрата рівноваги":"Втрата рівноваги"},en:{"Невдале приземлення":"Bad landing","Приземлення на голову":"Hard landing","Впав у прірву":"Fell off the trail","Втрата рівноваги":"Lost balance"},ru:{"Невдале приземлення":"Неудачное приземление","Приземлення на голову":"Жёсткое приземление","Впав у прірву":"Упал с трассы","Втрата рівноваги":"Потеря равновесия"}};
 function localCrash(msg){return (CRASH_TEXT[cfg.lang]||CRASH_TEXT.uk)[msg]||msg;}
 function word(k){return (GAME_TEXT[cfg.lang]||GAME_TEXT.uk)[k]||k;}
 function applyLanguage(){const t=LANG[cfg.lang]||LANG.uk;$('staminaLabel').textContent=word('stamina');$('speed').textContent='0 '+word('kmh');$('overBrand').textContent=word('over');$('loadingTitle').textContent=word('loading');$('loadingNote').textContent=word('loadingNote');$('play').textContent=t.play;$('settingsOpen').textContent=t.settings;$('graphicsOpen').textContent=t.graphics;$('menuSub').textContent=t.menuSub;$('menuNote').innerHTML=word('record')+": <b id='best'>"+getBest()+"</b>";$('settingsTitle').textContent=t.settingsTitle;$('graphicsTitle').textContent=t.graphicsTitle;$('soundLabel').textContent=t.sound;$('vibrationLabel').textContent=t.vibration;$('languageLabel').textContent=t.language;$('qualityLabel').textContent=t.quality;$('shakeLabel').textContent=t.shake;$('settingsBack').textContent=t.done;$('graphicsBack').textContent=t.done;$('again').textContent=t.again;$('toMenu').textContent=t.home;document.documentElement.lang=cfg.lang==='uk'?'uk':cfg.lang==='ru'?'ru':'en';}
@@ -572,7 +585,7 @@ $("home").onclick=$("toMenu").onclick=()=>{mode="menu";reset();screens("menu");$
 $("best").textContent=getBest();saveCfg();reset();last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
-  const reg=await navigator.serviceWorker.register("./sw.js?v=18",{updateViaCache:"none"});
+  const reg=await navigator.serviceWorker.register("./sw.js?v=19",{updateViaCache:"none"});
   await reg.update();
   if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
  }catch(e){console.warn("Service worker update failed",e)}});
