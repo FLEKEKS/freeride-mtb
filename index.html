@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — Dirt Arena V25</title>
+<title>Freeride MTB — Dirt Arena V26</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
@@ -478,62 +478,57 @@ function shoe(p){ctx.fillStyle="#f2f2f2";ctx.beginPath();ctx.roundRect(p[0]-5,p[
 function drawBike(){
 const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]),P=riderPose();
 ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);ctx.scale(1.1,1.1);
-const rear=[-L,sr],front=[L,sf],bb=[-2,19],seat=[-25,-27],headTop=[31,-25],headBot=[29,-8];
+const rear=[-L,sr],front=[L,sf],bb=[-2,19],seat=[-27,-25],headTop=[31,-26],headBot=[28,-7];
 const frame="#20b9a9",frameHi="#a4fff0",dark="#26343d",metal="#aebbc4",gold="#e2a94d";
-const t=(p,col,w,hi)=>{ln(p,"#11171c",w+1.8);ln(p,col,w);if(hi)ln(p,hi,Math.max(.8,w*.22));};
-const pivot=(x,y,r=3)=>{ctx.fillStyle="#202930";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d8e0e5";ctx.lineWidth=1;ctx.stroke();ctx.fillStyle="#e6a83e";ctx.beginPath();ctx.arc(x,y,1.05,0,Math.PI*2);ctx.fill();};
+const t=(p,col,w,hi)=>{ln(p,"#10171c",w+2.2);ln(p,col,w);if(hi)ln(p,hi,Math.max(.9,w*.2));};
+const pivot=(x,y,r=3)=>{ctx.fillStyle="#202930";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d8e0e5";ctx.lineWidth=1;ctx.stroke();ctx.fillStyle=gold;ctx.beginPath();ctx.arc(x,y,1.05,0,Math.PI*2);ctx.fill();};
+const curve=(pts,col,w,hi)=>t(pts,col,w,hi);
 const damper=(a,b)=>{
  const dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,nx=-uy,ny=ux;
- t([a[0],a[1],b[0],b[1]],"#20272d",4.5,"#687782");
- const p1=[a[0]+ux*3,a[1]+uy*3],p2=[a[0]+ux*(d*.48),a[1]+uy*(d*.48)];
- t([p1[0],p1[1],p2[0],p2[1]],"#d6dce0",2.2,"#ffffff");
- ctx.strokeStyle=gold;ctx.lineWidth=1.65;ctx.beginPath();
- for(let i=0;i<=14;i++){const f=.12+.72*i/14,off=(i%2?2.6:-2.6),x=a[0]+ux*d*f+nx*off,y=a[1]+uy*d*f+ny*off;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
- pivot(a[0],a[1],2.5);pivot(b[0],b[1],2.5);
+ t([a[0],a[1],b[0],b[1]],"#20272d",5.2,"#687782");
+ const p1=[a[0]+ux*3,a[1]+uy*3],p2=[a[0]+ux*(d*.52),a[1]+uy*(d*.52)];
+ t([p1[0],p1[1],p2[0],p2[1]],"#d6dce0",2.4,"#ffffff");
+ ctx.strokeStyle=gold;ctx.lineWidth=1.8;ctx.beginPath();
+ for(let i=0;i<=16;i++){const f=.1+.78*i/16,off=(i%2?2.7:-2.7),x=a[0]+ux*d*f+nx*off,y=a[1]+uy*d*f+ny*off;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
+ pivot(a[0],a[1],2.6);pivot(b[0],b[1],2.6);
 };
 if(!B.rg){ln2([P.hip[0],P.hip[1],P.knee2[0],P.knee2[1],P.pb[0],P.pb[1]],"#10162a",7);shoe(P.pb)}
 drawWheel(rear[0],rear[1],B.sp[0]);drawWheel(front[0],front[1],B.sp[1]);
-// Modern long-reach freeride rear triangle and low seat cluster
-const mainPivot=[-8,8],rocker=[-22,-8+(sr-S)*.30],shockTop=[4,-15],shockLow=[rocker[0]+3,rocker[1]+5];
-t([rear[0],rear[1],mainPivot[0],mainPivot[1]],"#596873",4.8,"#c1cbd2");
-t([rear[0],rear[1],bb[0]-2,bb[1]+2],"#687781",3.5,"#d4dce1");
-t([rear[0],rear[1],rocker[0],rocker[1]],"#46545e",3,"#aebbc3");
-t([rocker[0],rocker[1],mainPivot[0],mainPivot[1]],"#3b4851",3.5,"#aeb8bf");
-// Sculpted front triangle: sloping top tube, deep curved-style downtube, compact seat tube
-t([seat[0],seat[1],headTop[0],headTop[1]],frame,4.2,frameHi);
-t([headBot[0],headBot[1],bb[0],bb[1]],frame,5.2,frameHi);
-t([seat[0],seat[1],bb[0],bb[1]],frame,4.3,frameHi);
-t([seat[0]+1,seat[1]+1,-18,-7],"#aeb8bf",3.4,"#edf1f4");
-t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,5.2,"#84919a");
-// Distinct rocker linkage and exposed rear coil shock
-t([mainPivot[0],mainPivot[1],rocker[0],rocker[1]],"#2e3941",4.5,"#8997a1");
-t([shockTop[0],shockTop[1],shockLow[0],shockLow[1]],"#303940",6,"#8e9aa2");
+// New low-slung freeride frame: long reach, dropped seat cluster and curved down tube.
+const axle=[rear[0],rear[1]],pivotMain=[-8,8],rocker=[-21,-8+(sr-S)*.22],shockTop=[3,-16],shockLow=[rocker[0]+4,rocker[1]+5];
+// Rear swingarm and compact linkage.
+t([axle[0],axle[1],-1,16],"#53636e",4.2,"#c1cbd2");
+t([axle[0],axle[1],rocker[0],rocker[1]],"#43515b",3.5,"#aebbc3");
+t([rocker[0],rocker[1],pivotMain[0],pivotMain[1]],"#35434d",4.1,"#b7c1c8");
+t([axle[0]+2,axle[1]+1,pivotMain[0],pivotMain[1]],"#687781",2.8,"#d4dce1");
+// Main triangle: a long sloping top tube and a deep, sculpted curved downtube.
+curve([seat[0],seat[1],-12,-31,7,-30,headTop[0],headTop[1]],frame,5.1,frameHi);
+curve([headBot[0],headBot[1],19,1,10,12,bb[0],bb[1]],frame,6.1,frameHi);
+t([seat[0],seat[1],bb[0],bb[1]],frame,4.8,frameHi);
+t([seat[0]+1,seat[1]+1,-20,-9],"#aeb8bf",3.2,"#edf1f4");
+t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,5.8,"#84919a");
+// Shock and rocker are fully visible inside the rear triangle.
+t([pivotMain[0],pivotMain[1],rocker[0],rocker[1]],"#2e3941",4.6,"#8997a1");
 damper(shockTop,shockLow);
-// Small frame gussets, pivot plates and drivetrain
-ctx.fillStyle="#9d252b";ctx.beginPath();ctx.moveTo(19,-7);ctx.lineTo(25,-7);ctx.lineTo(20,0);ctx.closePath();ctx.fill();
-ctx.strokeStyle="#f4a09a";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(-5,12);ctx.lineTo(1,18);ctx.lineTo(5,14);ctx.stroke();
+t([shockTop[0]-3,-18,shockTop[0]+4,-13],"#27343c",3.4,"#9daab2");
+// Front dual-crown fork.
+t([headBot[0],headBot[1],front[0]-4,sf-2],"#303a43",5.6,"#77858f");
+t([headBot[0]+4,headBot[1],front[0]+2,sf+2],"#303a43",5.1,"#77858f");
+t([headBot[0]+1,headBot[1]+2,front[0]-3,sf-2],"#d6dce0",2.3,"#ffffff");
+t([headBot[0]+5,headBot[1]+2,front[0]+3,sf+2],"#d6dce0",2.1,"#ffffff");
+ln2([front[0]-5,sf,front[0]+5,sf],"#303840",3.8);
+// Brake, pivots, crank, chain and rear axle details.
+ln2([front[0]-7,sf-5,front[0]-3,sf-1],"#252d34",3);
+ln2([rear[0]+3,sr-5,rear[0]+7,sr-1],"#252d34",3);
+pivot(pivotMain[0],pivotMain[1],3.7);pivot(rocker[0],rocker[1],3.1);pivot(rear[0],rear[1],3.2);pivot(bb[0],bb[1],3.7);
 ctx.strokeStyle="#aab3bb";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(bb[0],bb[1],7,0,Math.PI*2);ctx.stroke();
-ctx.strokeStyle="#59636b";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bb[0]-7,bb[1]);ctx.lineTo(rear[0]+5,rear[1]);ctx.stroke();
-// Rear shock/linkage is drawn above the swingarm and moves with rear-wheel compression
-t([mainPivot[0],mainPivot[1],rocker[0],rocker[1]],"#2e3941",4.2,"#8997a1");
-damper(shockTop,shockLow);
-// Front dual-crown fork: dark lowers, bright stanchions and axle bridge
-t([headBot[0],headBot[1],front[0]-4,sf-2],"#303a43",5.2,"#77858f");
-t([headBot[0]+4,headBot[1],front[0]+2,sf+2],"#303a43",4.8,"#77858f");
-t([headBot[0]+1,headBot[1]+2,front[0]-3,sf-2],"#d6dce0",2.2,"#ffffff");
-t([headBot[0]+5,headBot[1]+2,front[0]+3,sf+2],"#d6dce0",2,"#ffffff");
-ln2([front[0]-5,sf,front[0]+5,sf],"#303840",3.5);
-// Brake calipers, rotor mount and rear axle hardware
-ln2([front[0]-7,sf-5,front[0]-3,sf-1],"#252d34",3);ln2([rear[0]+3,sr-5,rear[0]+7,sr-1],"#252d34",3);
-pivot(mainPivot[0],mainPivot[1],3.5);pivot(rocker[0],rocker[1],3);pivot(rear[0],rear[1],3.2);pivot(bb[0],bb[1],3.5);
-// Seat, dropper post, bars and stem
-t([-13,-12,-19,-22],"#333c43",2.8,"#b3bdc5");
-t([-27,-22,-9,-22],"#171d22",3.2,"#717b83");
+ln2([bb[0],bb[1],rear[0]+5,rear[1]],"#59636b",1.7);
+// Short dropper and low saddle, matching the low freeride silhouette.
+t([-22,-19,-25,-29],"#333c43",3,"#b3bdc5");
+t([-34,-30,-16,-30],"#171d22",3.5,"#717b83");
 t([headTop[0]-1,-11,34,-15],"#262e35",3.5,"#aeb8c0");
 ln2([35,-30,43,-30],"#151a1e",4);ln2([39,-30,40,-35,45,-35],"#242b31",3);
-// Small red race plate
 ctx.fillStyle="#f0f2f4";ctx.beginPath();ctx.roundRect(31,-34,13,10,2);ctx.fill();ctx.fillStyle=frame;ctx.font="bold 9px sans-serif";ctx.textAlign="center";ctx.fillText("7",37.5,-26);
-// Chain, crank and pedal details
 ln2([bb[0],bb[1],P.pf[0],P.pf[1]],"#555f68",2.5);ln2([bb[0],bb[1],P.pb[0],P.pb[1]],"#555f68",2.5);
 ctx.fillStyle="#171d22";ctx.fillRect(P.pf[0]-5,P.pf[1]-1,10,3);ctx.fillRect(P.pb[0]-5,P.pb[1]-1,10,3);
 if(!B.rg){
@@ -552,7 +547,6 @@ if(!B.rg){
 }
 ctx.restore();
 }
-
 function pine(x,y,h,c){ctx.fillStyle="#4a3426";ctx.fillRect(x-h*.04,y-h*.2,h*.08,h*.2);
 for(let i=0;i<4;i++){const w=h*(.36-i*.07),yy=y-h*.12-i*h*.2;ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x-w,yy);ctx.lineTo(x,yy-h*.34);ctx.lineTo(x+w,yy);ctx.fill();
 ctx.fillStyle="#00000024";ctx.beginPath();ctx.moveTo(x,yy-h*.34);ctx.lineTo(x+w,yy);ctx.lineTo(x+w*.1,yy);ctx.fill()}}
@@ -638,7 +632,7 @@ $("home").onclick=$("toMenu").onclick=()=>{mode="menu";reset();screens("menu");$
 $("best").textContent=getBest();saveCfg();reset();last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
-  const reg=await navigator.serviceWorker.register("./sw.js?v=25",{updateViaCache:"none"});
+  const reg=await navigator.serviceWorker.register("./sw.js?v=26",{updateViaCache:"none"});
   await reg.update();
   if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
  }catch(e){console.warn("Service worker update failed",e)}});
