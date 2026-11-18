@@ -289,7 +289,7 @@ ctx.lineWidth=1.5;ctx.strokeStyle="#ccc";ctx.beginPath();ctx.arc(0,0,R-3,0,7);
 for(let i=0;i<3;i++){const a=i*Math.PI/3;ctx.moveTo(Math.cos(a)*(R-3),Math.sin(a)*(R-3));ctx.lineTo(-Math.cos(a)*(R-3),-Math.sin(a)*(R-3))}
 ctx.stroke();ctx.restore()}
 function ln(pts,col,w){ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();ctx.moveTo(pts[0],pts[1]);for(let i=2;i<pts.length;i+=2)ctx.lineTo(pts[i],pts[i+1]);ctx.stroke()}
-const frameSprite=new Image();frameSprite.src="./assets/freeride_frame.png";
+const frameSprite=new Image();frameSprite.src="./freeride_frame.png";
 function drawBike(){
  const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]);
  ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);
