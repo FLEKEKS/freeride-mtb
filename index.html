@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — FROG SWAMP V41</title>
+<title>Freeride MTB — FROG SWAMP V42</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
@@ -95,17 +95,21 @@
 @media(max-width:650px){.menu-copy{width:60%}.menu-rider{left:35%;opacity:.75}.menu-copy h1{font-size:clamp(43px,10vw,72px)}.menu-brand b{font-size:16px}.frog-logo{width:48px;height:42px}.control{width:clamp(82px,18vw,116px);height:clamp(82px,18vw,116px)}.control.brake,.control.pedal{width:clamp(82px,18vw,116px);height:clamp(82px,18vw,116px)}.cluster{gap:8px!important}.radial-pause{width:min(88vw,72vh,450px)}}
 @media(max-height:430px){.menu-brand{top:8px}.menu-copy{margin-top:28px}.menu-copy h1{font-size:42px;margin:8px 0}.menu-copy .sub{margin-bottom:8px}.menu-copy .btn{min-height:36px}.control{width:78px;height:78px}.control.brake,.control.pedal{width:78px;height:78px}}
 
- .bike-picker{width:min(100%,340px);margin-top:10px}.bike-picker>span{display:block;font-size:9px;letter-spacing:2px;color:#aaa;font-weight:950;margin-bottom:5px}.bike-picker>div{display:flex;gap:5px}.bike-picker button{flex:1;min-width:0;padding:8px 4px;border:1px solid #ffffff55;background:#111318;color:#ddd;font-size:9px;font-weight:950;letter-spacing:.7px}.bike-picker button.active{background:#f2f2f2;color:#08090b;border-color:#fff}</style></head>
+ .bike-picker{width:min(100%,420px);margin-top:12px}.bike-picker>span{display:block;font-size:9px;letter-spacing:2px;color:#aaa;font-weight:950;margin-bottom:6px}.bike-picker>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.bike-picker button{min-width:0;min-height:74px;padding:6px 4px;border:1px solid #ffffff55;border-radius:4px;background:linear-gradient(145deg,#17191d,#08090b);color:#ddd;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.bike-picker button svg{width:100%;height:29px;display:block}.bike-picker button b{font-size:9px;letter-spacing:.7px}.bike-picker button small{font-size:7px;line-height:1.15;color:#aaa;white-space:normal}.bike-picker button.active{background:#f2f2f2;color:#08090b;border-color:#fff}.bike-picker button.active small{color:#333}</style></head>
 <body><main id="app"><canvas id="world"></canvas>
 <section id="menu" class="screen studio-menu"><div class="menu-wrap">
  <div class="menu-brand"><div class="frog-logo"><svg viewBox="0 0 120 80" aria-hidden="true"><path d="M14 42Q10 10 36 10Q49 10 52 28Q60 22 68 28Q71 10 84 10Q110 10 106 42L98 62Q60 78 22 62Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="37" cy="29" r="5" fill="currentColor"/><circle cx="83" cy="29" r="5" fill="currentColor"/><path d="M31 49Q60 66 89 49" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div><div><b>FROG SWAMP</b><small>ENTERTAINMENT</small></div></div>
  <div class="menu-copy"><div class="menu-kicker">MOUNTAIN BIKE EXPERIENCE</div><h1 id="menuTitle">FREERIDE<br><span>MTB</span></h1><p class="sub" id="menuSub">Підкорюй трасу. Контролюй кожен стрибок.</p>
- <div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button><button class="btn" id="fullscreenMenu">⛶　ПОВНИЙ ЕКРАН</button></div><div class="bike-picker"><span>ВЕЛОСИПЕД</span><div><button type="button" data-bike="0">ENDURO</button><button type="button" data-bike="1">DIRT</button><button type="button" data-bike="2" class="active">FREERIDE</button></div></div><div class="note" id="menuNote">Рекорд: <b id="best">0</b> очок</div></div>
+ <div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button><button class="btn" id="fullscreenMenu">⛶　ПОВНИЙ ЕКРАН</button></div><div class="bike-picker"><span>ГАРАЖ · ОБЕРИ ВЕЛОСИПЕД</span><div>
+ <button type="button" data-bike="0"><svg viewBox="0 0 100 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3"><circle cx="22" cy="31" r="13"/><circle cx="78" cy="31" r="13"/><path d="M22 31 39 12 54 31 22 31 78 31 54 31 66 12 78 31M66 12 74 9M39 12 32 8"/></g></svg><b>ENDURO</b><small>Довгі спуски · підвіска</small></button>
+ <button type="button" data-bike="1"><svg viewBox="0 0 100 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3"><circle cx="22" cy="31" r="13"/><circle cx="78" cy="31" r="13"/><path d="M22 31 40 14 54 31 22 31 78 31 54 31 66 14 78 31M66 14 74 10M40 14 34 9"/></g></svg><b>DIRT JUMP</b><small>Стрибки · трюки</small></button>
+ <button type="button" data-bike="2" class="active"><svg viewBox="0 0 100 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3"><circle cx="22" cy="31" r="13"/><circle cx="78" cy="31" r="13"/><path d="M22 31 39 11 55 31 22 31 78 31 55 31 67 11 78 31M67 11 75 8M39 11 32 7"/></g></svg><b>FREERIDE</b><small>Універсальний MTB</small></button>
+ </div></div><div class="note" id="menuNote">Рекорд: <b id="best">0</b> очок</div></div>
  <div class="menu-rider" aria-hidden="true"><div class="menu-moon"></div><div class="menu-ridge"></div><svg class="menu-bike-silhouette" viewBox="0 0 560 420" aria-hidden="true"><g fill="none" stroke="#050608" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"><circle cx="145" cy="310" r="78"/><circle cx="420" cy="310" r="78"/><path d="M145 310L230 185L310 310L145 310L270 310L420 310L310 185L230 185"/><path d="M310 185L370 165L420 310"/><path d="M225 182L185 145L150 150"/><path d="M305 180L350 120L395 110"/><path d="M265 160L300 95L355 80"/></g><g fill="#050608" stroke="#050608" stroke-linecap="round" stroke-linejoin="round"><circle cx="348" cy="58" r="29"/><path d="M325 83Q286 105 282 150L310 190L360 168L384 115L370 88Z"/><path d="M310 112L260 166L228 185L210 171L246 139L280 96Z"/><path d="M355 112L402 150L420 192L402 201L370 170L335 146Z"/><path d="M313 178L270 232L235 292L211 286L231 215L274 166Z"/><path d="M345 174L372 230L410 278L391 296L345 258L310 205Z"/><path d="M325 40Q344 15 373 34L378 53L350 49L330 59Z"/></g></svg></div></div></section>
 <section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px" id="settingsTitle">НАЛАШТУВАННЯ</h1><div class="row"><span id="soundLabel">Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span id="vibrationLabel">Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span>Повний екран</span><div class="opts"><button type="button" id="fullscreenSetting">⛶ УВІМКНУТИ</button></div></div><div class="row"><span id="languageLabel">Мова</span><div class="opts"><button data-set="lang" data-val="uk">UA</button><button data-set="lang" data-val="en">EN</button><button data-set="lang" data-val="ru">RU</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
 <section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px" id="graphicsTitle">ГРАФІКА</h1><div class="row"><span id="qualityLabel">Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span id="shakeLabel">Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
 <section id="loading" class="screen hidden"><div class="loader"></div><div id="loadingTitle" style="font-size:clamp(25px,6vw,42px);font-weight:1000">BUILDING THE TRACK</div><div class="brand">DIRT ARENA · PROCEDURAL MTB STAGE</div><div class="loadbar"><i></i></div><div class="note" id="loadingNote">Готуємо трампліни, покриття та підвіску...</div></section>
-<section id="splash" class="screen hidden"><div class="splash-mark" aria-label="Frog Swamp logo"><svg viewBox="0 0 120 80" role="img" aria-hidden="true"><path d="M14 42Q10 10 36 10Q49 10 52 28Q60 22 68 28Q71 10 84 10Q110 10 106 42L98 62Q60 78 22 62Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="37" cy="29" r="5" fill="currentColor"/><circle cx="83" cy="29" r="5" fill="currentColor"/><path d="M31 49Q60 66 89 49" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div><div class="splash-name">FROG SWAMP</div><div class="splash-sub">GAME DEVELOPMENT STUDIO</div><div class="splash-game">FREERIDE MTB</div><div class="splash-version">v0.40.0 · FREERIDE MTB</div><div class="splash-warning">Увага! Гра перебуває в розробці. Можливі помилки та зміни.</div><div class="splash-loader"><i></i></div></section>
+<section id="splash" class="screen hidden"><div class="splash-mark" aria-label="Frog Swamp logo"><svg viewBox="0 0 120 80" role="img" aria-hidden="true"><path d="M14 42Q10 10 36 10Q49 10 52 28Q60 22 68 28Q71 10 84 10Q110 10 106 42L98 62Q60 78 22 62Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="37" cy="29" r="5" fill="currentColor"/><circle cx="83" cy="29" r="5" fill="currentColor"/><path d="M31 49Q60 66 89 49" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div><div class="splash-name">FROG SWAMP</div><div class="splash-sub">GAME DEVELOPMENT STUDIO</div><div class="splash-game">FREERIDE MTB</div><div class="splash-version">v0.42.0 · FREERIDE MTB</div><div class="splash-warning">Увага! Гра перебуває в розробці. Можливі помилки та зміни.</div><div class="splash-loader"><i></i></div></section>
 <section id="over" class="screen hidden"><div class="panel"><div class="brand" id="overBrand">ЗАЇЗД ЗАВЕРШЕНО</div><h1 style="font-size:38px" id="ovT">ВПАВ!</h1><p class="sub" id="ovS"></p><div class="actions"><button class="btn primary" id="again">↻　НОВА ТРАСА</button><button class="btn" id="toMenu">⌂　МЕНЮ</button></div></div></section>
 <div id="hud" class="hidden"><div class="stats"><div class="tag" id="statsTag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar" style="height:7px;margin-top:9px"><div class="fill" id="staminaFill" style="width:100%"></div></div><div class="tag" id="staminaLabel" style="margin-top:5px">ВИТРИВАЛІСТЬ</div></div><div class="top"><button class="icon menu-trigger" id="pause" aria-label="Меню">☰</button><button class="icon" id="fullscreenGame" aria-label="Повний екран">⛶</button></div><div class="controls"><div class="cluster left"><button class="control" data-key="left" aria-label="Balance left" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 4.5 7.3 12l7.5 7.5"/></svg></button><button class="control" data-key="right" aria-label="Balance right" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.2 4.5 7.5 7.5-7.5 7.5"/></svg></button></div><div class="cluster right"><button class="control hop" data-key="hop" aria-label="Bunny hop" title="Bunny Hop" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17c3-5 5-7 8-7s5 2 8 7"/><path d="M12 14V3m-4 4 4-4 4 4"/></svg><span>HOP</span></button><button class="control brake" data-key="brake" aria-label="Brake" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-7 9z"/><path d="M7 4h10"/></svg></button><button class="control pedal" data-key="pedal" aria-label="Pedal" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button></div></div><div id="pausePanel" class="pause-panel hidden" aria-hidden="true"><div class="radial-pause">
  <div class="radial-core"><svg viewBox="0 0 120 80"><path d="M14 42Q10 10 36 10Q49 10 52 28Q60 22 68 28Q71 10 84 10Q110 10 106 42L98 62Q60 78 22 62Z" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="37" cy="29" r="5" fill="currentColor"/><circle cx="83" cy="29" r="5" fill="currentColor"/><path d="M31 49Q60 66 89 49" fill="none" stroke="currentColor" stroke-width="4"/></svg><b>FROG<br>SWAMP</b></div>
@@ -124,6 +128,7 @@ const THEMES=[
 {a:"#22507a",b:"#9cc7e6",c:"#e8f1f7",m0:"#c7d6e6",m1:"#9fb4cc",m2:"#5d7a8c",f:"#27424a",ft:"#1c3238",g0:"#7b6a5c",g1:"#4a3f38",g2:"#241f1c",r0:"#5f8f6a",r1:"#a3d9a0",t0:"#2d6a5a",t1:"#1f5648"}];
 let cfg={sound:"on",vibration:"off",quality:"high",shake:"on",lang:"uk"},mode="menu",shake=0,TH=THEMES[0],trackId=0,toastT;
 let selectedBike=2;
+try{const savedBike=Number(localStorage.getItem("frogSwampBike"));if(Number.isInteger(savedBike)&&savedBike>=0&&savedBike<=2)selectedBike=savedBike}catch(e){}
 try{cfg={...cfg,...JSON.parse(localStorage.getItem("freerideSettings")||"{}")}}catch(e){}
 const keys={ArrowLeft:false,ArrowRight:false,ArrowUp:false,ArrowDown:false,hop:false};
 const T0=performance.now(),H0=(()=>{const d=new Date();return d.getHours()+d.getMinutes()/60})();
@@ -560,8 +565,10 @@ function drawBike(){
    const scale=(2*L)/(frontAxleX-rearAxleX);
    ctx.drawImage(frameSprite,-L-rearAxleX*scale,sr-rearAxleY*scale,frameSprite.naturalWidth*scale,frameSprite.naturalHeight*scale);
    // The fork follows the front suspension independently, keeping the hub connected.
-   ln2([34,-49,L,frontY],"#111820",8);
-   ln2([34,-49,L,frontY],"#b58a43",4.5);
+   // Correct fork attachment: the fork crown starts at the frame head tube,
+   // not at the handlebar/grip. This keeps the front end structurally connected.
+   ln2([27,-33,L,frontY],"#111820",8);
+   ln2([27,-33,L,frontY],"#b58a43",4.5);
  }else{
    // Distinct lightweight frames for Enduro and Dirt models.
    const frameCol=selectedBike===1?"#e0a34a":"#8bc6a1";
@@ -569,13 +576,15 @@ function drawBike(){
      // Compact dirt-jump hardtail with a short rear triangle.
      ln2([-L,sr,-12,8,31,-25,L,frontY],"#142027",9);ln2([-L,sr,-12,8,31,-25,L,frontY],frameCol,5);
      ln2([-12,8,4,17,31,-25],"#142027",8);ln2([-12,8,4,17,31,-25],frameCol,4);
-     ln2([31,-25,39,-48,L,frontY],"#252a30",7);ln2([39,-48,L,frontY],"#c99b48",4);
+     ln2([31,-25,39,-43],"#252a30",7);
+     ln2([31,-25,L,frontY],"#c99b48",4.5);
      ln2([-20,-15,5,-15],"#171b20",4);
    }else{
      // Longer-travel Enduro silhouette.
      ln2([-L,sr,-15,12,28,-31,L,frontY],"#142027",10);ln2([-L,sr,-15,12,28,-31,L,frontY],frameCol,6);
      ln2([-15,12,5,20,28,-31],"#142027",9);ln2([-15,12,5,20,28,-31],frameCol,5);
-     ln2([28,-31,39,-49,L,frontY],"#252a30",8);ln2([39,-49,L,frontY],"#c99b48",5);
+     ln2([28,-31,39,-44],"#252a30",8);
+     ln2([28,-31,L,frontY],"#c99b48",5);
      ln2([-23,-17,4,-17],"#171b20",5);
    }
  }
@@ -705,7 +714,7 @@ document.querySelectorAll("[data-key]").forEach(b=>{const k=kmap[b.dataset.key];
  b.addEventListener("pointerleave",e=>{if(activePointer===e.pointerId&&e.buttons===0)release()});
 });
 document.querySelectorAll("[data-bike]").forEach(b=>b.addEventListener("click",e=>{
- e.preventDefault();selectedBike=Number(b.dataset.bike);
+ e.preventDefault();selectedBike=Number(b.dataset.bike);try{localStorage.setItem("frogSwampBike",String(selectedBike))}catch(_){}
  document.querySelectorAll("[data-bike]").forEach(x=>x.classList.toggle("active",x===b));
  toast(["ENDURO","DIRT JUMP","FREERIDE"][selectedBike]+" SELECTED");
 }));
@@ -775,7 +784,7 @@ document.addEventListener("click",function(ev){
  }
 },true);
 
-$("best").textContent=getBest();saveCfg();reset();mode="splash";screens("splash");setTimeout(()=>{if(mode==="splash"){mode="menu";screens("menu")}},2400);last=performance.now();requestAnimationFrame(frame);
+$("best").textContent=getBest();document.querySelectorAll("[data-bike]").forEach(b=>b.classList.toggle("active",Number(b.dataset.bike)===selectedBike));saveCfg();reset();mode="splash";screens("splash");setTimeout(()=>{if(mode==="splash"){mode="menu";screens("menu")}},2400);last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
   const reg=await navigator.serviceWorker.register("./sw.js?v=41",{updateViaCache:"none"});
