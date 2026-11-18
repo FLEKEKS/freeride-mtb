@@ -37,7 +37,7 @@
 @keyframes splashLoad{to{width:100%}}
 @media(orientation:portrait){#app{inset:auto;top:0;left:100%;width:100vh;height:100vw;transform-origin:0 0;transform:rotate(90deg)}}
  
-.top{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));justify-content:space-between;pointer-events:none}
+.top{left:auto;right:max(12px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));justify-content:flex-end;gap:10px;pointer-events:none}
 .top .icon{pointer-events:auto}
 .menu-trigger{font-size:25px;background:rgba(14,25,36,.78);border:2px solid #d8e0e8}
 
@@ -338,14 +338,26 @@ function drawBike(){
    const dx=-L-rearAxleX*scale,dy=sr-rearAxleY*scale;
    ctx.drawImage(frameSprite,dx,dy,dw,dh);
  }
- // Rider is a separate animated layer; no old frame tubes are drawn over the PNG.
+ // Compact rider cockpit pose: both forearms finish on the shortened handlebar grips.
  const lnR=(pts,col,w)=>ln(pts,col,w);
- lnR([-12,-12,4,-36],"#17243a",8);
- lnR([4,-36,27,-17],"#17243a",6);
- lnR([4,-36,27,-17],"#238a7e",3.5);
- ctx.fillStyle="#111";ctx.beginPath();ctx.arc(27,-17,3.5,0,7);ctx.fill();
- ctx.fillStyle="#f1c27d";ctx.beginPath();ctx.arc(6,-48,7.5,0,7);ctx.fill();
- ctx.fillStyle="#ff9f1c";ctx.beginPath();ctx.arc(6,-49,8,Math.PI,2*Math.PI);ctx.fill();
+ const skin="#d7d7d7",suit="#17202b",suitHi="#34404b";
+ // seated core and shoulder
+ lnR([-17,-13,1,-36],suit,9);
+ lnR([-17,-13,1,-36],suitHi,3);
+ // near arm: shoulder -> elbow -> grip
+ lnR([1,-35,15,-39,31,-44],suit,6.5);
+ lnR([1,-35,15,-39,31,-44],suitHi,2);
+ // far arm, slightly offset so both hands visibly wrap the bar
+ lnR([-1,-33,10,-38,21,-44],suit,5.5);
+ lnR([-1,-33,10,-38,21,-44],suitHi,1.8);
+ // gloves at the two grips
+ ctx.fillStyle="#090c10";ctx.beginPath();ctx.arc(31,-44,3.1,0,Math.PI*2);ctx.fill();
+ ctx.beginPath();ctx.arc(21,-44,2.8,0,Math.PI*2);ctx.fill();
+ // helmet and visor
+ ctx.fillStyle=skin;ctx.beginPath();ctx.arc(5,-48,7.5,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#111820";ctx.strokeStyle="#e7e7e7";ctx.lineWidth=1;
+ ctx.beginPath();ctx.arc(4,-50,9,Math.PI,Math.PI*2);ctx.lineTo(13,-47);ctx.lineTo(8,-43);ctx.lineTo(0,-43);ctx.closePath();ctx.fill();ctx.stroke();
+ ctx.fillStyle="#f1f1f1";ctx.fillRect(8,-48,7,2.5);
  ctx.restore();
 }
 function mountains(f,base,amp,col){ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,H);
