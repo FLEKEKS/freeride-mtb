@@ -1,5 +1,5 @@
-const CACHE = "freeride-mtb-dirt-arena-v31";
-const CORE = ["./", "./index.html", "./manifest.json"];
-self.addEventListener("install", event => {event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));});
-self.addEventListener("activate", event => {event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith("freeride-mtb-") && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));});
-self.addEventListener("fetch", event => {const req=event.request;if(req.method!=="GET"||new URL(req.url).origin!==self.location.origin)return;if(req.mode==="navigate"){event.respondWith(fetch(new Request(req,{cache:"no-store"})).then(res=>{if(res.ok)caches.open(CACHE).then(cache=>cache.put("./index.html",res.clone()));return res;}).catch(()=>caches.open(CACHE).then(cache=>cache.match("./index.html"))));return;}event.respondWith(fetch(req,{cache:"no-store"}).then(res=>{if(res.ok)caches.open(CACHE).then(cache=>cache.put(req,res.clone()));return res;}).catch(()=>caches.open(CACHE).then(cache=>cache.match(req))));});
+const CACHE="freeride-mtb-dirt-arena-v35";
+const CORE=["./","./index.html","./manifest.json","./assets/freeride_frame.png"];
+self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
+self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("freeride-mtb-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET"||new URL(r.url).origin!==self.location.origin)return;e.respondWith(fetch(r,{cache:"no-store"}).then(res=>{if(res.ok)caches.open(CACHE).then(c=>c.put(r,res.clone()));return res}).catch(()=>caches.open(CACHE).then(c=>c.match(r))))});

@@ -1,1 +1,9 @@
-{"name":"Freeride MTB — Dirt Arena V31","short_name":"Freeride MTB","start_url":"./?v=31","display":"standalone","orientation":"landscape","background_color":"#101923","theme_color":"#101923","description":"V31: redesigned larger downhill bike visuals, smoother suspension response and one-tap seated wheelie control."}
+{
+  "name": "Freeride MTB",
+  "short_name": "Freeride MTB",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#101a26",
+  "theme_color": "#101a26"
+}
