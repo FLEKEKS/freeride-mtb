@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#101923">
 <link rel="manifest" href="./manifest.json">
-<title>Freeride MTB — Dirt Arena V26</title>
+<title>Freeride MTB — Dirt Arena V28</title>
 <style>
 :root{--gold:#ffbd4a;--glass:rgba(8,19,30,.82);--line:#ffffff35}
 *{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111c28;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none;overscroll-behavior:none}
@@ -16,7 +16,7 @@
 .sub{font-size:13px;line-height:1.55;color:#d0dce5;margin:0 0 22px}.actions{display:grid;gap:9px}.btn{min-height:52px;border:1px solid var(--line);border-radius:14px;padding:12px 17px;background:linear-gradient(145deg,#354f64,#172b3d);color:white;font:850 14px system-ui;cursor:pointer}.btn.primary{background:linear-gradient(145deg,#ffd477,#e88b35);color:#1b2731;border-color:#ffe3a8}.btn:active{transform:scale(.985)}
 .note{font-size:10px;line-height:1.5;color:#adbfcb;margin-top:15px}
 #hud{position:absolute;inset:0;pointer-events:none}.stats{position:absolute;top:max(10px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left));padding:9px 13px;background:var(--glass);border:1px solid var(--line);border-radius:15px;min-width:165px;text-shadow:0 2px 5px #000}.tag{font-size:9px;letter-spacing:2px;color:#b8cbd8;font-weight:950}.big{font-size:22px;font-weight:950}.small{font-size:12px;font-weight:800;color:#d7e2e9}.bar{height:5px;background:#ffffff30;border-radius:8px;margin-top:7px;overflow:hidden}.fill{height:100%;width:100%;background:linear-gradient(90deg,#f58b31,#ffe18b)}
-.top{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}.top #pause{position:absolute;right:62px;top:0;width:46px;height:46px;z-index:2}.top [data-key="onehand"]{position:relative;z-index:3}.icon{width:52px;height:52px;border:1px solid var(--line);border-radius:50%;background:var(--glass);color:white;font-size:21px;font-weight:900}
+.top{position:absolute;right:max(10px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));display:flex;gap:7px;pointer-events:auto}.icon{width:52px;height:52px;border:1px solid var(--line);border-radius:50%;background:var(--glass);color:white;font-size:21px;font-weight:900}
 .controls{position:absolute;inset:0;pointer-events:none}.cluster{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));display:flex;gap:12px;pointer-events:auto;align-items:flex-end}.left{left:max(12px,env(safe-area-inset-left))}.right{right:max(12px,env(safe-area-inset-right))}
 .control{width:clamp(74px,10vw,94px);height:clamp(74px,10vw,94px);border:2px solid #ffffff90;border-radius:50%;background:linear-gradient(145deg,#294e68f2,#0b1c2df2);color:white;font-size:30px;font-weight:900;touch-action:none;display:grid;place-items:center;padding:0;outline:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:auto;box-shadow:0 7px 20px #0007,inset 0 1px 0 #ffffff35}.control:active,.control.pressed{background:linear-gradient(145deg,#4b829f,#183d56);transform:scale(.94);box-shadow:0 2px 8px #0008,inset 0 2px 8px #0005}.control svg{width:32px;height:32px;display:block;pointer-events:none;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}.control.pedal{width:clamp(84px,11vw,106px);height:clamp(84px,11vw,106px);border-radius:50%;background:linear-gradient(145deg,#f5b84f,#b86a24);color:#182431}.control.pedal svg{width:38px;height:38px}.control.brake{width:clamp(70px,9vw,84px);height:clamp(70px,9vw,84px);border-radius:50%;background:linear-gradient(145deg,#506b7c,#1c3445)}button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #toast{position:absolute;top:23%;left:50%;transform:translate(-50%,-8px);padding:9px 16px;border:1px solid #ffffff55;border-radius:30px;background:#0b1b2bea;font-weight:950;opacity:0;transition:.2s;white-space:nowrap}#toast.show{opacity:1;transform:translate(-50%,0)}
@@ -36,15 +36,55 @@
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes splashLoad{to{width:100%}}
 @media(orientation:portrait){#app{inset:auto;top:0;left:100%;width:100vh;height:100vw;transform-origin:0 0;transform:rotate(90deg)}}
-#hud .top{left:10px;right:10px;width:calc(100% - 20px);justify-content:space-between;display:flex;align-items:flex-start;gap:7px}#hud .top #pause{margin-right:auto}#hud .top #home{display:none}#hud .top #fs{display:none}#hud .top [data-key="onehand"]{pointer-events:auto}</style></head>
+ 
+.top{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));justify-content:space-between;pointer-events:none}
+.top .icon{pointer-events:auto}
+.menu-trigger{font-size:25px;background:rgba(14,25,36,.78);border:2px solid #d8e0e8}
+.onehand-top{font-size:17px;background:rgba(14,25,36,.78);border:2px solid #d8e0e8}
+.pause-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:30;background:rgba(0,0,0,.18);pointer-events:auto;padding:12px}
+.pause-panel.hidden{display:none}
+.wood-panel{width:min( min(94vw, 780px), 94vw);min-height:92px;display:flex;align-items:center;justify-content:space-evenly;gap:clamp(8px,2vw,24px);padding:13px 18px;border:5px solid #75401f;border-radius:12px;background:linear-gradient(180deg,#ffe2ad 0%,#e6b979 24%,#f4d19b 52%,#c58b50 100%);box-shadow:0 8px 0 #542c19, inset 0 0 0 3px #fff0cf, inset 0 -7px 0 #a66a37;color:#3b1e0d}
+.wood-btn{width:clamp(54px,10vw,82px);height:clamp(50px,9vw,72px);border:2px solid #9c673b;border-radius:11px;background:linear-gradient(180deg,#fff0d0,#d8a76b);box-shadow:0 5px 0 #80502b,inset 0 2px 3px #fff9e9;color:#48230f;font-size:clamp(25px,4vw,38px);font-weight:1000;text-shadow:0 1px #fff2d6}
+.wood-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #80502b}
+.pause-word{font-size:clamp(18px,3vw,30px);font-weight:1000;letter-spacing:2px;color:#51290f;text-shadow:0 2px #ffe8c3;white-space:nowrap}
+
+.bike-select{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 14px}
+.bike-card{min-width:0;padding:8px 7px 9px;border:1px solid #8296a8;border-radius:12px;background:linear-gradient(145deg,#273d50,#152536);color:#eaf3f8;text-align:left;display:flex;flex-direction:column;gap:3px;cursor:pointer}
+.bike-card svg{width:100%;height:54px;display:block}
+.bike-card span{font-size:12px;font-weight:950;letter-spacing:.3px}
+.bike-card small{font-size:9px;color:#b9cbd8;line-height:1.25}
+.bike-card.active{border:2px solid #ffd477;background:linear-gradient(145deg,#46596a,#20384a);box-shadow:0 0 0 2px #ffd47733}
+.bike-card:active{transform:scale(.985)}
+@media(max-height:430px){.bike-card{padding:4px 6px}.bike-card svg{height:34px}.bike-select{margin-bottom:7px}.bike-card small{font-size:8px}}
+</style></head>
 <body><main id="app"><canvas id="world"></canvas>
-<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1 id="menuTitle">DIRT<br><span>ARENA.</span></h1><p class="sub" id="menuSub">Твоя MTB. Dirt-траса з ролерами, трамплінами та з’єднаними приземленнями. Для старту тисни вперед, а нахил назад — коротко.</p><div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note" id="menuNote">Рекорд: <b id="best">0</b> очок</div></div></section>
+<section id="menu" class="screen"><div class="panel"><div class="brand">FREERIDE MTB · RACE SERIES</div><h1 id="menuTitle">DIRT<br><span>ARENA.</span></h1><p class="sub" id="menuSub">Твоя MTB. Dirt-траса з ролерами, трамплінами та з’єднаними приземленнями.</p>
+<div class="bike-select" aria-label="Вибір велосипеда">
+ <button class="bike-card active" id="bike1Choice" data-bike="1" type="button">
+  <svg viewBox="0 0 180 76" aria-hidden="true"><circle cx="35" cy="48" r="23" fill="none" stroke="#17232b" stroke-width="5"/><circle cx="145" cy="48" r="23" fill="none" stroke="#17232b" stroke-width="5"/><path d="M35 48 L67 28 L91 48 L35 48 M67 28 L119 27 L91 48 L145 48 M119 27 L145 48" fill="none" stroke="#43b7c9" stroke-width="6" stroke-linejoin="round"/><path d="M86 42 L101 32" stroke="#bfcbd3" stroke-width="4"/></svg>
+  <span>1 · Поточний</span><small>Синьо-бірюзовий MTB</small>
+ </button>
+ <button class="bike-card" id="bike2Choice" data-bike="2" type="button">
+  <svg viewBox="0 0 180 76" aria-hidden="true"><circle cx="35" cy="48" r="23" fill="none" stroke="#17232b" stroke-width="5"/><circle cx="145" cy="48" r="23" fill="none" stroke="#17232b" stroke-width="5"/><path d="M35 48 L55 24 Q72 18 111 18 L126 27 L93 48 L35 48 M126 27 L145 48 M93 48 Q102 35 112 33" fill="none" stroke="#20b9a9" stroke-width="6" stroke-linejoin="round"/><path d="M110 20 L88 39" stroke="#e2a94d" stroke-width="4"/></svg>
+  <span>2 · Freeride</span><small>Нова довга рама з амортизатором</small>
+ </button>
+</div>
+<div class="actions"><button class="btn primary" id="play">▶　ГРАТИ</button><button class="btn" id="settingsOpen">⚙　НАЛАШТУВАННЯ</button><button class="btn" id="graphicsOpen">▧　ГРАФІКА</button></div><div class="note" id="menuNote">Рекорд: <b id="best">0</b> очок</div></div></section>
 <section id="settings" class="screen hidden"><div class="panel"><div class="brand">RIDER OPTIONS</div><h1 style="font-size:36px" id="settingsTitle">НАЛАШТУВАННЯ</h1><div class="row"><span id="soundLabel">Звук</span><div class="opts"><button data-set="sound" data-val="on">ON</button><button data-set="sound" data-val="off">OFF</button></div></div><div class="row"><span id="vibrationLabel">Вібрація</span><div class="opts"><button data-set="vibration" data-val="on">ON</button><button data-set="vibration" data-val="off">OFF</button></div></div><div class="row"><span id="languageLabel">Мова</span><div class="opts"><button data-set="lang" data-val="uk">UA</button><button data-set="lang" data-val="en">EN</button><button data-set="lang" data-val="ru">RU</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="settingsBack">ГОТОВО</button></div></div></section>
 <section id="graphics" class="screen hidden"><div class="panel"><div class="brand">VISUAL SETTINGS</div><h1 style="font-size:36px" id="graphicsTitle">ГРАФІКА</h1><div class="row"><span id="qualityLabel">Якість</span><div class="opts"><button data-set="quality" data-val="low">LOW</button><button data-set="quality" data-val="medium">MED</button><button data-set="quality" data-val="high">HIGH</button></div></div><div class="row"><span id="shakeLabel">Тремтіння камери</span><div class="opts"><button data-set="shake" data-val="on">ON</button><button data-set="shake" data-val="off">OFF</button></div></div><div class="actions" style="margin-top:18px"><button class="btn primary" id="graphicsBack">ГОТОВО</button></div></div></section>
 <section id="loading" class="screen hidden"><div class="loader"></div><div id="loadingTitle" style="font-size:clamp(25px,6vw,42px);font-weight:1000">BUILDING THE TRACK</div><div class="brand">DIRT ARENA · PROCEDURAL MTB STAGE</div><div class="loadbar"><i></i></div><div class="note" id="loadingNote">Готуємо трампліни, покриття та підвіску...</div></section>
-<section id="splash" class="screen hidden"><div class="splash-mark" aria-label="Frog Swamp logo"><svg viewBox="0 0 100 100" role="img" aria-hidden="true"><path d="M17 53c0-19 14-32 33-32s33 13 33 32c0 20-15 32-33 32S17 73 17 53Z" fill="#174d38"/><path d="M22 43c-5-12 1-22 11-22 8 0 12 7 12 14M78 43c5-12-1-22-11-22-8 0-12 7-12 14" fill="#174d38" stroke="#174d38" stroke-width="8" stroke-linecap="round"/><circle cx="34" cy="35" r="9" fill="#caff8b"/><circle cx="66" cy="35" r="9" fill="#caff8b"/><circle cx="36" cy="36" r="3.5" fill="#17352a"/><circle cx="64" cy="36" r="3.5" fill="#17352a"/><path d="M34 57c9 11 23 11 32 0" fill="none" stroke="#caff8b" stroke-width="5" stroke-linecap="round"/><path d="M18 73c-7 4-8 11-2 14 6 3 14-1 17-7M82 73c7 4 8 11 2 14-6 3-14-1-17-7" fill="#174d38"/></svg></div><div class="splash-name">FROG SWAMP</div><div class="splash-sub">GAME DEVELOPMENT STUDIO</div><div class="splash-game">FREERIDE MTB</div><div class="splash-version">v0.25.0 · BETA</div><div class="splash-warning">Увага! Гра перебуває в розробці. Можливі помилки та зміни.</div><div class="splash-loader"><i></i></div></section>
+<section id="splash" class="screen hidden"><div class="splash-mark" aria-label="Frog Swamp logo"><svg viewBox="0 0 100 100" role="img" aria-hidden="true"><path d="M17 53c0-19 14-32 33-32s33 13 33 32c0 20-15 32-33 32S17 73 17 53Z" fill="#174d38"/><path d="M22 43c-5-12 1-22 11-22 8 0 12 7 12 14M78 43c5-12-1-22-11-22-8 0-12 7-12 14" fill="#174d38" stroke="#174d38" stroke-width="8" stroke-linecap="round"/><circle cx="34" cy="35" r="9" fill="#caff8b"/><circle cx="66" cy="35" r="9" fill="#caff8b"/><circle cx="36" cy="36" r="3.5" fill="#17352a"/><circle cx="64" cy="36" r="3.5" fill="#17352a"/><path d="M34 57c9 11 23 11 32 0" fill="none" stroke="#caff8b" stroke-width="5" stroke-linecap="round"/><path d="M18 73c-7 4-8 11-2 14 6 3 14-1 17-7M82 73c7 4 8 11 2 14-6 3-14-1-17-7" fill="#174d38"/></svg></div><div class="splash-name">FROG SWAMP</div><div class="splash-sub">GAME DEVELOPMENT STUDIO</div><div class="splash-game">FREERIDE MTB</div><div class="splash-version">v0.28.0 · BETA</div><div class="splash-warning">Увага! Гра перебуває в розробці. Можливі помилки та зміни.</div><div class="splash-loader"><i></i></div></section>
 <section id="over" class="screen hidden"><div class="panel"><div class="brand" id="overBrand">ЗАЇЗД ЗАВЕРШЕНО</div><h1 style="font-size:38px" id="ovT">ВПАВ!</h1><p class="sub" id="ovS"></p><div class="actions"><button class="btn primary" id="again">↻　НОВА ТРАСА</button><button class="btn" id="toMenu">⌂　МЕНЮ</button></div></div></section>
-<div id="hud" class="hidden"><div class="stats"><div class="tag" id="statsTag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar" style="height:7px;margin-top:9px"><div class="fill" id="staminaFill" style="width:100%"></div></div><div class="tag" id="staminaLabel" style="margin-top:5px">ВИТРИВАЛІСТЬ</div></div><div class="top"><button class="icon" id="pause" aria-label="Menu">☰</button><button class="control" data-key="onehand" aria-label="One hand trick" draggable="false" style="font-size:14px;width:54px;height:46px">1H</button><button class="icon" id="fs" aria-label="Fullscreen">⛶</button><button class="icon" id="home" aria-label="Main menu">⌂</button></div><div class="controls"><div class="cluster left"><button class="control" data-key="left" aria-label="Balance left" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 4.5 7.3 12l7.5 7.5"/></svg></button><button class="control" data-key="right" aria-label="Balance right" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.2 4.5 7.5 7.5-7.5 7.5"/></svg></button></div><div class="cluster right"><button class="control brake" data-key="brake" aria-label="Brake" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-7 9z"/><path d="M7 4h10"/></svg></button><button class="control pedal" data-key="pedal" aria-label="Pedal" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button></div></div><div id="toast"></div></div>
+<div id="hud" class="hidden"><div class="stats"><div class="tag" id="statsTag">FREERIDE MTB · DIRT ARENA</div><div class="big" id="stats">0 м · 0 очок</div><div class="small" id="speed">0 км/год</div><div class="bar" style="height:7px;margin-top:9px"><div class="fill" id="staminaFill" style="width:100%"></div></div><div class="tag" id="staminaLabel" style="margin-top:5px">ВИТРИВАЛІСТЬ</div></div><div class="top"><button class="icon menu-trigger" id="pause" aria-label="Меню">☰</button><button class="icon onehand-top" data-key="onehand" aria-label="One hand trick">1H</button></div><div class="controls"><div class="cluster left"><button class="control" data-key="left" aria-label="Balance left" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 4.5 7.3 12l7.5 7.5"/></svg></button><button class="control" data-key="right" aria-label="Balance right" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.2 4.5 7.5 7.5-7.5 7.5"/></svg></button></div><div class="cluster right"><button class="control brake" data-key="brake" aria-label="Brake" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-7 9z"/><path d="M7 4h10"/></svg></button><button class="control pedal" data-key="pedal" aria-label="Pedal" draggable="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button></div></div><div id="pausePanel" class="pause-panel hidden" aria-hidden="true">
+ <div class="wood-panel">
+  <button id="pauseHome" class="wood-btn" aria-label="Головне меню">⌂</button>
+  <button id="pauseRestart" class="wood-btn" aria-label="Перезапустити">↻</button>
+  <div class="pause-word">ПАУЗА</div>
+  <button id="pauseResume" class="wood-btn" aria-label="Продовжити">▶</button>
+  <button id="pauseSettings" class="wood-btn" aria-label="Налаштування">⚙</button>
+ </div>
+</div>
+<div id="toast"></div></div>
 </main>
 <script>
 const THEMES=[
@@ -52,6 +92,7 @@ const THEMES=[
 {a:"#5b3a8c",b:"#f0845c",c:"#ffd9a0",m0:"#b86a7a",m1:"#8a4f68",m2:"#5e3b4f",f:"#3b2434",ft:"#2a1a28",g0:"#c4824a",g1:"#7d4a2b",g2:"#3a2216",r0:"#b5893a",r1:"#e2c36b",t0:"#8a6a3a",t1:"#6e5530"},
 {a:"#22507a",b:"#9cc7e6",c:"#e8f1f7",m0:"#c7d6e6",m1:"#9fb4cc",m2:"#5d7a8c",f:"#27424a",ft:"#1c3238",g0:"#7b6a5c",g1:"#4a3f38",g2:"#241f1c",r0:"#5f8f6a",r1:"#a3d9a0",t0:"#2d6a5a",t1:"#1f5648"}];
 let cfg={sound:"on",vibration:"off",quality:"high",shake:"on",lang:"uk"},mode="menu",shake=0,TH=THEMES[0],trackId=0,toastT;
+let selectedBike=1;try{selectedBike=Number(localStorage.getItem("freerideBike"))===2?2:1}catch(e){}
 try{cfg={...cfg,...JSON.parse(localStorage.getItem("freerideSettings")||"{}")}}catch(e){}
 const keys={ArrowLeft:false,ArrowRight:false,ArrowUp:false,ArrowDown:false,KeyX:false};
 const T0=performance.now(),H0=(()=>{const d=new Date();return d.getHours()+d.getMinutes()/60})();
@@ -73,7 +114,6 @@ function resize(){DPR=Math.min(cfg.quality==="low"?1:cfg.quality==="medium"?1.5:
 addEventListener("resize",resize);resize();
 const G=1500,K=165,CD=15,S=30,BUMP=27,KB=5200,R=17,L=40,I=2000,AY=26,LEAN=24,MU=1.15,KT=14,MW=.12,FB=[520,380],SUB=1/180;
 let segs,gen,B,score,best=0,texts,cam,near=[],maxY=1e9;
-let pendingCombo=0,comboMult=1,wheelieTime=0,stoppieTime=0,oneHandAwarded=false;
 let rnd=Math.random;
 
 function addPt(x,y){const a=gen.last,dx=x-a.x,dy=y-a.y,l=Math.hypot(dx,dy);
@@ -155,7 +195,7 @@ function reset(){
 newSeed();segs=[];gen={x:-500,y:300,last:{x:-500,y:300},first:true,s:0};
 ramp(800,0,0);ramp(200,0,0);
 B={x:0,y:228,vx:0,vy:0,a:0,w:0,c:[0,0],airT:0,rot:0,dir:0,thr:0,brk:0,rg:null,spin:0,spinW:0,dead:false,deadT:0,msg:"",en:100,stuck:0,u:[0,0],sp:[0,0],lean:0,cr:0,man:false};
-score=0;pendingCombo=0;comboMult=1;wheelieTime=0;stoppieTime=0;oneHandAwarded=false;texts=[];parts.length=0;cam={x:0,y:228};
+score=0;texts=[];parts.length=0;cam={x:0,y:228};
 while(gen.x<2600)genMore();
 }
 function wheelContact(cx,cy,r){let best=null;
@@ -168,16 +208,13 @@ function segDist(px,py){let m=1e9;
 for(const s of near){let t=((px-s.x1)*(s.x2-s.x1)+(py-s.y1)*(s.y2-s.y1))/s.l2;t=Math.max(0,Math.min(1,t));
  const d=Math.hypot(px-(s.x1+t*(s.x2-s.x1)),py-(s.y1+t*(s.y2-s.y1)));if(d<m)m=d}
 return m}
-function crash(msg){if(B.dead)return;pendingCombo=0;wheelieTime=0;stoppieTime=0;B.dead=true;B.msg=msg;B.deadT=0;best=Math.max(best,score);startRag();evt("crash")}
+function crash(msg){if(B.dead)return;B.dead=true;B.msg=msg;B.deadT=0;best=Math.max(best,score);startRag();evt("crash")}
 function norm(d){return((d+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI}
 function groundDist(){const x=B.x+B.vx*.15;for(const g of near)if(x>=g.x1&&x<=g.x2)return g.y1+(x-g.x1)/(g.x2-g.x1)*(g.y2-g.y1)-B.y;return 999}
 function groundAng(x){for(const g of near)if(x>=g.x1&&x<=g.x2)return Math.atan2(g.y2-g.y1,g.x2-g.x1);return null}
 let oneHandAnim=0;
 function step(dt){
- const relPose=norm(B.a-(groundAng(B.x)||0));
- const autoOneHand=(!B.dead&&B.airT<.04&&relPose<-.12&&B.c[0]+B.c[1]>4)?Math.min(1,(-relPose-.12)/.58):0;
- const handTarget=Math.max(autoOneHand,(!B.dead&&keys.KeyX&&B.airT>.06)?1:0);
- oneHandAnim+=(handTarget-oneHandAnim)*Math.min(1,dt*(handTarget>oneHandAnim?5:4));
+ oneHandAnim+=( ((!B.dead&&keys.KeyX&&B.airT>.06)?1:0)-oneHandAnim)*Math.min(1,dt*5);
 const c=Math.cos(B.a),sn=Math.sin(B.a),lx=[-L,L],dead=B.dead;
 const tgt=dead?0:((keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0));
 B.dir+=(tgt-B.dir)*Math.min(1,dt*(B.airT>0?25:6));B.lean+=(tgt-B.lean)*Math.min(1,dt*3.2);
@@ -228,9 +265,6 @@ if(!dead){
   const wheelie=B.thr*backLean*trickSpeed;
   const stoppie=B.brk*frontLean*trickSpeed;
   const trickActive=Math.max(wheelie,stoppie);
-  if(wheelie>.18){wheelieTime+=dt;stoppieTime=0;if(wheelieTime>=.5&&!oneHandAwarded){pendingCombo+=150;oneHandAwarded=true;texts.push({t:"ONE HAND +150",x:B.x,y:B.y-78,life:1.4})}if(wheelieTime>=1){pendingCombo+=Math.floor(50*dt*comboMult);}}
-  else if(stoppie>.18){stoppieTime+=dt;wheelieTime=0;oneHandAwarded=false;if(stoppieTime>=1)pendingCombo+=Math.floor(50*dt*comboMult);}
-  else {wheelieTime=0;stoppieTime=0;oneHandAwarded=false;}
   // Softer lift torque: inputs build gradually and are easier to balance.
   al+=-wheelie*82+stoppie*96;
   // Smooth damping and a gentler return toward the riding angle.
@@ -248,9 +282,7 @@ else{
  if(B.airT>.25&&!B.dead){const t=any.t,d=norm(B.a-Math.atan2(t[1],t[0]));
   if(Math.abs(d)>1.15)crash("Невдале приземлення");
   else{const n=Math.floor((Math.abs(B.rot)+1)/(2*Math.PI));
-   if(n>0){const p=n===1?300:600+(n-2)*300;pendingCombo+=p;evt("trick");texts.push({t:(B.rot<0?word("backflip"):word("frontflip"))+(n>1?" x"+n:"")+" +"+p,x:B.x,y:B.y-70,life:1.8})}
-   pendingCombo+=100;comboMult=Math.min(4,comboMult+1);score+=pendingCombo*comboMult;texts.push({t:"CLEAN LANDING +"+(100*comboMult),x:B.x,y:B.y-48,life:1.4});pendingCombo=0;}
- }
+   if(n>0){const p=100*n*n;score+=p;evt("trick");texts.push({t:(B.rot<0?word("backflip"):word("frontflip"))+(n>1?" x"+n:"")+" +"+p,x:B.x,y:B.y-70,life:1.8})}}}
  B.airT=0;B.rot=0;B.man=false}
 if(!B.dead){
  const hp=riderPose().head,hlx=hp[0]-LEAN*B.lean,hly=hp[1]+AY,hx=B.x+hlx*c-hly*sn,hy=B.y+hlx*sn+hly*c;
@@ -443,16 +475,11 @@ if(cfg.quality==="high"){const v=ctx.createRadialGradient(W/2,H/2,H*.4,W/2,H/2,H
 function ik(ax,ay,bx,by,l1,l2,s){const dx=bx-ax,dy=by-ay,D=Math.hypot(dx,dy)||1,d=Math.min(D,l1+l2-.5),a=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(0,l1*l1-a*a)),ux=dx/D,uy=dy/D;return[ax+ux*a-uy*h*s,ay+uy*a+ux*h*s]}
 function riderPose(){
 const l=B.lean,sq=(B.c[0]+B.c[1])*.18,cr=B.cr||0;
-const ga=groundAng(B.x)||0,rel=norm(B.a-ga);
-const wheeliePose=Math.max(0,Math.min(1,(-rel-.08)/.62));
-const manualPose=Math.max(0,Math.min(1,oneHandAnim||0));
-const armPose=Math.max(wheeliePose,manualPose);
-const hip=[-27+(l<0?7*l:5*l),-19+sq+(l<0?-1.2*l:-2*l)];
-const phi=.48+l*.28-wheeliePose*.12,sh=[hip[0]+25*Math.sin(phi),hip[1]-25*Math.cos(phi)];
-const head=[sh[0]+13*Math.sin(phi+.18),sh[1]-13*Math.cos(phi+.18)];
-// The elbow stays bent and follows the shoulder; during a wheelie the hand reaches down smoothly.
-const hand=[31+armPose*3,-15+armPose*36],pf=[Math.cos(cr)*9,18+Math.sin(cr)*9],pb=[-pf[0],36-pf[1]];
-return{hip,sh,head,hand,pf,pb,phi,wheeliePose,armPose,knee:ik(hip[0],hip[1],pf[0],pf[1],26,26,-1),knee2:ik(hip[0],hip[1],pb[0],pb[1],26,26,-1),elbow:ik(sh[0],sh[1],hand[0],hand[1],17,17,1)}}
+const hip=[-27+(l<0?12*l:7*l),-19+sq+(l<0?-2*l:-3*l)];
+const phi=.5+l*.55,sh=[hip[0]+26*Math.sin(phi),hip[1]-26*Math.cos(phi)];
+const head=[sh[0]+14*Math.sin(phi+.2),sh[1]-14*Math.cos(phi+.2)];
+const hand=[33,-17],pf=[Math.cos(cr)*9,18+Math.sin(cr)*9],pb=[-pf[0],36-pf[1]];
+return{hip,sh,head,hand,pf,pb,phi,knee:ik(hip[0],hip[1],pf[0],pf[1],26,26,-1),knee2:ik(hip[0],hip[1],pb[0],pb[1],26,26,-1),elbow:ik(sh[0],sh[1],hand[0],hand[1],17,17,1)}}
 function startRag(){const c=Math.cos(B.a),sn=Math.sin(B.a),p=riderPose();
 const P=[p.head,p.sh,p.hip,p.hand,p.knee,p.pf].map(([bx,by])=>{const x=bx-LEAN*B.lean,y=by+AY,rx=x*c-y*sn,ry=x*sn+y*c,vx=B.vx-B.w*ry,vy=B.vy+B.w*rx;return{x:B.x+rx,y:B.y+ry,px:B.x+rx-vx/60,py:B.y+ry-vy/60}});
 B.rg={p:P,k:[[0,1],[1,2],[1,3],[2,4],[4,5]].map(([a,b])=>[a,b,Math.hypot(P[a].x-P[b].x,P[a].y-P[b].y)])}}
@@ -478,57 +505,76 @@ function shoe(p){ctx.fillStyle="#f2f2f2";ctx.beginPath();ctx.roundRect(p[0]-5,p[
 function drawBike(){
 const sr=Math.max(2,S-B.c[0]),sf=Math.max(2,S-B.c[1]),P=riderPose();
 ctx.save();ctx.translate(B.x,B.y);ctx.rotate(B.a);ctx.translate(-LEAN*B.lean,AY);ctx.scale(1.1,1.1);
-const rear=[-L,sr],front=[L,sf],bb=[-2,19],seat=[-27,-25],headTop=[31,-26],headBot=[28,-7];
-const frame="#20b9a9",frameHi="#a4fff0",dark="#26343d",metal="#aebbc4",gold="#e2a94d";
-const t=(p,col,w,hi)=>{ln(p,"#10171c",w+2.2);ln(p,col,w);if(hi)ln(p,hi,Math.max(.9,w*.2));};
-const pivot=(x,y,r=3)=>{ctx.fillStyle="#202930";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d8e0e5";ctx.lineWidth=1;ctx.stroke();ctx.fillStyle=gold;ctx.beginPath();ctx.arc(x,y,1.05,0,Math.PI*2);ctx.fill();};
-const curve=(pts,col,w,hi)=>t(pts,col,w,hi);
+const isFreeride=selectedBike===2;
+const rear=[-L,sr],front=[L,sf],
+bb=isFreeride?[-2,18]:[0,18],
+seat=isFreeride?[-28,-27]:[-13,-13],
+headTop=isFreeride?[32,-29]:[28,-10],
+headBot=isFreeride?[29,-7]:[27,1];
+const frame=isFreeride?"#20b9a9":"#43b7c9",frameHi=isFreeride?"#a4fff0":"#a5f1f2",dark="#26343d",metal="#aebbc4",gold="#e2a94d";
+const curve=(pts,col,w,hi)=>{ctx.beginPath();ctx.moveTo(pts[0],pts[1]);ctx.bezierCurveTo(pts[2],pts[3],pts[4],pts[5],pts[6],pts[7]);ctx.strokeStyle="#11171c";ctx.lineWidth=w+1.8;ctx.lineCap="round";ctx.stroke();ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();if(hi){ctx.beginPath();ctx.moveTo(pts[0],pts[1]);ctx.bezierCurveTo(pts[2],pts[3],pts[4],pts[5],pts[6],pts[7]);ctx.strokeStyle=hi;ctx.lineWidth=Math.max(.8,w*.22);ctx.stroke()}};
+const t=(p,col,w,hi)=>{ln(p,"#11171c",w+1.8);ln(p,col,w);if(hi)ln(p,hi,Math.max(.8,w*.22));};
+const pivot=(x,y,r=3)=>{ctx.fillStyle="#202930";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#d8e0e5";ctx.lineWidth=1;ctx.stroke();ctx.fillStyle="#e6a83e";ctx.beginPath();ctx.arc(x,y,1.05,0,Math.PI*2);ctx.fill();};
 const damper=(a,b)=>{
  const dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1,ux=dx/d,uy=dy/d,nx=-uy,ny=ux;
- t([a[0],a[1],b[0],b[1]],"#20272d",5.2,"#687782");
- const p1=[a[0]+ux*3,a[1]+uy*3],p2=[a[0]+ux*(d*.52),a[1]+uy*(d*.52)];
- t([p1[0],p1[1],p2[0],p2[1]],"#d6dce0",2.4,"#ffffff");
- ctx.strokeStyle=gold;ctx.lineWidth=1.8;ctx.beginPath();
- for(let i=0;i<=16;i++){const f=.1+.78*i/16,off=(i%2?2.7:-2.7),x=a[0]+ux*d*f+nx*off,y=a[1]+uy*d*f+ny*off;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
- pivot(a[0],a[1],2.6);pivot(b[0],b[1],2.6);
+ // damper body, polished shaft and a visible coil spring
+ t([a[0],a[1],b[0],b[1]],"#20272d",4,"#687782");
+ const p1=[a[0]+ux*3,a[1]+uy*3],p2=[a[0]+ux*(d*.48),a[1]+uy*(d*.48)];
+ t([p1[0],p1[1],p2[0],p2[1]],"#d6dce0",2.2,"#ffffff");
+ ctx.strokeStyle=gold;ctx.lineWidth=1.65;ctx.beginPath();
+ const coils=7;for(let i=0;i<=coils*2;i++){const f=.12+.72*i/(coils*2),off=(i%2?2.6:-2.6);const x=a[0]+ux*d*f+nx*off,y=a[1]+uy*d*f+ny*off;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();
+ pivot(a[0],a[1],2.5);pivot(b[0],b[1],2.5);
 };
+// Rear wheel and rider's far-side crank/foot, behind the frame
 if(!B.rg){ln2([P.hip[0],P.hip[1],P.knee2[0],P.knee2[1],P.pb[0],P.pb[1]],"#10162a",7);shoe(P.pb)}
 drawWheel(rear[0],rear[1],B.sp[0]);drawWheel(front[0],front[1],B.sp[1]);
-// New low-slung freeride frame: long reach, dropped seat cluster and curved down tube.
-const axle=[rear[0],rear[1]],pivotMain=[-8,8],rocker=[-21,-8+(sr-S)*.22],shockTop=[3,-16],shockLow=[rocker[0]+4,rocker[1]+5];
-// Rear swingarm and compact linkage.
-t([axle[0],axle[1],-1,16],"#53636e",4.2,"#c1cbd2");
-t([axle[0],axle[1],rocker[0],rocker[1]],"#43515b",3.5,"#aebbc3");
-t([rocker[0],rocker[1],pivotMain[0],pivotMain[1]],"#35434d",4.1,"#b7c1c8");
-t([axle[0]+2,axle[1]+1,pivotMain[0],pivotMain[1]],"#687781",2.8,"#d4dce1");
-// Main triangle: a long sloping top tube and a deep, sculpted curved downtube.
-curve([seat[0],seat[1],-12,-31,7,-30,headTop[0],headTop[1]],frame,5.1,frameHi);
-curve([headBot[0],headBot[1],19,1,10,12,bb[0],bb[1]],frame,6.1,frameHi);
-t([seat[0],seat[1],bb[0],bb[1]],frame,4.8,frameHi);
-t([seat[0]+1,seat[1]+1,-20,-9],"#aeb8bf",3.2,"#edf1f4");
-t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,5.8,"#84919a");
-// Shock and rocker are fully visible inside the rear triangle.
-t([pivotMain[0],pivotMain[1],rocker[0],rocker[1]],"#2e3941",4.6,"#8997a1");
-damper(shockTop,shockLow);
-t([shockTop[0]-3,-18,shockTop[0]+4,-13],"#27343c",3.4,"#9daab2");
-// Front dual-crown fork.
-t([headBot[0],headBot[1],front[0]-4,sf-2],"#303a43",5.6,"#77858f");
-t([headBot[0]+4,headBot[1],front[0]+2,sf+2],"#303a43",5.1,"#77858f");
-t([headBot[0]+1,headBot[1]+2,front[0]-3,sf-2],"#d6dce0",2.3,"#ffffff");
-t([headBot[0]+5,headBot[1]+2,front[0]+3,sf+2],"#d6dce0",2.1,"#ffffff");
-ln2([front[0]-5,sf,front[0]+5,sf],"#303840",3.8);
-// Brake, pivots, crank, chain and rear axle details.
-ln2([front[0]-7,sf-5,front[0]-3,sf-1],"#252d34",3);
-ln2([rear[0]+3,sr-5,rear[0]+7,sr-1],"#252d34",3);
-pivot(pivotMain[0],pivotMain[1],3.7);pivot(rocker[0],rocker[1],3.1);pivot(rear[0],rear[1],3.2);pivot(bb[0],bb[1],3.7);
+// Rear swingarm: the axle follows the existing wheel-travel value (no physics changes)
+const mainPivot=isFreeride?[-8,8]:[-7,7],rocker=isFreeride?[-21,-8+(sr-S)*.22]:[-19,-5+(sr-S)*.30],shockTop=isFreeride?[3,-16]:[3,-6],shockLow=isFreeride?[rocker[0]+4,rocker[1]+5]:[rocker[0]+2,rocker[1]+4];
+t([rear[0],rear[1],mainPivot[0],mainPivot[1]],"#596873",4.5,"#c1cbd2");
+t([rear[0],rear[1],bb[0]-2,bb[1]+2],"#687781",3.3,"#d4dce1");
+t([rear[0],rear[1],rocker[0],rocker[1]],"#46545e",2.8,"#aebbc3");
+t([rocker[0],rocker[1],mainPivot[0],mainPivot[1]],"#3b4851",3.2,"#aeb8bf");
+// Main frame: option 1 preserves the original V23 bike; option 2 is a distinct long-reach freeride silhouette.
+if(isFreeride){
+ curve([seat[0],seat[1],-13,-34,8,-34,headTop[0],headTop[1]],frame,5.2,frameHi);
+ curve([headBot[0],headBot[1],21,1,11,14,bb[0],bb[1]],frame,6.1,frameHi);
+ t([seat[0],seat[1],bb[0],bb[1]],frame,4.8,frameHi);
+ t([seat[0]+1,seat[1]+1,-20,-9],"#aeb8bf",3.2,"#edf1f4");
+ t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,5.8,"#84919a");
+ // reinforced rocker and coil shock, clearly visible in the open rear triangle
+ t([mainPivot[0],mainPivot[1],rocker[0],rocker[1]],"#2e3941",4.6,"#8997a1");
+}else{
+ t([seat[0],seat[1],headTop[0],headTop[1]],frame,3.2,frameHi);
+ t([headBot[0],headBot[1],bb[0],bb[1]],frame,3.5,frameHi);
+ t([seat[0],seat[1],bb[0],bb[1]],frame,3.3,frameHi);
+ t([seat[0]-1,seat[1]+1,-18,-4],"#aeb8bf",3.2,"#edf1f4");
+ t([headTop[0],headTop[1],headBot[0],headBot[1]],dark,4.8,"#84919a");
+}
+// Small frame gussets, pivot plates and drivetrain
+if(!isFreeride){ctx.fillStyle="#9d252b";ctx.beginPath();ctx.moveTo(19,-7);ctx.lineTo(25,-7);ctx.lineTo(20,0);ctx.closePath();ctx.fill();}
+ctx.strokeStyle="#f4a09a";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(-5,12);ctx.lineTo(1,18);ctx.lineTo(5,14);ctx.stroke();
 ctx.strokeStyle="#aab3bb";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(bb[0],bb[1],7,0,Math.PI*2);ctx.stroke();
-ln2([bb[0],bb[1],rear[0]+5,rear[1]],"#59636b",1.7);
-// Short dropper and low saddle, matching the low freeride silhouette.
-t([-22,-19,-25,-29],"#333c43",3,"#b3bdc5");
-t([-34,-30,-16,-30],"#171d22",3.5,"#717b83");
+ctx.strokeStyle="#59636b";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bb[0]-7,bb[1]);ctx.lineTo(rear[0]+5,rear[1]);ctx.stroke();
+// Rear shock/linkage is drawn above the swingarm and moves with rear-wheel compression
+t([mainPivot[0],mainPivot[1],rocker[0],rocker[1]],"#2e3941",4.2,"#8997a1");
+damper(shockTop,shockLow);
+// Front dual-crown fork: dark lowers, bright stanchions and axle bridge
+t([headBot[0],headBot[1],front[0]-4,sf-2],"#303a43",5.2,"#77858f");
+t([headBot[0]+4,headBot[1],front[0]+2,sf+2],"#303a43",4.8,"#77858f");
+t([headBot[0]+1,headBot[1]+2,front[0]-3,sf-2],"#d6dce0",2.2,"#ffffff");
+t([headBot[0]+5,headBot[1]+2,front[0]+3,sf+2],"#d6dce0",2,"#ffffff");
+ln2([front[0]-5,sf,front[0]+5,sf],"#303840",3.5);
+// Brake calipers, rotor mount and rear axle hardware
+ln2([front[0]-7,sf-5,front[0]-3,sf-1],"#252d34",3);ln2([rear[0]+3,sr-5,rear[0]+7,sr-1],"#252d34",3);
+pivot(mainPivot[0],mainPivot[1],3.5);pivot(rocker[0],rocker[1],3);pivot(rear[0],rear[1],3.2);pivot(bb[0],bb[1],3.5);
+// Seat, dropper post, bars and stem
+t([seat[0],seat[1],seat[0]-3,seat[1]-5],"#333c43",2.8,"#b3bdc5");
+t([seat[0]-12,seat[1]-5,seat[0]+4,seat[1]-5],"#171d22",3.2,"#717b83");
 t([headTop[0]-1,-11,34,-15],"#262e35",3.5,"#aeb8c0");
-ln2([35,-30,43,-30],"#151a1e",4);ln2([39,-30,40,-35,45,-35],"#242b31",3);
+ln2([31,-15,39,-15],"#151a1e",4);ln2([34,-15,35,-20,40,-20],"#242b31",3);
+// Small red race plate
 ctx.fillStyle="#f0f2f4";ctx.beginPath();ctx.roundRect(31,-34,13,10,2);ctx.fill();ctx.fillStyle=frame;ctx.font="bold 9px sans-serif";ctx.textAlign="center";ctx.fillText("7",37.5,-26);
+// Chain, crank and pedal details
 ln2([bb[0],bb[1],P.pf[0],P.pf[1]],"#555f68",2.5);ln2([bb[0],bb[1],P.pb[0],P.pb[1]],"#555f68",2.5);
 ctx.fillStyle="#171d22";ctx.fillRect(P.pf[0]-5,P.pf[1]-1,10,3);ctx.fillRect(P.pb[0]-5,P.pb[1]-1,10,3);
 if(!B.rg){
@@ -547,6 +593,7 @@ if(!B.rg){
 }
 ctx.restore();
 }
+
 function pine(x,y,h,c){ctx.fillStyle="#4a3426";ctx.fillRect(x-h*.04,y-h*.2,h*.08,h*.2);
 for(let i=0;i<4;i++){const w=h*(.36-i*.07),yy=y-h*.12-i*h*.2;ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x-w,yy);ctx.lineTo(x,yy-h*.34);ctx.lineTo(x+w,yy);ctx.fill();
 ctx.fillStyle="#00000024";ctx.beginPath();ctx.moveTo(x,yy-h*.34);ctx.lineTo(x+w,yy);ctx.lineTo(x+w*.1,yy);ctx.fill()}}
@@ -593,9 +640,13 @@ function screens(id){["menu","settings","graphics","loading","splash","over"].fo
 function saveCfg(){try{localStorage.setItem("freerideSettings",JSON.stringify(cfg))}catch(e){}
  document.querySelectorAll("[data-set]").forEach(b=>b.classList.toggle("active",cfg[b.dataset.set]===b.dataset.val));applyLanguage();
  resize()}
-function startRun(){reset();mode="game";screens("game");$("pause").textContent="Ⅱ";toast(word("track")+" №"+trackId);last=performance.now()}
+function startRun(){showPausePanel(false);reset();mode="game";screens("game");toast(word("track")+" №"+trackId);last=performance.now()}
 function newRun(){if(mode==="menu"||mode==="loading")return;startRun()}
-function togglePause(){if(mode==="game"){mode="paused";$("pause").textContent="▶";toast(word("pause"))}else if(mode==="paused"){mode="game";$("pause").textContent="Ⅱ";last=performance.now()}}
+function showPausePanel(show){$("pausePanel").classList.toggle("hidden",!show);$("pausePanel").setAttribute("aria-hidden",show?"false":"true")}
+function togglePause(){if(mode==="game"){mode="paused";showPausePanel(true)}else if(mode==="paused"){mode="game";showPausePanel(false);last=performance.now()}}
+function returnToMenu(){showPausePanel(false);mode="menu";reset();screens("menu");$("best").textContent=getBest()}
+function openPauseSettings(){showPausePanel(false);settingsReturn="paused";screens("settings")}
+let settingsReturn="menu";
 function toggleFs(){const d=document,el=d.documentElement,on=d.fullscreenElement||d.webkitFullscreenElement,rq=el.requestFullscreen||el.webkitRequestFullscreen,ex=d.exitFullscreen||d.webkitExitFullscreen;
  if(!rq){toast("Повний екран недоступний у цьому браузері");return}
  const p=on?ex.call(d):rq.call(el);
@@ -603,7 +654,7 @@ function toggleFs(){const d=document,el=d.documentElement,on=d.fullscreenElement
 function ui(dt){
  shake=Math.max(0,shake-dt*22);
  if(mode==="game"||mode==="crash"){const sp=Math.hypot(B.vx,B.vy);
-  $("stats").textContent=Math.max(0,Math.floor(B.x/50))+" "+word("unit")+" · "+score+" "+word("points")+(comboMult>1?" · x"+comboMult:"");
+  $("stats").textContent=Math.max(0,Math.floor(B.x/50))+" "+word("unit")+" · "+score+" "+word("points");
   $("speed").textContent=Math.round(sp/12)+" "+word("kmh");$("staminaFill").style.width=Math.round(B.en)+"%";
 }
  if(mode==="game"&&B.dead)mode="crash";
@@ -625,14 +676,24 @@ document.querySelectorAll("[data-key]").forEach(b=>{const k=kmap[b.dataset.key];
 });
 document.querySelectorAll("[data-set]").forEach(b=>b.onclick=()=>{cfg[b.dataset.set]=b.dataset.val;saveCfg()});
 $("play").onclick=()=>{mode="splash";screens("splash");setTimeout(()=>{if(mode!=="splash")return;mode="loading";screens("loading");setTimeout(()=>{if(mode==="loading")startRun()},1250)},2200)};
-$("settingsOpen").onclick=()=>screens("settings");$("graphicsOpen").onclick=()=>screens("graphics");
-$("settingsBack").onclick=$("graphicsBack").onclick=()=>screens("menu");
-$("pause").onclick=togglePause;$("fs").onclick=toggleFs;$("again").onclick=startRun;
-$("home").onclick=$("toMenu").onclick=()=>{mode="menu";reset();screens("menu");$("best").textContent=getBest();$("pause").textContent="Ⅱ"};
+$("settingsOpen").onclick=()=>{settingsReturn="menu";screens("settings")};
+function setBikeChoice(n){selectedBike=n;try{localStorage.setItem("freerideBike",String(n))}catch(e){}
+ $("bike1Choice").classList.toggle("active",n===1);$("bike2Choice").classList.toggle("active",n===2)}
+$("bike1Choice").onclick=()=>setBikeChoice(1);
+$("bike2Choice").onclick=()=>setBikeChoice(2);
+setBikeChoice(selectedBike);$("graphicsOpen").onclick=()=>screens("graphics");
+$("settingsBack").onclick=()=>{if(settingsReturn==="paused"){mode="paused";showPausePanel(true)}else screens("menu")};
+$("graphicsBack").onclick=()=>screens("menu");
+$("pause").onclick=togglePause;$("again").onclick=startRun;
+$("pauseResume").onclick=togglePause;
+$("pauseRestart").onclick=()=>{showPausePanel(false);startRun()};
+$("pauseHome").onclick=returnToMenu;
+$("pauseSettings").onclick=openPauseSettings;
+$("toMenu").onclick=returnToMenu;;
 $("best").textContent=getBest();saveCfg();reset();last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
-  const reg=await navigator.serviceWorker.register("./sw.js?v=26",{updateViaCache:"none"});
+  const reg=await navigator.serviceWorker.register("./sw.js?v=28",{updateViaCache:"none"});
   await reg.update();
   if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
  }catch(e){console.warn("Service worker update failed",e)}});
