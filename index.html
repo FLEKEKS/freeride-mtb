@@ -384,6 +384,7 @@ function norm(d){return((d+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI}
 function groundDist(){const x=B.x+B.vx*.15;for(const g of near)if(x>=g.x1&&x<=g.x2)return g.y1+(x-g.x1)/(g.x2-g.x1)*(g.y2-g.y1)-B.y;return 999}
 function groundAng(x){for(const g of near)if(x>=g.x1&&x<=g.x2)return Math.atan2(g.y2-g.y1,g.x2-g.x1);return null}
 function step(dt){
+const ride=rideProfile();
 const c=Math.cos(B.a),sn=Math.sin(B.a),lx=[-L,L],ly=[0,0],dead=B.dead;
 const hopPressed=keys.hop&&!B.hopLatch;B.hopLatch=keys.hop;B.hopCooldown=Math.max(0,(B.hopCooldown||0)-dt);
 const tgt=dead?0:((keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0));
@@ -399,10 +400,12 @@ for(let i=0;i<2;i++){
  if(h){
   const cosf=Math.max(.4,h.nx*sn-h.ny*c),comp=Math.min(60,h.pen/cosf);
   B.c[i]=comp;gr[i]=true;
-  const s=Math.max(2,S-comp),wx=rx-sn*s,wy=ry+c*s;
+  const wheelSpring=(i===0&&selectedFrame==='hardtail')?2.5:(i===0?ride.springRear:ride.springFront);
+  const effectiveComp=(i===0&&selectedFrame==='hardtail')?Math.min(comp,5):Math.min(comp,60*ride.travel);
+  const s=Math.max(2,S-effectiveComp),wx=rx-sn*s,wy=ry+c*s;
   const vcx=B.vx-B.w*wy,vcy=B.vy+B.w*wx,cd=-(vcx*h.nx+vcy*h.ny);
-  let dmp=CD*(cd>0?.9:2.2)*cd*Math.min(1,comp/4);dmp=Math.max(-2200,Math.min(3200,dmp));let F=K*comp+.9*comp*comp+dmp;
-  if(comp>BUMP)F+=KB*(comp-BUMP);if(F<0)F=0;
+  let dmp=CD*(cd>0?.9:2.2)*cd*Math.min(1,comp/4);dmp=Math.max(-2200,Math.min(3200,dmp));let F=K*wheelSpring*effectiveComp+.9*wheelSpring*effectiveComp*effectiveComp+dmp;
+  if(effectiveComp>BUMP/ride.travel)F+=KB*wheelSpring*(effectiveComp-BUMP/ride.travel);if(F<0)F=0;
   const t=[-h.ny,h.nx],vt=vcx*t[0]+vcy*t[1];vt0=vt;
   let lo=-MU*F;if(B.brk>.02)lo=Math.max(lo,-FB[i]*B.brk);
   Ft=Math.max(lo,Math.min(MU*F,KT*(B.u[i]-vt)));
@@ -416,20 +419,20 @@ for(let i=0;i<2;i++){
    ax+=h.nx*pop;ay+=h.ny*pop;
   }
  }else B.c[i]=0;
- let fd=0;if(i===0&&!dead){const staminaPower=.42+.58*(B.en/100);fd=1180*B.thr*staminaPower*Math.max(.28,1-B.u[0]/1250);if(B.stuck>.35)fd+=650}
- if(i===0&&B.thr>.02&&fd>0)B.en=Math.max(0,B.en-dt*1.6*B.thr);B.u[i]+=(fd-Ft)/MW*dt;
+ let fd=0;if(i===0&&!dead){const staminaPower=.42+.58*(B.en/100);fd=1180*ride.drive*B.thr*staminaPower*Math.max(.28,1-B.u[0]/1250);if(B.stuck>.35)fd+=650}
+ if(i===0&&B.thr>.02&&fd>0)B.en=Math.max(0,B.en-dt*1.6*B.thr);B.u[i]+=(fd-Ft)/(MW*ride.mass)*dt;
  if(h&&B.u[i]>vt0+50)B.u[i]=vt0+50;
  if(!h&&B.brk<.02)B.u[i]+=((B.vx*c+B.vy*sn)-B.u[i])*Math.min(1,dt*2.5);
- if(B.brk>.02){const fb=FB[i]*B.brk*dt/MW;B.u[i]=B.u[i]>0?Math.max(0,B.u[i]-fb):Math.min(0,B.u[i]+fb)}
+ if(B.brk>.02){const fb=FB[i]*B.brk*dt/(MW*ride.mass);B.u[i]=B.u[i]>0?Math.max(0,B.u[i]-fb):Math.min(0,B.u[i]+fb)}
  B.sp[i]+=B.u[i]/R*dt}
 B.spin=B.sp[0];
 if(!dead&&B.thr>.05)B.cr=(B.cr||0)+Math.max(gr[0]?B.u[0]/R*.45:5,3)*B.thr*dt;
 const air=!(gr[0]||gr[1]),any=cs[0]||cs[1];
 if(!dead){
- al+=B.dir*(air?45:6);
+ al+=B.dir*(air?45*ride.airControl:6);
  if(air){if(tgt)B.man=true;
   let k=0;if(!B.man)k=1;else if(!tgt&&groundDist()<110)k=.6;
-  if(k>0){const ga=groundAng(B.x+B.vx*.3),ta=ga===null?Math.max(-.5,Math.min(.5,Math.atan2(B.vy,B.vx))):Math.max(-.9,Math.min(.9,ga));al+=k*(norm(ta-B.a)*14-B.w*8)}
+  if(k>0){const ga=groundAng(B.x+B.vx*.3),ta=ga===null?Math.max(-.5,Math.min(.5,Math.atan2(B.vy,B.vx))):Math.max(-.9,Math.min(.9,ga));al+=k*(norm(ta-B.a)*14*ride.stability-B.w*8*ride.stability)}
   if(B.man&&!tgt)al-=B.w*.6}
  else{
   const rel=norm(B.a-Math.atan2(any.t[1],any.t[0]));
@@ -455,7 +458,7 @@ const sp=Math.hypot(B.vx,B.vy);ax-=B.vx*sp*.00055;ay-=B.vy*sp*.00055;
 B.vx+=ax*dt;B.vy+=ay*dt;
 if(hopPressed&&(gr[0]||gr[1])&&!dead&&B.hopCooldown<=0){
  // A short, controllable bunny-hop pulse; lean input still controls rotation.
- B.vy-=310;B.w-=B.lean*1.15;B.hopCooldown=.28;
+ B.vy-=310*ride.hop;B.w-=B.lean*1.15*ride.airControl;B.hopCooldown=selectedFrame==='hardtail'?.24:.28;
 }
 B.w=Math.max(-12,Math.min(12,B.w+al*dt));
 B.x+=B.vx*dt;B.y+=B.vy*dt;B.a+=B.w*dt;
@@ -499,13 +502,53 @@ const frameSprite=new Image();frameSprite.src="data:image/png;base64,iVBORw0KGgo
 const bikeSprites=[frameSprite,frameSprite,frameSprite];
 const frameSprites={aggressive:new Image(),trail:new Image(),light:new Image(),hardtail:new Image()};
 let selectedFrame='aggressive';
+const FRAME_RIDE={
+ aggressive:{mass:1.22,drive:.88,hop:.78,springRear:.82,springFront:1.12,airControl:1.12,stability:1.24,travel:1.18},
+ trail:{mass:1.06,drive:.98,hop:1.00,springRear:1.00,springFront:1.00,airControl:1.00,stability:1.00,travel:1.00},
+ light:{mass:.94,drive:1.08,hop:1.14,springRear:.94,springFront:.92,airControl:1.08,stability:.94,travel:.92},
+ hardtail:{mass:.84,drive:1.13,hop:1.38,springRear:2.5,springFront:.86,airControl:.92,stability:.84,travel:.76}
+};
+function rideProfile(){return FRAME_RIDE[selectedFrame]||FRAME_RIDE.trail}
+
 try{selectedFrame=localStorage.getItem('frogSwampFrame')||'aggressive'}catch(_){}
 Object.entries(frameSprites).forEach(([k,img])=>{img.onload=()=>{if(k===selectedFrame){bikeSprites[selectedBike]=img;drawBike()}};img.src=assetURL('frame_'+k+'.png')});
-function applyFrame(k){if(!frameSprites[k])return;selectedFrame=k;bikeSprites[selectedBike]=frameSprites[k];try{localStorage.setItem('frogSwampFrame',k)}catch(_){}const preview=$('customBikePreview');if(preview)preview.src=assetURL('frame_'+k+'.png');
+function applyFrame(k){
+ if(!frameSprites[k])return;
+ // Keep each frame's own component setup when switching between chassis.
+ try{
+  const all=JSON.parse(localStorage.getItem('frogSwampFrameParts')||'{}');
+  all[selectedFrame]=bikeParts[selectedBike]||partDefaults[selectedBike]||partDefaults[2];
+  localStorage.setItem('frogSwampFrameParts',JSON.stringify(all));
+  selectedFrame=k;
+  const restored=all[k];
+  if(restored)bikeParts[selectedBike]={...partDefaults[selectedBike],...restored};
+  else bikeParts[selectedBike]={...(partDefaults[selectedBike]||partDefaults[2])};
+ }catch(_){selectedFrame=k}
+ bikeSprites[selectedBike]=frameSprites[k];
+ try{localStorage.setItem('frogSwampFrame',k);localStorage.setItem('frogSwampBikeParts',JSON.stringify(bikeParts))}catch(_){}
+ const preview=$('customBikePreview');if(preview)preview.src=assetURL('frame_'+k+'.png');
  document.querySelectorAll('[data-frame]').forEach(b=>b.classList.toggle('active',b.dataset.frame===k));
- const hard=k==='hardtail';document.querySelectorAll('[data-partcat="shock"]').forEach(b=>{b.disabled=hard;b.style.opacity=hard?'.35':''});
- if(hard)toast('HARDTAIL · без заднього амортизатора');
- refreshPaintChoices();}
+ const allowedForks=k==='hardtail'?['fox36']:k==='light'?['fox36','zeb']:k==='trail'?['fox36','zeb','ohlins']:['zeb','ohlins'];
+ document.querySelectorAll('[data-partcat="fork"]').forEach(b=>{
+  const ok=allowedForks.includes(b.dataset.part);
+  b.disabled=!ok;b.style.opacity=ok?'':'0.32';b.title=ok?'':'Несумісна з цією рамою';
+ });
+ const hard=k==='hardtail';
+ document.querySelectorAll('[data-partcat="shock"]').forEach(b=>{b.disabled=hard;b.style.opacity=hard?'.32':'';b.title=hard?'Hardtail не має заднього амортизатора':''});
+ let parts=bikeParts[selectedBike]||partDefaults[selectedBike]||partDefaults[2];
+ if(!allowedForks.includes(parts.fork)){
+  parts.fork=allowedForks[0];
+ }
+ if(hard)parts.shock=null;
+ else if(!parts.shock)parts.shock='floatx';
+ bikeParts[selectedBike]=parts;
+ document.querySelectorAll('[data-partcat]').forEach(b=>b.classList.toggle('active',parts[b.dataset.partcat]===b.dataset.part));
+ refreshPaintChoices();
+ if(typeof updatePartSelection==='function')updatePartSelection();
+ if(typeof updatePartSummary==='function')updatePartSummary();
+ toast(k==='hardtail'?'HARDTAIL · легка жорстка задня частина':k==='aggressive'?'AGGRESSIVE · довгий хід і стабільність':'Раму змінено · фізику оновлено');
+}
+
 
 function getPaintedBike(sprite,color){
  if(!sprite||!sprite.complete||!sprite.naturalWidth)return sprite;
@@ -1003,7 +1046,7 @@ document.querySelectorAll('[data-partcat][data-part]').forEach(btn=>{
 });
 document.querySelectorAll('[data-frame]').forEach(btn=>{
  const id=btn.dataset.frame;
- if(!btn.querySelector('.part-thumb')){const im=document.createElement('img');im.className='part-thumb';im.src='./frame_'+id+'.png?v=53';im.alt='Freeride '+id;im.loading='eager';btn.insertBefore(im,btn.firstChild)}
+ if(!btn.querySelector('.part-thumb')){const im=document.createElement('img');im.className='part-thumb';im.src=assetURL('frame_'+id+'.png');im.alt='Freeride '+id;im.loading='eager';btn.insertBefore(im,btn.firstChild)}
 });
 $("play").onclick=()=>{audioReady();mode="loading";screens("loading");setTimeout(()=>{if(mode==="loading")startRun()},1250)};
 $("settingsOpen").onclick=()=>{settingsReturn="menu";screens("settings")};
@@ -1066,7 +1109,7 @@ document.addEventListener("click",function(ev){
 $("best").textContent=getBest();document.querySelectorAll("[data-bike]").forEach(b=>b.classList.toggle("active",Number(b.dataset.bike)===selectedBike));saveCfg();reset();mode="splash";screens("splash");setTimeout(()=>{if(mode==="splash"){mode="menu";screens("menu")}},2400);last=performance.now();requestAnimationFrame(frame);
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  window.addEventListener("load",async()=>{try{
-  const reg=await navigator.serviceWorker.register("./sw.js?v=53-embedded",{updateViaCache:"none"});
+  const reg=await navigator.serviceWorker.register("./sw.js?v=54-frame-physics",{updateViaCache:"none"});
   await reg.update();
   if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
  }catch(e){console.warn("Service worker update failed",e)}});
