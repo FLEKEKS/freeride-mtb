@@ -1,9 +1,11 @@
 {
-  "name": "FROG SWAMP — Freeride MTB",
+  "name": "Freeride MTB — Frog Swamp",
   "short_name": "Freeride MTB",
   "start_url": "./",
-  "display": "fullscreen",
+  "scope": "./",
+  "display": "standalone",
   "orientation": "landscape",
-  "background_color": "#08090b",
-  "theme_color": "#08090b"
+  "background_color": "#101923",
+  "theme_color": "#101923",
+  "description": "Freeride MTB downhill bike game"
 }
