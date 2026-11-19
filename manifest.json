@@ -6,6 +6,5 @@
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#101923",
-  "theme_color": "#101923",
-  "description": "Freeride MTB downhill bike game"
+  "theme_color": "#101923"
 }
