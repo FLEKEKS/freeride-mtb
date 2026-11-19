@@ -1,5 +1,19 @@
-const CACHE_NAME="freeride-mtb-v55-frame-physics";
-const ASSETS=["./","./index.html","./manifest.json"];
-self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request).then(v=>v||fetch(e.request)));});
+const CACHE_NAME = "freeride-mtb-v58-distinct-frames";
+const ASSETS = ["./", "./index.html", "./manifest.json"];
+self.addEventListener("install", event => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener("activate", event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim()));
+});
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
+});
+self.addEventListener("fetch", event => {
+  if (event.request.method !== "GET") return;
+  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+    const copy = response.clone();
+    if (response.ok && new URL(event.request.url).origin === self.location.origin) caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+    return response;
+  })));
+});
