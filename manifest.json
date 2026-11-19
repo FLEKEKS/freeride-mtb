@@ -1,11 +1,11 @@
 {
-  "name": "Freeride MTB V65 — Frog Swamp",
-  "short_name": "Freeride MTB V65",
+  "name": "Freeride MTB V68 — Real Frame Models",
+  "short_name": "Freeride MTB V68",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#101923",
   "theme_color": "#101923",
-  "description": "Freeride MTB with stable wheel physics, vector bike frame models and clean frame reference previews"
+  "description": "New realistic Aggressive, Trail and Hardtail frame artwork."
 }

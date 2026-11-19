@@ -1,11 +1,16 @@
-# Freeride MTB V65 — System Repair
+# Freeride MTB V68 — Real Frame Models
 
-This build fixes the garage frame previews using the user's original reference photos,
-replaces the broken raster frame drawing in gameplay with three distinct vector frame
-geometries, corrects the initial spawn height for the two-wheel suspension equilibrium,
-increases physics substep frequency, and restores saved component selections after
-compatibility validation.
+V68 replaces the previous geometric placeholder frame sprites with detailed,
+photo-style 3D frame artwork for Aggressive, Trail and Hardtail.
 
-Files: index.html, manifest.json, sw.js, README.md
+Required structure:
+- index.html
+- manifest.json
+- sw.js
+- README.md
+- assets/frames/frame_aggressive.png
+- assets/frames/frame_trail.png
+- assets/frames/frame_hardtail.png
 
-Upload all four files to the repository root and replace the existing files.
+The game loads the same frame image assets in the garage and the ride renderer.
+Keep the assets/frames folder path unchanged when uploading to GitHub Pages.

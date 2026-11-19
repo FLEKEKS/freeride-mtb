@@ -1,5 +1,10 @@
-const CACHE_NAME = 'freeride-mtb-v65';
-const ASSETS = ["./", "./index.html", "./manifest.json"];
+const CACHE_NAME = 'freeride-mtb-v68';
+const ASSETS = [
+  "./", "./index.html", "./manifest.json",
+  "./assets/frames/frame_aggressive.png",
+  "./assets/frames/frame_trail.png",
+  "./assets/frames/frame_hardtail.png"
+];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
