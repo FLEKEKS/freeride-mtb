@@ -1,9 +1,11 @@
-# Freeride MTB V63 — Reference Frames
+# Freeride MTB V65 — System Repair
 
-Three user-provided frame reference images are embedded in `index.html` and shown in the garage preview:
-- Aggressive: complete turquoise downhill bike reference
-- Trail: turquoise full-suspension frame reference
-- Hardtail: turquoise rigid-rear frame reference
+This build fixes the garage frame previews using the user's original reference photos,
+replaces the broken raster frame drawing in gameplay with three distinct vector frame
+geometries, corrects the initial spawn height for the two-wheel suspension equilibrium,
+increases physics substep frequency, and restores saved component selections after
+compatibility validation.
 
-The existing gameplay sprite/physics system is retained in this package; these photographs are used as garage reference previews, not yet as replacement in-game geometry.
-Upload `index.html`, `manifest.json`, `sw.js`, and `README.md` to the repository root, replacing the existing files.
+Files: index.html, manifest.json, sw.js, README.md
+
+Upload all four files to the repository root and replace the existing files.
