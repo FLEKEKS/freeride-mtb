@@ -1,4 +1,4 @@
-const CACHE_NAME="freeride-mtb-v54-frame-physics";
+const CACHE_NAME="freeride-mtb-v55-frame-physics";
 const ASSETS=["./","./index.html","./manifest.json"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
