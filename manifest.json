@@ -1,11 +1,11 @@
 {
-  "name": "Freeride MTB V61 — Frog Swamp",
-  "short_name": "Freeride MTB V61",
+  "name": "Freeride MTB V63 — Frog Swamp",
+  "short_name": "Freeride MTB V63",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "landscape",
   "background_color": "#101923",
   "theme_color": "#101923",
-  "description": "Freeride MTB downhill bike game with redesigned garage and three distinct frame geometries"
+  "description": "Freeride MTB with photo reference previews for Aggressive, Trail and Hardtail frames"
 }

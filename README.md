@@ -1,7 +1,9 @@
-# Freeride MTB V61 — New Frames & Garage
+# Freeride MTB V63 — Reference Frames
 
-Це виправлений пакет V61 для GitHub Pages. Відображувану версію стартового екрана змінено з v0.59.0 на v0.61.0; назву PWA також оновлено до V61.
+Three user-provided frame reference images are embedded in `index.html` and shown in the garage preview:
+- Aggressive: complete turquoise downhill bike reference
+- Trail: turquoise full-suspension frame reference
+- Hardtail: turquoise rigid-rear frame reference
 
-Пакет містить index.html, manifest.json, sw.js та README.md. Зображення трьох рам вбудовані в index.html як data URI (GAME_ASSETS), тому окремі PNG-файли для їх завантаження не потрібні.
-
-Завантажте всі файли з архіву в корінь репозиторію та замініть однойменні файли. Не створюйте вкладену папку. Після публікації відкрийте сайт у новій вкладці або очистіть дані сайту, якщо браузер показує старий кеш.
+The existing gameplay sprite/physics system is retained in this package; these photographs are used as garage reference previews, not yet as replacement in-game geometry.
+Upload `index.html`, `manifest.json`, `sw.js`, and `README.md` to the repository root, replacing the existing files.
