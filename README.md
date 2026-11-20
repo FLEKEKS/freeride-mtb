@@ -1,7 +1,10 @@
-# Freeride MTB V73 — matched frame set
+# Freeride MTB V74 — matched frame artwork
 
-- Trail: preserved from the exact user-supplied `frame_trail.png` reference.
-- Aggressive: matching teal full-suspension tube frame with gold coil and linkage.
-- Hardtail: matching lime rigid tube frame with no rear shock.
-- All three assets share a 1402×900 canvas and aligned geometry for the existing game renderer.
-- Assets are transparent PNGs, not screenshots or photo cards.
+This archive contains the V73 game files with updated frame PNG artwork based on the three-frame reference sheet:
+- Aggressive: turquoise full-suspension frame
+- Trail: silver full-suspension frame
+- Hardtail: lime rigid frame without rear shock
+
+The three PNG assets are separate transparent images, prepared on matching 1402x900 canvases for the existing game asset paths.
+
+Upload all seven files to the repository root, replacing the previous versions. Browser gameplay has not been tested in this archive.
