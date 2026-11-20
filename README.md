@@ -1,16 +1,7 @@
-# Freeride MTB V68 — Real Frame Models
+# Freeride MTB V73 — matched frame set
 
-V68 replaces the previous geometric placeholder frame sprites with detailed,
-photo-style 3D frame artwork for Aggressive, Trail and Hardtail.
-
-Required structure:
-- index.html
-- manifest.json
-- sw.js
-- README.md
-- assets/frames/frame_aggressive.png
-- assets/frames/frame_trail.png
-- assets/frames/frame_hardtail.png
-
-The game loads the same frame image assets in the garage and the ride renderer.
-Keep the assets/frames folder path unchanged when uploading to GitHub Pages.
+- Trail: preserved from the exact user-supplied `frame_trail.png` reference.
+- Aggressive: matching teal full-suspension tube frame with gold coil and linkage.
+- Hardtail: matching lime rigid tube frame with no rear shock.
+- All three assets share a 1402×900 canvas and aligned geometry for the existing game renderer.
+- Assets are transparent PNGs, not screenshots or photo cards.
